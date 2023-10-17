@@ -1,0 +1,8 @@
+rowid,aggregated_crossings_id,pscis_crossing_id,my_crossing_reference,source,barrier_result,downstream_channel_width_meters,fill_depth_meters,fill_dpth_over,crossing_fix,span_input
+5,2880,2880,,pscis_reassessments.xlsm,Barrier,3.5,7.5,4.5,Replace Structure with Streambed Simulation CBS,4.5
+6,2892,2892,,pscis_reassessments.xlsm,Passable,,,,,
+7,196441,196441,,pscis_reassessments.xlsm,Potential,3,1,-2,Replace with New Open Bottom Structure,10
+8,8527,8527,,pscis_reassessments.xlsm,Barrier,1.5,1.5,-1.5,Replace Structure with Streambed Simulation CBS,3
+9,8525,8525,,pscis_reassessments.xlsm,Barrier,1.4,2.5,-0.5,Replace Structure with Streambed Simulation CBS,3
+10,8551,8551,,pscis_reassessments.xlsm,Passable,,,,,
+11,8552,8552,,pscis_reassessments.xlsm,Passable,,,,,

@@ -1,0 +1,277 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup-197967, eval = F}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+source('scripts/packages.R')
+source('scripts/tables.R')
+
+```
+
+
+
+```{r  load-data-197967}
+my_site <- 197967
+my_site2 <- 198043
+
+
+
+
+```
+
+`r fpr::fpr_appendix_title()`
+
+## Site Location {-}
+
+PSCIS crossing `r as.character(my_site)` is located on the Upper Bulkley River approximately 22.5km east of Topley, BC. PSCIS crossing `r as.character(my_site)` is located on `r fpr_my_pscis_info(col_pull = road_name)`, approximately 2.5km upstream from Bulkley Lake.  Although Taman Creek flows into this stream approximately 750m upstream of the highway, the stream at the highway is commonly referred to as `r fpr::fpr_my_pscis_info()` including on highway signage. The culvert is the responsibility of the Ministry of Transportation and Infrastructure.
+
+
+<br>
+
+## Background {-}
+
+
+At crossing `r as.character(my_site)`, the Upper Bulkey River is a `r fpr::fpr_my_bcfishpass() %>% english::ordinal()` order stream with a watershed area upstream of the crossing of approximately `r fpr::fpr_my_wshd()`km^2^. The elevation of the watershed ranges from a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to 375m near the crossing (Table \@ref(tab:tab-wshd-197967)). Upstream of crossing `r as.character(my_site)`, `r fpr::fpr_my_fish_sp()` have previously been recorded upstream [@moe2020KnownBC; @norris2020bcfishobs]. 
+
+<br>
+
+
+
+```{r tab-wshd-197967, eval = T}
+fpr::fpr_table_wshd_sum(site_id = my_site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of derived upstream watershed statistics for PSCIS crossing ', my_site, '.'),
+           footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above',
+           scroll = F)
+
+```
+
+
+<br>
+
+although no records of the falls have yet been recorded in @moe2020ProvincialObstacles, @redden_jedrzejczyk1997FishFish report that a 15m high rock falls is located at 7.8km upstream from the confluence with the upper Bulkley River and represents the upstream limit of fish distribution in the watershed. They also report excellent and good rearing potential in upper reaches of the stream located from 5.1km to 7.8km upstream of the confluence.
+
+<br>
+
+
+
+@mccarthy_fernando20152015Inventory report that the culvert has received past efforts to facilitate backwatering including rock lines to establish backwater pools downstream of the culvert.  They also report that the works were not functioning correctly. @smith2018AssessingBarriers visited the site in 2017, subjectively rated the crossing as a potential barrier and ranked the crossing as a low priority for follow up. @irvine2021BulkleyRiver noted that a design was being drafted for the Highway 16 crossing by Ministry of Transportation and Infrastructure in 2021.
+
+<br>
+
+
+PSCIS stream crossing `r as.character(my_site)` was ranked as a high priority for follow up by @mazany-wright_etal2021BulkleyRiver because of significant amounts of habitat modelled as upstream of the crossing and because gathering of habitat confirmation information was considered as potentially beneficial for informing prioritization of the site should remediation plans stall.  A total of `r fpr::fpr_my_bcfishpass(col_pull = total_lakereservoir_ha)`ha of lake and `r fpr::fpr_my_bcfishpass(col_pull = total_wetland_ha)`ha of wetland is modelled upstream and a summary of habitat modelling outputs is presented in Table \@ref(tab:tab-culvert-bcfp-197967). A map of the watershed is provided in map attachment [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet()`).  
+
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+
+```{r tab-culvert-bcfp-197967, eval = T}
+fpr::fpr_table_bcfp(scroll = gitbook_on) 
+```
+
+
+<br>
+
+
+## Stream Characteristics at Crossing {-}
+
+At the time of the survey, PSCIS crossing `r as.character(my_site)` was non-backwatered and ranked as a `r fpr::fpr_my_pscis_info(col_pull = barrier_result)` to upstream fish passage according to the provincial protocol [@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-197967)).  Water temperature was `r fpr::fpr_my_habitat_info(col_pull = 'temperature_c')`$^\circ$C, pH was `r fpr::fpr_my_habitat_info(col_pull = 'p_h')` and conductivity was `r fpr::fpr_my_habitat_info(col_pull = 'conductivity_m_s_cm')`uS/cm. A beaver dam was noted just upstream of the culvert inlet (~1.5m high).
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+```{r tab-culvert-197967, eval = T}
+fpr::fpr_table_cv_summary_memo()
+
+```
+
+
+```{r eval=F}
+##this is useful to get some comments for the report
+hab_site %>% filter(site == my_site & location == 'us2') %>% pull(comments)
+my_priority <-  my_priority_info()
+
+```
+
+## Stream Characteristics Downstream {-}
+
+`r fpr::fpr_my_survey_dist(loc = 'ds')` to the bridge (PSCIS 197966) located on Ross Lake Cutoff Rd 
+`r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-197967-01) - \\@ref(fig:photo-197967-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-197967-d01))."))`
+`r fpr_my_habitat_paragraph(loc = 'ds')`
+The site was noted as having significant amounts of thick red colored algae for the majority of survey. Flow was very low with uncommon pools. Fence material was noted in or across channel in two locations and and riparian vegetation had been removed where an agricultural field and fence line were close. Although considered an important migration corridor, the habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds')` value for salmonid rearing and spawning due to limited complexity resulting from adjacent agricultural activities. 
+
+<br>
+
+PSCIS crossing 197964 is located on the CN Railway approximately 1.7km downstream of the highway.  Although the crossing was assessed as a potential barrier according to the provincial protocol it was 100% backwatered at the time of the assessment and appeared passable to all species and life stages at the time of  assessment (Table \@ref(tab:tab-culvert-197964)).
+
+<br>
+
+```{r tab-culvert-197964, eval = T}
+fpr::fpr_table_cv_summary_memo(dat = pscis_phase1, site = 1805529, site_photo_id = 1805529, col_filter = my_crossing_reference)
+
+```
+
+
+## Stream Characteristics Upstream {-}
+
+
+`r fpr_my_survey_dist(loc = 'us')`
+`r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-197967-03) - \\@ref(fig:photo-197967-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-197967-d02))."))`
+`r fpr_my_habitat_paragraph(loc = 'us')` 
+The first ~250m of channel upstream of the highway were noted as beaver influenced wetland with extensive dry sections at the time of the survey. Frequent pockets of gravels and small cobbles suitable for rainbow trout and coho salmon spawning were noted throughout the area surveyed. A canyon section of stream was located upstream of the crossing approximately 300m contained deep bedrock pools with small fish present and no large woody debris. One deep pool upstream of the canyon section contained likely 2-3 year old juveniles (coloring indicated rainbow trout, unverified). The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us')` value as an important migration corridor containing suitable spawning habitat and having moderate rearing potential.
+
+<br>
+
+Taman Creek was surveyed for `r fpr::fpr_my_priority_info(loc = 'us2', col_pull = 'length_surveyed')`m above where it joins the Bulkley River mainstem upstream of PSCIS crossing `r as.character(my_site)`  `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-197967-05) - \\@ref(fig:photo-197967-06))")}else(knitr::asis_output("(Figure \\@ref(fig:photo-197967-d03))"))`. 
+`r fpr_my_habitat_paragraph(loc = 'us2')`
+The water in Taman Creek during the survey was noted as turbid with numerous samlonid fry present at the downstream end of the site. Algae was abundant throughout the system and eroding banks were common. Abundant gravels suitable for resident rainbow trout and coho salmon spawning were present and habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us2')` value for salmon rearing and spawning. 
+
+
+<br>
+
+The upper Bulkley River was surveyed at numerous crossings upstream of the highway with bridges noted at PSCIS crossings 197968, 197969, 197973 and 197971. Survey crews were not able to access crossing 1802047 from Highway 16 due to a gate and private land postings. This crossing is located between Broman Lake and Old Woman Lake with public access potentially possible by ATV from the powerline to the north.  Modelled crossing 1802663 is located on the mainstem of Taman Creek `r round(fpr::fpr_my_bcfishpass(site = 1802663, col_filter = modelled_crossing_id, col_pull = downstream_route_measure)*0.001, 1)`km upstream of the confluence with the upper Bulkley River. Although this site was not assessed it was considered likely to be a ford due to its location on the powerline. Numerous other unassessed crossings are modelled as located upstream within the system on Taman Creek as well as the upper Bulkley River and their tributaries. As the effort required to assess all these crossings was likely significant with the majority of higher value gains most likely present in the lower reaches, field time was allocated elsewhere in the greater Bulkley River watershed. 
+
+
+## Structure Remediation and Cost Estimate {-}
+
+Should restoration/maintenance activities proceed, replacement of PSCIS crossing `r as.character(my_site)` with a bridge (`r fpr::fpr_my_pscis_info(col_pull = recommended_diameter_or_span_meters)`m span) is recommended. The cost of the work is estimated at \$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')` for a cost benefit of `r fpr::fpr_my_cost_estimate(col_pull = cost_net)` linear m/\$1000 and `r fpr::fpr_my_cost_estimate(col_pull = cost_area_net)` m^2^/\$1000.   
+
+
+<br>
+
+
+## Conclusion {-}
+
+There was `r fpr::fpr_my_priority_info(col_pull= upstream_habitat_length_km)`km of habitat modelled upstream of crossing `r as.character(my_site)` rated as `r fpr::fpr_my_priority_info(sit = my_site, loc = 'us', col_pull = hab_value)` value for salmonid rearing and spawning. Crossing `r as.character(my_site)` was ranked as a `r fpr::fpr_my_priority_info(col_pull = priority)` priority for proceeding to design for replacement. At the time of reporting, the Ministry of transportation and Infrastructure were in the process of planning for crossing replacement. Of note, due to budgetary constraints, survey plans for the site call for horizontal drilling of a closed bottom structure under the highway with costs likley lower than those estimated for replacement with a clear span bridge.  Should structure replacement proceed follow up monitoring is recomended to assess passability and utilization of the crossing by downstream fish populations including coho who have been recorded in the upper Bulkley River within 100m downstream of crossing `r as.character(my_site)`. 
+
+
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+```{r tab-habitat-summary-197967}
+tab_hab_summary %>% 
+  filter(Site  == my_site) %>% 
+  # select(-Site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of habitat details for PSCIS crossing ', my_site, '.'),
+                 scroll = F) 
+
+```
+
+<br>
+
+
+```{r photo-197967-01-prep, eval=T}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_d1_')
+
+my_caption1 = paste0('Habitat downstream of PSCIS crossing ', my_site, '.')
+
+
+# fpr::fpr_photo_flip(site_id = 1802488, str_to_pull = '6257')
+
+```
+
+```{r photo-197967-01, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+grid::grid.raster(jpeg::readJPEG(my_photo1))
+```
+
+<br>
+
+```{r photo-197967-02-prep}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_d2_')
+
+my_caption2 = paste0('Habitat downstream of PSCIS crossing ', my_site, '.')
+```
+
+```{r photo-197967-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+grid::grid.raster(jpeg::readJPEG(my_photo2))
+
+```
+
+<br>
+
+```{r photo-197967-d01, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
+
+```{r photo-197967-03-prep}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_u1_')
+
+my_caption1 = paste0('Habitat upstream of PSCIS crossing ', my_site, '.')
+```
+
+```{r photo-197967-03, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+grid::grid.raster(jpeg::readJPEG(my_photo1))
+```
+
+
+
+<br>
+
+```{r photo-197967-04-prep}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_u2_')
+
+my_caption2 = paste0('Habitat upstream of PSCIS crossing ', my_site, '.')
+
+```
+
+```{r photo-197967-04, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+grid::grid.raster(jpeg::readJPEG(my_photo2))
+```
+
+```{r photo-197967-d02, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
+
+```{r photo-197967-05-prep}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = '_u3_')
+
+my_caption1 = paste0('Habitat upstream of PSCIS crossing ', my_site, '.')
+```
+
+```{r photo-197967-05, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+grid::grid.raster(jpeg::readJPEG(my_photo1))
+```
+
+
+
+<br>
+
+```{r photo-197967-06-prep}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_u4_')
+
+my_caption2 = paste0('Habitat upstream of PSCIS crossing ', my_site, '.')
+
+```
+
+```{r photo-197967-06, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+grid::grid.raster(jpeg::readJPEG(my_photo2))
+```
+
+```{r photo-197967-d03, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
