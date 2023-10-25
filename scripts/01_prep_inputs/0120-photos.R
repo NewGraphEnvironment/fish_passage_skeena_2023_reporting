@@ -9,49 +9,142 @@
 # import form_pscis.gpkg direct from mergin
 dir_project <- 'sern_skeena_2023'
 
-form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gpkg'))
+form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gpkg')) %>%
+  mutate(
+  site_id = case_when(is.na(pscis_crossing_id) ~ my_crossing_reference,
+                      T ~ pscis_crossing_id)
+) %>%
+  # remove the form making site
+  filter(site_id != '12345') %>%
+  arrange(site_id)
 
 # pscis_all <- fpr::fpr_import_pscis_all() %>%
 #   bind_rows()
-#
-##create the data folder
-dir.create('data')
 
-##create the photos folder
-dir.create('data/photos')
 
-# check for duplicate my_crossing_reference sites
-dups <- form_pscis %>%
-  filter(!is.na(my_crossing_reference)) %>%
-  group_by(my_crossing_reference) %>%
-  filter(n()>1)
+##create the data and photos folder (recursive param) ON ONEDRIVE yo
+dir.create('onedriveurl/data/photos', recursive = T)
 
-# create folders using my_crossing_reference ids
+# check for duplicate sites
 form_pscis %>%
-  filter(!is.na(my_crossing_reference)) %>%
-  pull(my_crossing_reference) %>%
-  as.character() %>%
-  purrr::map(fpr::fpr_photo_folders)
+  filter(!is.na(site_id)) %>%
+  group_by(site_id) %>%
+  filter(n()>1) %>%
+  nrow()
 
-# check for duplicate pscis sites
-dups <- form_pscis %>%
-  filter(!is.na(pscis_crossing_id)) %>%
-  group_by(pscis_crossing_id) %>%
-  filter(n()>1)
-
-# create folders using pscis ids
+# check for empty sites
 form_pscis %>%
-  filter(!is.na(pscis_crossing_id)) %>%
-  pull(pscis_crossing_id) %>%
+  filter(is.na(site_id)) %>%
+  nrow()
+
+# create folders ON ONEDRIVE by changing the "path" param yo!!!!! ?fpr::fpr_photo_folders
+form_pscis %>%
+  pull(site_id) %>%
   as.character() %>%
-  purrr::map(fpr::fpr_photo_folders)
+  purrr::map(fpr::fpr_photo_folders, path = 'onedriveurl/data/photos')
 
-## special directories ---------------------------------------------------
-# folders_special_cases <- c(197662)  ##and some we are hacking in so we don't need to run the whole file
-#
-# folders_special_cases %>%
-#   purrr::map(fpr::fpr_photo_folders)
+# ----------------mergin photos-----------------------
+## ------------ resize mergin photos -------------------
 
+# resize the photos and change the extension to JPG for consistency and unforseen issues
+# sync to mergin after copying to new dir (resized) and removing originals
+# record version number of mergin project in issue for now to track
+file.remove('/Users/airvine/Projects/gis/sern_skeena_2023/ignore_mobile/photos/photos.txt')
+
+# resize the photos and keep them on the server for now for collaboration
+fpr_photo_resize_batch(
+  dir_source = '/Users/airvine/Projects/gis/sern_skeena_2023/ignore_mobile/photos/',
+  dir_target = '/Users/airvine/Projects/gis/sern_skeena_2023/ignore_mobile/photos_resized/')
+
+# could erase photos here but will do by hand for safety
+# recreate the photos.txt file so the form still works
+file.create('/Users/airvine/Projects/gis/sern_skeena_2023/ignore_mobile/photos/photos.txt')
+
+# back the photos up to onedrive (should remove all from mergin)
+fpr::fpr_photo_resize_batch(
+  dir_source = '/Users/airvine/Projects/gis/sern_skeena_2023/ignore_mobile/photos/photos_resized/',
+  dir_target = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/mergin/')
+
+# for now I just removed all the ignore_mobile/photos/ and added back the photos.txt so the fieldform is still functional - could script later
+
+# rename the photos
+# function to rename the photos
+
+bfpr_photo_rename <- function(dat = df_test,
+                             col_pull = site_id,
+                             dir_from_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/mergin/',
+                             dir_to_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/'){
+  # create new photo directories
+  dat %>%
+    pull({{ col_pull }}) %>%
+    map(fpr::fpr_photo_folders, path = dir_to_stub)
+
+  # make a dataframe ready to rename photos with
+  dat2 <- dat %>%
+    tidyr::pivot_longer(
+      # don't pivot the photo tag names though
+      cols = starts_with('photo_') & !contains('tag'),
+      values_to = 'photo_og',
+      names_to = 'photo_renamed',
+      cols_vary = 'slowest') %>%
+    dplyr::filter(!is.na(photo_og)) %>%
+
+  # ------below is for testing if no tag---------------
+  # select(site_id, crew_members, mergin_user, contains('photo')) %>%
+  #   add_row(site_id = 12345, photo_renamed = 'photo_extra1', photo_extra1_tag = NA_character_,  photo_og = '12345.jpg') %>%
+  # ------above is for testing if no tag---------------
+
+  dplyr::mutate(photo_renamed = dplyr::case_when(stringr::str_detect(photo_renamed,'photo_extra') &
+                                                   if_all(contains('photo_extra'), is.na) ~
+                                                   'untagged', T ~
+                                                   photo_renamed),
+
+                # below needs to be generalized so we can have any number of "photo_extra#" columns and they are tagged accordingly.
+                photo_renamed = dplyr::case_when(stringr::str_detect(photo_renamed, 'photo_extra1') ~
+                                                   janitor::make_clean_names(photo_extra1_tag, allow_dupes = T, sep_out = ''),
+                                                 stringr::str_detect(photo_renamed, 'photo_extra2') ~
+                                                   janitor::make_clean_names(photo_extra2_tag, allow_dupes = T, sep_out = ''),
+                                                 T ~ photo_renamed),
+                photo_renamed = stringr::str_replace_all(photo_renamed, 'photo_', '')) %>%
+    # generalize above
+
+    dplyr::mutate(photo_renamed = paste0(dir_to_stub,
+                                         site_id,
+                                         '/',
+                                         tools::file_path_sans_ext(basename(photo_og)),
+                                         '_',
+                                         photo_renamed,
+                                         # stringr::str_extract(photo_renamed, '_.*$'),
+                                         '.JPG'),
+                  photo_og = paste0(dir_from_stub, basename(photo_og))
+    )
+  mapply(file.copy,
+         from =  dat2 %>% pull(photo_og),
+         to = dat2 %>% pull(photo_renamed),
+         overwrite = T,
+         copy.mode = TRUE)
+  # dat2 %>% select(site_id, crew_members, mergin_user, contains('photo')) %>% slice_tail(n=6)
+}
+
+
+t <- dff_photo_rename(dat = form_pscis)
+
+
+# remove duplicate photos
+photo_metadata_prep <- exifr::read_exif('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/8518',recursive=T)  %>%
+  janitor::clean_names()  %>%
+  # filter(stringr::str_detect(file_name, 'Time'))
+  group_by(date_time_original) %>%
+  filter(n()>1) %>%
+  select(file_name, date_time_original) %>%
+  arrange(date_time_original)
+
+photo_metadata_prep2 <- exifr::read_exif('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/8478',recursive=T)  %>%
+  janitor::clean_names() %>%
+  group_by() %>%
+  filter(n()>1) %>%
+  select(file_name, date_time_original) %>%
+  arrange(date_time_original)
 
 
 # sort photos to folders --------------------------------------------------
