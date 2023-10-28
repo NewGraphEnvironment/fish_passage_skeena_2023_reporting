@@ -11,48 +11,52 @@ source('scripts/packages.R')
 # use an absolute path if you have to but it is preferable to keep our relative paths the same so we can collab
 
 # name the project directory we are pulling from
-dir_project <- 'bcfishpass_skeena_20220823-v225'
+dir_project <- 'sern_skeena_2023'
 
-# there are tables with no new events and the types are mangels so remove dataframes with only 1 feature
-form_names_to_remove <- c('form_fiss_site_202209070609', 'form_fiss_site_202209100809')
 
 # list all the fiss form names in the file
-form_names_l <- list.files(path = paste0('../../gis/mergin/',
+form_names_l <- list.files(path = paste0('../../gis/',
                   dir_project),
            # ?glob2rx is a funky little unit
-           pattern = glob2rx('*site_2022*.gpkg'),
+           pattern = glob2rx('*fiss_site*.gpkg'),
            full.names = T
-           ) %>%
-  stringr::str_subset('form_fiss_site_202209070609', negate = T) %>%
-  stringr::str_subset('form_fiss_site_202209100809', negate = T)
-
-
+           )
 
 # read all the forms into a list of dataframes using colwise to guess the column types
 # if we don't try to guess the col types we have issues later with the bind_rows join
-form <- form_names_l %>%
+form_fiss_raw <- form_names_l %>%
   purrr::map(sf::st_read) %>%
   purrr::map(plyr::colwise(type.convert)) %>%
   # name the data.frames so we can add it later as a "source" column - we use basename to leave the filepath behind
   purrr::set_names(nm = basename(form_names_l)) %>%
-  bind_rows(.id = 'source') %>%
+  bind_rows(.id = 'source')
+
+# burn out a backup
+form_fiss_raw %>%
   readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_fiss_site_raw_', format(lubridate::now(), "%Y%m%d", '.csv')))
 
 
 # see the names of our form
-names(form)
+names(form_fiss_raw)
+
 
 # let's get the names of the input template
 # there is lots of work to do to pull out all the information we can use so we will start with one small step at a time
 # lets just populate the location and site info pages for now and then move on to the other information later.  It should be ok but might take some gymnastics
-form_raw_names_site <- fpr::fpr_import_hab_con(backup = F) %>%
+form_raw_names_site <- fpr::fpr_import_hab_con(
+  "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
+  backup = F,
+  row_empty_remove = T) %>%
   # pull out just the site info page for now
   pluck(4) %>%
   # only keep the names of the columns
   names()
 
 # location names
-form_raw_names_location <- fpr::fpr_import_hab_con(backup = F) %>%
+form_raw_names_location <- fpr::fpr_import_hab_con(
+  "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
+  backup = F,
+  row_empty_remove = T) %>%
   # pull out just the site info page for now
   pluck(1) %>%
   # only keep the names of the columns
@@ -70,7 +74,7 @@ form_raw_names_sl <- c(form_raw_names_location,
 # we also want to know who did the assessments and when to be able to sort the input order and populate the habitat_confirmation_priorities spreadsheet so we will add the who and extract the when
 # we also want the second comment field and have it appended to the first
 # use names(form) to see options
-form_site_info_prep <- form %>%
+form_site_info_prep <- form_fiss_raw %>%
   dplyr::filter(!is.na(date_time_start)) %>%
   dplyr::select(mergin_user,
                 date_time_start,
@@ -98,16 +102,18 @@ dups <- form_site_info_prep %>%
 # view(dups)
 
 #delete dups
-form_site_info_prep <- form_site_info_prep[-c(22,23,8), ]
+# this should be tidyverse and in this case we just fix the error in the geopackage.
+# form_site_info_prep <- form_site_info_prep[-c(22,23,8), ]
 view(form_site_info_prep)
 
-# not sure why it is identifying the ef sites in Gramaphone as dupes... Looks like row 4 is the only real issue so we pull it out and
 
 # make the loc form
 form_loc <- bind_rows(
 
   # we need the raw form or we don't have all the right columns
-  fpr::fpr_import_hab_con(backup = F) %>%
+  fpr::fpr_import_hab_con("../dff-2022/data/templates/FDS_Template2023-05-03.xls",
+                          backup = F,
+                          row_empty_remove = T) %>%
     # pull out just the site info page for now
     pluck(1) %>%
     # need to convert type for some reason (should be guessed already..)
@@ -123,19 +129,20 @@ form_loc <- bind_rows(
            # add the time to help put the puzzle together after)
            time)
 ) %>%
-  # there is a messed up coordinate because it was on my way home and out of the crs
-  filter(survey_date != '2022-09-16') %>%
   select(rowid, everything())
 
 # make the site form
 form_site <- bind_rows(
 
   # we need the raw form or we don't have all the right columns
-  fpr::fpr_import_hab_con(backup = F) %>%
+  fpr::fpr_import_hab_con(
+    "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
+                          backup = F,
+                          row_empty_remove = T) %>%
     # pull out just the site info page for now - should use the name but willuse index bc short on time
     pluck("step_4_stream_site_data") %>%
-    mutate(waterbody_id = as.character(waterbody_id),
-           feature_height_length_method = as.character(feature_height_length_method)) %>%
+    # mutate(waterbody_id = as.character(waterbody_id),
+    #        feature_height_length_method = as.character(feature_height_length_method)) %>%
     slice(0),
 
   form_site_info_prep %>%
@@ -153,22 +160,20 @@ form_site <- bind_rows(
   dplyr::mutate(comments = case_when(
     !is.na(comments_2) ~ paste0(comments, '. ', comments_2, '. ', time),
      T ~ paste0(comments, '. ', time))) %>%
-  # there is a messed up coordinate because it was on my way home and out of the crs
-  filter(survey_date != '2022-09-16') %>%
   select(rowid, everything())
 
 # burn to file
 
 form_loc %>%
   readr::write_csv(paste0(
-    'data/skeena/form_fiss_loc_tidy_',
+    'data/inputs_extracted/form_fiss_loc_tidy_',
     format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
 
 form_site %>%
   readr::write_csv(paste0(
-    'data/skeena/form_fiss_site_tidy_',
+    'data/inputs_extracted/form_fiss_site_tidy_',
     format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
