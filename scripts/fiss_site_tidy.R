@@ -24,20 +24,27 @@ form_names_l <- list.files(path = paste0('../../gis/',
 
 # read all the forms into a list of dataframes using colwise to guess the column types
 # if we don't try to guess the col types we have issues later with the bind_rows join
-form_fiss_raw <- form_names_l %>%
+form_fiss_site_raw <- form_names_l %>%
   purrr::map(sf::st_read) %>%
   purrr::map(plyr::colwise(type.convert)) %>%
   # name the data.frames so we can add it later as a "source" column - we use basename to leave the filepath behind
   purrr::set_names(nm = basename(form_names_l)) %>%
-  bind_rows(.id = 'source')
+  bind_rows(.id = 'source') %>%
+  # get a site_id that we can use to make photo directories
+  tidyr::separate(local_name, into = c('site_id', 'location', 'ef'), remove = F) %>%
+  #need to rename the photo columns
+  dplyr::rename(photo_extra1 = photo_extra_1,
+                photo_extra2 = photo_extra_2,
+                photo_extra1_tag = photo_extra_1_tag,
+                photo_extra2_tag = photo_extra_2_tag)
 
 # burn out a backup
-form_fiss_raw %>%
-  readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_fiss_site_raw_', format(lubridate::now(), "%Y%m%d", '.csv')))
+# form_fiss_site_raw %>%
+#   readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_fiss_site_raw_', format(lubridate::now(), "%Y%m%d", '.csv')))
 
 
 # see the names of our form
-names(form_fiss_raw)
+names(form_fiss_site_raw)
 
 
 # let's get the names of the input template
@@ -74,7 +81,7 @@ form_raw_names_sl <- c(form_raw_names_location,
 # we also want to know who did the assessments and when to be able to sort the input order and populate the habitat_confirmation_priorities spreadsheet so we will add the who and extract the when
 # we also want the second comment field and have it appended to the first
 # use names(form) to see options
-form_site_info_prep <- form_fiss_raw %>%
+form_site_info_prep <- form_fiss_site_raw %>%
   dplyr::filter(!is.na(date_time_start)) %>%
   dplyr::select(mergin_user,
                 date_time_start,
@@ -93,6 +100,7 @@ form_site_info_prep <- form_fiss_raw %>%
 
 
 # identify duplicate sites (that are not NAs) as we don't want to input two of the same
+# fixed 8547 in geopackage
 dups <- form_site_info_prep %>%
   filter(!is.na(local_name)) %>%
   group_by(local_name) %>%
@@ -108,7 +116,7 @@ view(form_site_info_prep)
 
 
 # make the loc form
-form_loc <- bind_rows(
+form_fiss_loc <- bind_rows(
 
   # we need the raw form or we don't have all the right columns
   fpr::fpr_import_hab_con("../dff-2022/data/templates/FDS_Template2023-05-03.xls",
@@ -132,7 +140,7 @@ form_loc <- bind_rows(
   select(rowid, everything())
 
 # make the site form
-form_site <- bind_rows(
+form_fiss_site <- bind_rows(
 
   # we need the raw form or we don't have all the right columns
   fpr::fpr_import_hab_con(
@@ -164,14 +172,14 @@ form_site <- bind_rows(
 
 # burn to file
 
-form_loc %>%
+form_fiss_loc %>%
   readr::write_csv(paste0(
     'data/inputs_extracted/form_fiss_loc_tidy_',
     format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
 
-form_site %>%
+form_fiss_site %>%
   readr::write_csv(paste0(
     'data/inputs_extracted/form_fiss_site_tidy_',
     format(lubridate::now(), "%Y%m%d"),
