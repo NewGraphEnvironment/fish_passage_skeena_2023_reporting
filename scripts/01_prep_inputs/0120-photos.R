@@ -23,6 +23,7 @@ form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gp
 
 
 ##create the data and photos folder (recursive param) ON ONEDRIVE yo
+# replace url of onedrive below
 dir.create('onedriveurl/data/photos', recursive = T)
 
 # check for duplicate sites
@@ -67,67 +68,13 @@ fpr::fpr_photo_resize_batch(
 
 # for now I just removed all the ignore_mobile/photos/ and added back the photos.txt so the fieldform is still functional - could script later
 
-# rename the photos
-# function to rename the photos
+# rename the photos from the FISS cards
+fpr::fpr_photo_rename(
+  dat = form_fiss_site_raw,
+  dir_from_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/mergin/',
+  dir_to_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/',
+  col_string_add = TRUE)
 
-bfpr_photo_rename <- function(dat = df_test,
-                             col_pull = site_id,
-                             dir_from_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/mergin/',
-                             dir_to_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/'){
-  # create new photo directories
-  dat %>%
-    pull({{ col_pull }}) %>%
-    map(fpr::fpr_photo_folders, path = dir_to_stub)
-
-  # make a dataframe ready to rename photos with
-  dat2 <- dat %>%
-    tidyr::pivot_longer(
-      # don't pivot the photo tag names though
-      cols = starts_with('photo_') & !contains('tag'),
-      values_to = 'photo_og',
-      names_to = 'photo_renamed',
-      cols_vary = 'slowest') %>%
-    dplyr::filter(!is.na(photo_og)) %>%
-
-  # ------below is for testing if no tag---------------
-  # select(site_id, crew_members, mergin_user, contains('photo')) %>%
-  #   add_row(site_id = 12345, photo_renamed = 'photo_extra1', photo_extra1_tag = NA_character_,  photo_og = '12345.jpg') %>%
-  # ------above is for testing if no tag---------------
-
-  dplyr::mutate(photo_renamed = dplyr::case_when(stringr::str_detect(photo_renamed,'photo_extra') &
-                                                   if_all(contains('photo_extra'), is.na) ~
-                                                   'untagged', T ~
-                                                   photo_renamed),
-
-                # below needs to be generalized so we can have any number of "photo_extra#" columns and they are tagged accordingly.
-                photo_renamed = dplyr::case_when(stringr::str_detect(photo_renamed, 'photo_extra1') ~
-                                                   janitor::make_clean_names(photo_extra1_tag, allow_dupes = T, sep_out = ''),
-                                                 stringr::str_detect(photo_renamed, 'photo_extra2') ~
-                                                   janitor::make_clean_names(photo_extra2_tag, allow_dupes = T, sep_out = ''),
-                                                 T ~ photo_renamed),
-                photo_renamed = stringr::str_replace_all(photo_renamed, 'photo_', '')) %>%
-    # generalize above
-
-    dplyr::mutate(photo_renamed = paste0(dir_to_stub,
-                                         site_id,
-                                         '/',
-                                         tools::file_path_sans_ext(basename(photo_og)),
-                                         '_',
-                                         photo_renamed,
-                                         # stringr::str_extract(photo_renamed, '_.*$'),
-                                         '.JPG'),
-                  photo_og = paste0(dir_from_stub, basename(photo_og))
-    )
-  mapply(file.copy,
-         from =  dat2 %>% pull(photo_og),
-         to = dat2 %>% pull(photo_renamed),
-         overwrite = T,
-         copy.mode = TRUE)
-  # dat2 %>% select(site_id, crew_members, mergin_user, contains('photo')) %>% slice_tail(n=6)
-}
-
-
-t <- dff_photo_rename(dat = form_pscis)
 
 
 # remove duplicate photos
