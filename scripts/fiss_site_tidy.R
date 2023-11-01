@@ -12,26 +12,29 @@ source('scripts/packages.R')
 
 # name the project directory we are pulling from
 dir_project <- 'sern_skeena_2023'
-
+# define utm zone of study area
+utm <- 9
 
 # list all the fiss form names in the file
-form_names_l <- list.files(path = paste0('../../gis/',
-                  dir_project),
-           # ?glob2rx is a funky little unit
-           pattern = glob2rx('*fiss_site*.gpkg'),
-           full.names = T
-           )
+# form_names_l <- list.files(path = paste0('../../gis/',
+#                   dir_project),
+#            # ?glob2rx is a funky little unit
+#            pattern = glob2rx('*fiss_site*.gpkg'),
+#            full.names = T
+#            )
 
-# read all the forms into a list of dataframes using colwise to guess the column types
+# read in cleaned form from data_field/2023/ project directory
 # if we don't try to guess the col types we have issues later with the bind_rows join
-form_fiss_site_raw <- form_names_l %>%
-  purrr::map(sf::st_read) %>%
-  purrr::map(plyr::colwise(type.convert)) %>%
-  # name the data.frames so we can add it later as a "source" column - we use basename to leave the filepath behind
-  purrr::set_names(nm = basename(form_names_l)) %>%
-  bind_rows(.id = 'source') %>%
-  # get a site_id that we can use to make photo directories
-  tidyr::separate(local_name, into = c('site_id', 'location', 'ef'), remove = F) %>%
+form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_fiss_site_2023.gpkg')) %>%
+  st_transform(crs = 26900 + utm) %>%
+  poisspatial::ps_sfc_to_coords(X = 'utm_easting', Y = 'utm_northing') %>%
+  # round utms to nearest whole numbers, spreadsheet does not allow decimals
+  mutate(utm_easting = round(utm_easting),
+         utm_northing = round(utm_northing)) %>%
+  # add in utm zone of study area
+  dplyr::mutate(utm_zone = utm) %>%
+  # get a site_id and a location that we can use to make photo directories and tag photos respectively
+  tidyr::separate(local_name, into = c('site_id', 'location'), remove = F, extra = "merge") %>%
   #need to rename the photo columns
   dplyr::rename(photo_extra1 = photo_extra_1,
                 photo_extra2 = photo_extra_2,
@@ -92,6 +95,20 @@ form_site_info_prep <- form_fiss_site_raw %>%
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
                 survey_date = lubridate::date(date_time_start),
                 time = hms::as_hms(date_time_start)) %>%
+  #remove the test
+  filter(gazetted_names != 'Robert Hatch') %>%
+  # change "trib" to long version "Tributary"
+  mutate(gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary ')) %>%
+  # fill in text columns from spreadsheet that will likely never change
+  mutate(waterbody_type = 'stream',
+         method_for_channel_width = 'metre tape',
+         method_for_wetted_width = 'metre tape',
+         method_for_residual_pool_depth = 'metre stick',
+         method_for_bankfull_depth = 'metre stick',
+         method_for_gradient = 'clinometer',
+         method_for_temperature = 'recording meter',
+         method_for_conductivity = 'recording meter',
+         method_for_p_h = 'pH meter (general)') %>%
   # arrange by surveyor and time
   dplyr::arrange(mergin_user,
                  date_time_start) %>%
@@ -129,9 +146,10 @@ form_fiss_loc <- bind_rows(
     slice(0),
 
   form_site_info_prep %>%
-  filter(rowid != 4) %>%
-    # alias local name is not called the same in both sheets so rename
-    rename(alias_local_name = local_name) %>%
+    # alias local name and gazetted names are not called the same in both sheets so rename
+    rename(alias_local_name = local_name,
+           gazetted_name = gazetted_names) %>%
+    mutate(utm_method = as.character(utm_method)) %>%
     select(rowid,
            dplyr::any_of(form_raw_names_location),
            # add the time to help put the puzzle together after)
@@ -161,13 +179,10 @@ form_fiss_site <- bind_rows(
            dplyr::any_of(form_raw_names_site),
            # add the time to help put the puzzle together after)
            survey_date,
-           time,
-           comments_2)
+           time)
 ) %>%
-  # join the comments
-  dplyr::mutate(comments = case_when(
-    !is.na(comments_2) ~ paste0(comments, '. ', comments_2, '. ', time),
-     T ~ paste0(comments, '. ', time))) %>%
+  # add time to end of comments, there are no comments in the comments_2 column so no need to combine
+  dplyr::mutate(comments = paste0(comments, ' ', time)) %>%
   select(rowid, everything())
 
 # burn to file
@@ -185,6 +200,4 @@ form_fiss_site %>%
     format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
-
-
 

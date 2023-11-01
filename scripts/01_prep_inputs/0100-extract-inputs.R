@@ -32,11 +32,11 @@ dat <- pscis_all %>%
 ##get the utm info from the database
 conn <- DBI::dbConnect(
   RPostgres::Postgres(),
-  dbname = Sys.getenv('PG_DB_BCBARRIERS'),
-  host = Sys.getenv('PG_HOST_BCBARRIERS'),
-  port = Sys.getenv('PG_PORT_BCBARRIERS'),
-  user = Sys.getenv('PG_USER_BCBARRIERS'),
-  password = Sys.getenv('PG_PASS_BCBARRIERS')
+  dbname = Sys.getenv('PG_DB_SHARE'),
+  host = Sys.getenv('PG_HOST_SHARE'),
+  port = Sys.getenv('PG_PORT_SHARE'),
+  user = Sys.getenv('PG_USER_SHARE'),
+  password = Sys.getenv('PG_PASS_SHARE')
 )
 #
 # ##listthe schemas in the database
@@ -152,17 +152,18 @@ pscis_all_sf <- dat
 ##get the road info from the database
 conn <- DBI::dbConnect(
   RPostgres::Postgres(),
-  dbname = dbname,
-  host = host,
-  port = port,
-  user = user,
-  password = password
+  dbname = Sys.getenv('PG_DB_SHARE'),
+  host = Sys.getenv('PG_HOST_SHARE'),
+  port = Sys.getenv('PG_PORT_SHARE'),
+  user = Sys.getenv('PG_USER_SHARE'),
+  password = Sys.getenv('PG_PASS_SHARE')
 )
+
 #
 # ##listthe schemas in the database
-# dbGetQuery(conn,
-#            "SELECT schema_name
-#            FROM information_schema.schemata")
+dbGetQuery(conn,
+           "SELECT schema_name
+           FROM information_schema.schemata")
 # #
 # #
 # # # ##list tables in a schema
@@ -402,7 +403,7 @@ tab_backwater <- pscis_all %>%  ##changed this to pscis2!
 
 
 
-##this will require some ore work for cost estimates too.
+##this will require some more work for cost estimates too.
 str_type <- pscis_all %>%
   select(rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, source, barrier_result, downstream_channel_width_meters, fill_depth_meters) %>%
   mutate(fill_dpth_over = fill_depth_meters - fill_dpth_mult) %>%
@@ -438,15 +439,15 @@ str_type <- pscis_all %>%
 ##burn to a csvs so we can copy and paste into spreadsheet (could make a function to do this all at once....)
 str_type %>%
   filter(source %ilike% 'phase1') %>%
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/str_type_pscis1.csv'),
+  readr::write_csv('data/inputs_extracted/str_type_pscis1.csv',
                    na = '')
 str_type %>%
   filter(source %ilike% 'phase2') %>%
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/str_type_pscis2.csv'),
+  readr::write_csv('data/inputs_extracted/str_type_pscis2.csv',
                    na = '')
 str_type %>%
   filter(source %ilike% 'reasses') %>%
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/str_type_pscis_reassessments.csv'),
+  readr::write_csv('data/inputs_extracted/str_type_pscis_reassessments.csv',
                    na = '')
 
 
@@ -456,14 +457,15 @@ str_type %>%
 # spreadsheet to build for input includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
 # thing is that we don't really have the fish info
 
-hab_con <- fpr_import_hab_con()
+hab_con <- fpr_import_hab_con(backup = F, row_empty_remove = T)
 hab_priority_prep1 <- hab_con %>%
   purrr::pluck("step_1_ref_and_loc_info") %>%
-  dplyr::filter(!is.na(site_number))%>%
+  dplyr::filter(!is.na(alias_local_name)) %>%
   mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
   select(reference_number:alias_local_name, survey_date) %>%
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F) %>%
+  tidyr::separate(alias_local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) %>%
   mutate(time_start = NA_character_,
+         # can grab times from form_fiss_site_tidy csv
          surveyors = NA_character_,
          length_surveyed = NA_character_,
          hab_value = NA_character_, #get from pscis sheets later.  Too much of a pain to join now due to multiple ids
@@ -486,20 +488,9 @@ hab_priority_prep <- left_join(
 
 # grab the fish species
 
-
-
-
 # burn to csv to use as your template.  For safety use a different name then rename manually
-# hab_priority_prep %>%
-#   readr::write_csv('data/habitat_confirmations_priorities_raw.csv', na = '')
-
-# separate local site names into site, location, and ef
-
-habitat_confirmations_priorities <- readr::read_csv(
-  file = "./data/habitat_confirmations_priorities.csv") %>%
-  separate(alias_local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) %>%
-  readr::write_csv(file = "./data/habitat_confirmations_priorities.csv", na = "")
-
+hab_priority_prep %>%
+  readr::write_csv('data/habitat_confirmations_priorities_raw.csv', na = '')
 
 # extract rd cost multiplier ----------------------------------------------
 
