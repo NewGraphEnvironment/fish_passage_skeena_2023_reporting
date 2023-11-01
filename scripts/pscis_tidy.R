@@ -6,7 +6,7 @@ source('scripts/packages.R')
 dir_project <- 'sern_skeena_2023'
 
 # import form_pscis.gpkg direct from mergin and rearrange then burn to csv
-form_prep <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gpkg'))
+form_prep <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg'))
 
 # pull out utm coordinates, set utm zone but check to make sure all data falls in one zone
 utm <- 9
@@ -18,10 +18,10 @@ form_pscis <- form_prep %>%
   mutate(utm_zone = utm)
 
 # burn raw file as csv to back up folder
-form_pscis %>%
-  readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_pscis_raw_',
-                          format(lubridate::now(), '%Y%m%d'),
-                          '.csv'))
+# form_pscis %>%
+#   readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_pscis_raw_',
+#                           format(lubridate::now(), '%Y%m%d'),
+#                           '.csv'))
 
 # check for duplicates
 form_pscis %>%
@@ -91,6 +91,8 @@ form <- bind_rows(
 ) %>%
   # only select columns from template object
   select(any_of(names(template))) %>%
+  # remove scoring columns, as these can't be copied and pasted anyways because of macros
+  select(-stream_width_ratio:-barrier_result) %>%
   # then arrange it by pscis id to separate phase 1s from reassessments
   arrange(pscis_crossing_id, date)
 
