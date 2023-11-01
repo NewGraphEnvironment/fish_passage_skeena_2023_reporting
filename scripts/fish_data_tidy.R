@@ -3,6 +3,7 @@
 
 source('scripts/packages.R')
 
+# Pit Tags ------
 #import the pit tag csv
 # because we are working in a project our working directory is the root folder so all paths are
 # relative to that
@@ -54,4 +55,43 @@ fish_tags %>%
   readr::write_csv('data/skeena/fish_tags_joined.csv',
                    na = "" )
 
+# Fish Data -----
+# import raw fish data csv on onedrive, add common names and reference numbers
+path <- 'Projects/2023_data/skeena/fish/fish_data.csv'
+stub_from <- 'C:/Users/matwi/OneDrive/'
+
+fish_data <- readr::read_csv(file = paste0(stub_from, path)) %>%
+  janitor::clean_names() %>%
+  # 8478 us is named differently so change
+  mutate(local_name = case_when(local_name == '8478_us_ef1' ~ '8478_us', T ~ local_name))
+
+# cross reference with step 1 of hab con sheet to get ref numbers
+ref_names <- left_join(
+  fish_data,
+  fpr_import_hab_con(backup = F, row_empty_remove = T, col_filter_na = T) %>%
+  pluck(1) %>%
+  select(reference_number, alias_local_name),
+  by = c('local_name' = 'alias_local_name')
+) %>%
+  relocate(reference_number, .before = 'local_name')
+
+# import fish names and codes
+hab_fish_codes <- fishbc::freshwaterfish %>%
+  select(species_code = Code, common_name = CommonName) %>%
+  # add option when there was no fish caught
+  tibble::add_row(species_code = 'NFC', common_name = 'No Fish Caught') %>%
+  # CT is named differently in hab con sheet
+  mutate(common_name = case_when(common_name == 'Cutthroat Trout' ~ 'Cutthroat Trout (General)', T ~ common_name))
+
+# xref and change codes to common names in raw file
+fish_names <- left_join(
+  ref_names,
+  hab_fish_codes,
+  by = c('species' = 'species_code')
+) %>%
+  # re arrange columns to align with step 3 of submission sheet, drop species code column
+  select(-species) %>%
+  relocate(common_name, .after = 'haul_pass') %>%
+  # burn cleaned file to repo
+  readr::write_csv(file = 'data/inputs_raw/fish_data.csv', na = '')
 
