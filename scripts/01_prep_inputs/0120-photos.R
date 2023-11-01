@@ -77,21 +77,7 @@ fpr::fpr_photo_rename(
 
 
 
-# remove duplicate photos
-photo_metadata_prep <- exifr::read_exif('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/8518',recursive=T)  %>%
-  janitor::clean_names()  %>%
-  # filter(stringr::str_detect(file_name, 'Time'))
-  group_by(date_time_original) %>%
-  filter(n()>1) %>%
-  select(file_name, date_time_original) %>%
-  arrange(date_time_original)
-
-photo_metadata_prep2 <- exifr::read_exif('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/8478',recursive=T)  %>%
-  janitor::clean_names() %>%
-  group_by() %>%
-  filter(n()>1) %>%
-  select(file_name, date_time_original) %>%
-  arrange(date_time_original)
+# used fpr_photo_remove_dupes to get rid of the first dupes
 
 
 # sort photos to folders --------------------------------------------------
