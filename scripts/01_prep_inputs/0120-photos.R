@@ -75,10 +75,22 @@ fpr::fpr_photo_rename(
   dir_to_stub = '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/',
   col_string_add = TRUE)
 
-
-
 # used fpr_photo_remove_dupes to get rid of the first dupes
+photos_dry_run <- fpr::fpr_photo_remove_dupes('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/')
+photos_dry_run3 <- fpr::fpr_photo_remove_dupes('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/',
+                                               min_replicates = 3)
 
+
+
+# actually run the removal of the first un-renamed photo
+# fpr::fpr_photo_remove_dupes('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/',
+#                             dry_run = F)
+
+photos_dry_run_after <- fpr::fpr_photo_remove_dupes('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/')
+photos_dry_run3_after <- fpr::fpr_photo_remove_dupes('/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/repo/fish_passage_skeena_2023_reporting/data/photos/sorted/',
+                                               min_replicates = 3)
+
+save(photos_dry_run, photos_dry_run3, photos_dry_run_after, photos_dry_run3_after, file = "data/inputs_extracted/photos_dry_run.RData")
 
 # sort photos to folders --------------------------------------------------
 pscis_all <- fpr::fpr_import_pscis_all() %>%
