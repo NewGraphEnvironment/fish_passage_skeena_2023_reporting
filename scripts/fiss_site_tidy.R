@@ -1,58 +1,125 @@
 source('scripts/packages.R')
 
-# things to note
-# the utms are from the form and not the object - although they should be the same some of the sites where moved so those will be wrong
-# later we can pull the coordinates from the
-
-
 # import a geopackage and rearrange then burn to csv
-
-# relative path to the q project form (assuming we havre same folder structure) -
-# use an absolute path if you have to but it is preferable to keep our relative paths the same so we can collab
+# relative path to the q project form
 
 # name the project directory we are pulling from
-dir_project <- 'sern_skeena_2023'
+dir_gis <- 'sern_skeena_2023'
 # define utm zone of study area
 utm <- 9
 
-# list all the fiss form names in the file
-# form_names_l <- list.files(path = paste0('../../gis/',
-#                   dir_project),
-#            # ?glob2rx is a funky little unit
-#            pattern = glob2rx('*fiss_site*.gpkg'),
-#            full.names = T
-#            )
 
-# read in cleaned form from data_field/2023/ project directory
-# if we don't try to guess the col types we have issues later with the bind_rows join
-form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_fiss_site_2023.gpkg')) %>%
+# ------------1. process forms raw from the field-----------------------------------
+# # list all the fiss form names in the file
+# form_names_l <- list.files(path = paste0('../../gis/',
+#                                          dir_gis),
+#                            # ?glob2rx is a funky little unit
+#                            pattern = glob2rx('*fiss_site*.gpkg'),
+#                            full.names = T
+# ) %>%
+#   purrr::map(sf::st_read) %>%
+#   bind_rows() %>%
+#   # remove the test
+#   filter(gazetted_names != 'Robert Hatch')
+
+# # burn raw csv file to backup folder
+# form_names_l %>%
+#   readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_fiss_site_raw_',
+#                           format(lubridate::now(), "%Y%m%d"), '.csv'), na = '')
+#
+## ------burn amalgamated forms to geopackage- SHOULD BE IN QGIS I THINK-------------
+# so that work can be done in Q to move sites, remove duplicates, get stream names correct, etc
+# form_names_l %>%
+#   sf::st_write(paste0('data/inputs_extracted/mergin_backups/form_fiss_site_',
+#                       format(lubridate::now(), "%Y%m%d"),'.gpkg'), append=FALSE)
+
+
+---------TO DEAL with ISSUE #16 we needed and extra backup version --------------------
+# read in the cleaned fiss form and archive
+dir.create(paste0('../../gis/', dir_gis, '/data_field/2023/archive'))
+form_fiss_site_raw_prep <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg')) %>%
+  # this should hve bben done but wasn't yet so is put here
+  filter(gazetted_names != 'Robert Hatch') %>%
+  sf::st_write(paste0('../../gis/', dir_gis, '/data_field/2023/archive/form_fiss_site_',
+                      format(lubridate::now(), "%Y%m%d"),'.gpkg'), append=FALSE, delete_dsn = TRUE)
+
+
+
+# -------------------read in amalgamated form and clean in---------------------------------
+# read in again (from reburned version for reproducability)
+form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/archive/form_fiss_site_20231106.gpkg'))
+
+# identify duplicate sites (that are not NAs) as we don't want to input two of the same
+dups <- form_fiss_site_raw %>%
+  filter(!is.na(local_name)) %>%
+  group_by(local_name) %>%
+  filter(n()>1)
+
+# if there are dups go back and clean up in gpkg
+
+# clean up the form
+form_fiss_site_cleaned <- form_fiss_site_raw %>%
   st_transform(crs = 26900 + utm) %>%
-  poisspatial::ps_sfc_to_coords(X = 'utm_easting', Y = 'utm_northing') %>%
-  # round utms to nearest whole numbers, spreadsheet does not allow decimals
-  mutate(utm_easting = round(utm_easting),
-         utm_northing = round(utm_northing)) %>%
-  # add in utm zone of study area
-  dplyr::mutate(utm_zone = utm) %>%
+  mutate(
+    utm_easting = round(sf::st_coordinates(.)[,1]),
+    utm_northing = round(sf::st_coordinates(.)[,2]),
+    utm_zone = utm) %>%
   # get a site_id and a location that we can use to make photo directories and tag photos respectively
   tidyr::separate(local_name, into = c('site_id', 'location'), remove = F, extra = "merge") %>%
   #need to rename the photo columns
   dplyr::rename(photo_extra1 = photo_extra_1,
                 photo_extra2 = photo_extra_2,
                 photo_extra1_tag = photo_extra_1_tag,
-                photo_extra2_tag = photo_extra_2_tag)
+                photo_extra2_tag = photo_extra_2_tag,
+                photo_typical1 = photo_typical_1,
+                photo_typical2 = photo_typical_2) %>%
+  # is filter by no date_time necessary?
+  # dplyr::filter(!is.na(date_time_start)) %>%
+  # split out the date and the time - change type of column first
+  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
+                survey_date = lubridate::date(date_time_start),
+                time = hms::as_hms(date_time_start)) %>%
+  # change "trib" to long version "Tributary"
+  mutate(gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary ')) %>%
+  # fill in text columns from spreadsheet that will likely never change
+  mutate(waterbody_type = 'stream',
+         method_for_channel_width = 'metre tape',
+         method_for_wetted_width = 'metre tape',
+         method_for_residual_pool_depth = 'metre stick',
+         method_for_bankfull_depth = 'metre stick',
+         method_for_gradient = 'clinometer',
+         method_for_temperature = 'recording meter',
+         method_for_conductivity = 'recording meter',
+         method_for_p_h = 'pH meter (general)') %>%
+  # arrange by surveyor and date/time
+  dplyr::arrange(mergin_user, date_time_start) %>%
+  #
+  dplyr::mutate(comments = case_when(
+    !is.na(comments_2) ~ paste0(comments, comments_2, time),
+    T ~ paste0(comments, time))) %>%
+  # ditch the commments2 and time since we don't need anymore. Time was dropped on gpkg creation due to type conflict
+  select(-comments_2, -time) %>%
+  #give each row and index so we can filter - note: Nov 2023 - don't see this used currently
+  tibble::rowid_to_column()
 
-# burn out a backup
-# form_fiss_site_raw %>%
-#   readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_fiss_site_raw_', format(lubridate::now(), "%Y%m%d", '.csv')))
 
+# Burn cleaned copy to the QGIS project - utm crs with coords -
+form_fiss_site_cleaned %>%
+  sf::st_write(paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg'), append=FALSE, delete_dsn = T)
+
+
+# -----------------read in form after reveiw and finalization in QGIS------------------
+# read in the form
+form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg')) %>%
+  # need to convert date type b/c gpkg and excel import differently
+  mutate(survey_date = lubridate::as_date(survey_date))
 
 # see the names of our form
 names(form_fiss_site_raw)
 
-
 # let's get the names of the input template
 # there is lots of work to do to pull out all the information we can use so we will start with one small step at a time
-# lets just populate the location and site info pages for now and then move on to the other information later.  It should be ok but might take some gymnastics
+# lets just populate the location and site info pages for now and then move on to the other information later
 form_raw_names_site <- fpr::fpr_import_hab_con(
   "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
   backup = F,
@@ -81,56 +148,12 @@ form_raw_names_sl <- c(form_raw_names_location,
 
 
 # tidy our populated table to PASTE SPECIAL value only!!! to our template. Might need to be in chunks but so be it
-# we also want to know who did the assessments and when to be able to sort the input order and populate the habitat_confirmation_priorities spreadsheet so we will add the who and extract the when
-# we also want the second comment field and have it appended to the first
-# use names(form) to see options
 form_site_info_prep <- form_fiss_site_raw %>%
-  dplyr::filter(!is.na(date_time_start)) %>%
-  dplyr::select(mergin_user,
+  dplyr::select(rowid,
+                mergin_user,
                 date_time_start,
                 dplyr::contains('surveyor'),
-                dplyr::any_of(form_raw_names_sl),
-                comments_2) %>%
-  # split out the date and the time - change type of column first
-  dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
-                survey_date = lubridate::date(date_time_start),
-                time = hms::as_hms(date_time_start)) %>%
-  #remove the test
-  filter(gazetted_names != 'Robert Hatch') %>%
-  # change "trib" to long version "Tributary"
-  mutate(gazetted_names = str_replace_all(gazetted_names, 'Trib ', 'Tributary ')) %>%
-  # fill in text columns from spreadsheet that will likely never change
-  mutate(waterbody_type = 'stream',
-         method_for_channel_width = 'metre tape',
-         method_for_wetted_width = 'metre tape',
-         method_for_residual_pool_depth = 'metre stick',
-         method_for_bankfull_depth = 'metre stick',
-         method_for_gradient = 'clinometer',
-         method_for_temperature = 'recording meter',
-         method_for_conductivity = 'recording meter',
-         method_for_p_h = 'pH meter (general)') %>%
-  # arrange by surveyor and time
-  dplyr::arrange(mergin_user,
-                 date_time_start) %>%
-  #give each row and index so we can filter
-  tibble::rowid_to_column()
-
-
-# identify duplicate sites (that are not NAs) as we don't want to input two of the same
-# fixed 8547 in geopackage
-dups <- form_site_info_prep %>%
-  filter(!is.na(local_name)) %>%
-  group_by(local_name) %>%
-  filter(n()>1)
-
-# unhash below to have a look
-# view(dups)
-
-#delete dups
-# this should be tidyverse and in this case we just fix the error in the geopackage.
-# form_site_info_prep <- form_site_info_prep[-c(22,23,8), ]
-view(form_site_info_prep)
-
+                dplyr::any_of(form_raw_names_sl))
 
 # make the loc form
 form_fiss_loc <- bind_rows(
@@ -141,21 +164,18 @@ form_fiss_loc <- bind_rows(
                           row_empty_remove = T) %>%
     # pull out just the site info page for now
     pluck(1) %>%
-    # need to convert type for some reason (should be guessed already..)
     mutate(survey_date = lubridate::as_date(survey_date)) %>%
     slice(0),
 
   form_site_info_prep %>%
-    # alias local name and gazetted names are not called the same in both sheets so rename
+    sf::st_drop_geometry() %>%
+    # alias local name and gazetted_name is not called the same in both sheets so rename
     rename(alias_local_name = local_name,
            gazetted_name = gazetted_names) %>%
     mutate(utm_method = as.character(utm_method)) %>%
     select(rowid,
-           dplyr::any_of(form_raw_names_location),
-           # add the time to help put the puzzle together after)
-           time)
-) %>%
-  select(rowid, everything())
+           dplyr::any_of(form_raw_names_location))
+)
 
 # make the site form
 form_fiss_site <- bind_rows(
@@ -163,41 +183,37 @@ form_fiss_site <- bind_rows(
   # we need the raw form or we don't have all the right columns
   fpr::fpr_import_hab_con(
     "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
-                          backup = F,
-                          row_empty_remove = T) %>%
-    # pull out just the site info page for now - should use the name but willuse index bc short on time
+    backup = F,
+    row_empty_remove = T) %>%
+    # pull out just the site info page for now
     pluck("step_4_stream_site_data") %>%
-    # mutate(waterbody_id = as.character(waterbody_id),
-    #        feature_height_length_method = as.character(feature_height_length_method)) %>%
     slice(0),
 
   form_site_info_prep %>%
-    # this needs to be pulled or explicit!!!!!!!!!
-    filter(rowid != 4) %>%
-    mutate(morphology = as.character(morphology)) %>%
+    sf::st_drop_geometry() %>%
+    mutate(morphology = as.character(morphology),
+           utm_method = as.character(utm_method)) %>%
     select(rowid,
            dplyr::any_of(form_raw_names_site),
            # add the time to help put the puzzle together after)
-           survey_date,
-           time)
+           survey_date)
 ) %>%
-  # add time to end of comments, there are no comments in the comments_2 column so no need to combine
-  dplyr::mutate(comments = paste0(comments, ' ', time)) %>%
   select(rowid, everything())
 
 # burn to file
-
 form_fiss_loc %>%
   readr::write_csv(paste0(
-    'data/inputs_extracted/form_fiss_loc_tidy_',
-    format(lubridate::now(), "%Y%m%d"),
+    'data/inputs_extracted/form_fiss_loc_tidy',
+    # '_',
+    # format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
 
 form_fiss_site %>%
   readr::write_csv(paste0(
-    'data/inputs_extracted/form_fiss_site_tidy_',
-    format(lubridate::now(), "%Y%m%d"),
+    'data/inputs_extracted/form_fiss_site_tidy',
+    # '_',
+    # format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
 
