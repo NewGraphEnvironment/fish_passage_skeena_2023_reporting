@@ -125,15 +125,15 @@ fpr_table_moti_comments <- function(dat = tab_moti_phase2,
 
 # PSCIS Submissions -------------
 
-fpr_filter_list <- function(idx){
+tfpr_filter_list <- function(idx){
   filestocopy_list[idx]
 }
 
-fpr_photo_change_name <- function(filenames_to_change){
+tfpr_photo_change_name <- function(filenames_to_change = filestocopy_list){
   gsub(filenames_to_change, pattern = path, replacement = targetdir)
 }
 
-fpr_copy_over_photos <- function(filescopy, filespaste){
+tfpr_copy_over_photos <- function(filescopy, filespaste){
   file.copy(from=filescopy, to=filespaste,
             overwrite = T,
             copy.mode = TRUE)
