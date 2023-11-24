@@ -3,10 +3,10 @@ source('scripts/packages.R')
 #--------------------process forms raw from field---------------------------
 
 # name the project directory we are pulling from
-dir_project <- 'sern_skeena_2023'
+dir_project <- 'sern_simpcw_2023'
 
 # pull out utm coordinates, set utm zone but check to make sure all data falls in one zone
-utm <- 9
+utm <- 10
 
 # import form_pscis.gpkg direct from mergin and then import form_pscis_2023 and bind rows
 # NOTE : this step only needs to be done when new crossing data is added to the project,
@@ -69,6 +69,11 @@ form_pscis %>%
   group_by(site_id) %>%
   filter(n()>1)
 
+# check for sites that have a culvert length over 99.9 or a fill depth over 9.9,
+# anything over this will cause error in submission sheet
+form_pscis %>%
+  filter(length_or_width_meters>99.9|fill_depth_meters>9.9)
+
 form_prep1 <- form_pscis %>%
   #split date time column into date and time
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
@@ -116,7 +121,7 @@ form_pscis_cleaned <- form_prep2 %>%
 
 # burn cleaned copy to QGIS project gpkg, the pscis clean section can be repeated again when changes are made in Q
 
-form_pscis %>%
+form_pscis_cleaned %>%
   st_as_sf(coords = c('easting', 'northing'), crs = 26900 + utm, remove = F) %>%
   # convert back to project crs
   st_transform(crs = 3005) %>%
@@ -124,8 +129,8 @@ form_pscis %>%
 
 # burn to version controlled csv, so changes can be viewed on git
 
-form_pscis %>%
-  readr::write_csv(paste0('data/dff/form_pscis_2023.csv'), na='')
+form_pscis_cleaned %>%
+  readr::write_csv(paste0('data/dff/form_pscis_simp_2023.csv'), na='')
 
 #---------------------pscis export only--------------------------
 
@@ -174,7 +179,7 @@ form <- bind_rows(
 
 # burn to a csv ready for copy and paste to template
 form %>% readr::write_csv(paste0(
-  'data/dff/pscis_export.csv'), na='')
+  'data/dff/pscis_simp_export.csv'), na='')
 
 # --------------------moti climate change ---------------------------
 #
