@@ -1,27 +1,67 @@
 source('scripts/packages.R')
 
-#--------------------import---------------------------
+#--------------------process forms raw from field---------------------------
 
 # name the project directory we are pulling from
-dir_project <- 'sern_skeena_2023'
-
-# import form_pscis.gpkg direct from mergin and rearrange then burn to csv
-form_prep <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg'))
+dir_project <- 'sern_simpcw_2023'
 
 # pull out utm coordinates, set utm zone but check to make sure all data falls in one zone
-utm <- 9
+utm <- 10
 
-form_pscis <- form_prep %>%
-  st_transform(crs = 26909) %>%
-  poisspatial::ps_sfc_to_coords(X = 'easting', Y = 'northing') %>%
-  # add in utm zone of study area
-  mutate(utm_zone = utm)
+# import form_pscis.gpkg direct from mergin and then import form_pscis_2023 and bind rows
+# NOTE : this step only needs to be done when new crossing data is added to the project,
+# in this case, Andy and Alicia from GWA added new data
 
-# burn raw file as csv to back up folder
-# form_pscis %>%
+# form_pscis_field <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gpkg')) %>%
+#   filter(mergin_user == "andyr")
+#
+# form_pscis_working <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg'))
+#
+# # check to see that column names are equiv (must be if number is the same but still)
+# identical(names(form_pscis_field), names(form_pscis_working))
+#
+# # bind rows
+# form_prep <- bind_rows(
+#   form_pscis_field,
+#   form_pscis_working
+# ) %>%
+#   st_transform(crs = 26900 + utm) %>%
+#   poisspatial::ps_sfc_to_coords(X = 'easting', Y = 'northing') %>%
+#   # add in utm zone of study area
+#   mutate(utm_zone = utm)
+#
+# # burn to backup folder as csv
+# form_prep %>%
 #   readr::write_csv(paste0('data/inputs_extracted/mergin_backups/form_pscis_raw_',
-#                           format(lubridate::now(), '%Y%m%d'),
-#                           '.csv'))
+#         format(lubridate::now(), "%Y%m%d"), '.csv'))
+#
+# # re burn to working geopackage in Q project
+# form_prep %>%
+#   st_as_sf(coords = c('easting', 'northing'), crs = 26900 + utm, remove = F) %>%
+#   # convert back to project crs
+#   st_transform(crs = 3005) %>%
+#   sf::st_write(paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg'), append=F, delete_dsn=T)
+
+#---------------------pscis clean and QA only--------------------------
+
+form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg')) %>%
+  # assumes in albers
+  mutate(
+    x = sf::st_coordinates(.)[,1],
+    y = sf::st_coordinates(.)[,2]) %>%
+  # then grab the utms. fragile since relies on having only 1 utm zone. there
+  # are functions somewhere to deal with this (can't remember which repo though)
+  st_transform(crs = 26900 + utm) %>%
+  mutate(
+    easting = sf::st_coordinates(.)[,1],
+    northing = sf::st_coordinates(.)[,2]) %>%
+  # add in utm zone of study area
+  mutate(utm_zone = utm) %>%
+  # not sure we need to but turn non-spatial
+  sf::st_drop_geometry()
+
+# NOTE: once the data clean is run once it does not need to be repeated, if changes are made in Q just read in the file above,
+# and then skip to the re burn to geopackage and csv step
 
 # check for duplicates
 form_pscis %>%
@@ -29,26 +69,11 @@ form_pscis %>%
   group_by(site_id) %>%
   filter(n()>1)
 
-# this is a table that cross references column names for pscis table and has the columns in the same order as the spreadsheet
-xref_names_pscis <- fpr::fpr_xref_pscis
+# check for sites that have a culvert length over 99.9 or a fill depth over 9.9,
+# anything over this will cause error in submission sheet
+form_pscis %>%
+  filter(length_or_width_meters>99.9|fill_depth_meters>9.9)
 
-# get order of columns as per the excel template spreadsheet
-# this can be used as a select(all_of(name_pscis_sprd_ordered)) later
-# to order columns for the field form and/or put the field entered table in order
-name_pscis_sprd_ordered <- fpr::fpr_xref_pscis %>%
-  filter(!is.na(spdsht)) %>%
-  select(spdsht) %>%
-  pull(spdsht)
-
-# see names that coincide between the xref table and what we have
-intersect(name_pscis_sprd_ordered, names(form_pscis))
-
-# see which are different
-setdiff(name_pscis_sprd_ordered, names(form_pscis))
-# order matters
-setdiff(names(form_pscis), name_pscis_sprd_ordered)
-
-##---------------------pscis clean only--------------------------
 form_prep1 <- form_pscis %>%
   #split date time column into date and time
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
@@ -72,12 +97,68 @@ form_prep2 <- form_prep1 %>%
   # some numeric fields for CBS have NA values when a user input 0
   mutate(across(c(outlet_drop_meters, outlet_pool_depth_0_01m, culvert_slope_percent, stream_slope),
                 ~case_when(crossing_type == 'Closed Bottom Structure' ~replace_na(.,0),
-                TRUE ~ .
+                           TRUE ~ .
                 ))) %>%
   # change 'trib' to long version 'Tributary'
   mutate(stream_name = str_replace_all(stream_name, 'Trib ', 'Tributary ')) %>%
   # change 'Hwy' to 'Highway'
   mutate(road_name = str_replace_all(road_name, 'Hwy ', 'Highway '))
+
+form_pscis_cleaned <- form_prep2 %>%
+  # add new assessment comment column to preserve reproducability
+  mutate(assessment_comment_og = assessment_comment) %>%
+  # append moti ids to comments, differentiate between highway major structure, and add time to end
+  mutate(assessment_comment = case_when(
+    moti_chris_culvert_id > 1000000 ~ paste0(assessment_comment, ' Ministry of Transportation chris_culvert_id: ', moti_chris_culvert_id, '.'),
+    T ~ assessment_comment),
+    assessment_comment = case_when(
+      moti_chris_culvert_id < 1000000 ~ paste0(assessment_comment, ' Ministry of Transportation chris_hwy_structure_road_id: ', moti_chris_culvert_id, '.'),
+      T ~ assessment_comment),
+    assessment_comment = paste0(assessment_comment, ' ', time)
+  ) %>%
+  # ditch time column
+  select(-time)
+
+# burn cleaned copy to QGIS project gpkg, the pscis clean section can be repeated again when changes are made in Q
+
+form_pscis_cleaned %>%
+  st_as_sf(coords = c('easting', 'northing'), crs = 26900 + utm, remove = F) %>%
+  # convert back to project crs
+  st_transform(crs = 3005) %>%
+  sf::st_write(paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg'), append=F, delete_dsn=T)
+
+# burn to version controlled csv, so changes can be viewed on git
+
+form_pscis_cleaned %>%
+  readr::write_csv(paste0('data/dff/form_pscis_simp_2023.csv'), na='')
+
+#---------------------pscis export only--------------------------
+
+# in this section we will read in cleaned form from Q after review and finalization,
+# and then get the names of the input template so we can copy and past special directly into the spreadsheet
+
+# read in form from Q
+form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg')) %>%
+  st_drop_geometry()
+
+# this is a table that cross references column names for pscis table and has the columns in the same order as the spreadsheet
+xref_names_pscis <- fpr::fpr_xref_pscis
+
+# get order of columns as per the excel template spreadsheet
+# this can be used as a select(all_of(name_pscis_sprd_ordered)) later
+# to order columns for the field form and/or put the field entered table in order
+name_pscis_sprd_ordered <- fpr::fpr_xref_pscis %>%
+  filter(!is.na(spdsht)) %>%
+  select(spdsht) %>%
+  pull(spdsht)
+
+# see names that coincide between the xref table and what we have
+intersect(name_pscis_sprd_ordered, names(form_pscis))
+
+# see which are different
+setdiff(name_pscis_sprd_ordered, names(form_pscis))
+# order matters
+setdiff(names(form_pscis), name_pscis_sprd_ordered)
 
 # to use all the columns from the template first we make an empty dataframe from a template
 template <- fpr::fpr_import_pscis() %>%
@@ -87,7 +168,7 @@ template <- fpr::fpr_import_pscis() %>%
 # we may as well keep all the columns that are not in the spreadsheet and append to the end
 form <- bind_rows(
   template,
-  form_prep2
+  form_pscis
 ) %>%
   # only select columns from template object
   select(any_of(names(template))) %>%
@@ -96,11 +177,9 @@ form <- bind_rows(
   # then arrange it by pscis id to separate phase 1s from reassessments
   arrange(pscis_crossing_id, date)
 
-# burn to a csv
+# burn to a csv ready for copy and paste to template
 form %>% readr::write_csv(paste0(
-    'data/dff/form_pscis_',
-    format(lubridate::now(), '%Y%m%d'),
-    '.csv'), na='')
+  'data/dff/pscis_simp_export.csv'), na='')
 
 # --------------------moti climate change ---------------------------
 #
