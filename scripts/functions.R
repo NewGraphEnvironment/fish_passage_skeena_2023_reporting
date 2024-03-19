@@ -140,4 +140,61 @@ tfpr_copy_over_photos <- function(filescopy, filespaste){
 }
 
 
+#' Determines the road class for each site and burns it to sqlite database in data folder
+#'
+#' @param dat String (quoted) name of sqlite database in data folder, defaults to bcfishpass
+#'
+#' @importFrom glue glue
+#' @importFrom dplyr mutate select filter case_when pull
+#' @importFrom stringr str_replace_all str_detect word str_to_lower
+#' @importFrom readwritesqlite rws_connect rws_list_tables rws_write
+#'
+
+# tab cost multipliers for road surface can be found in a csv located in 'data/inputs_raw/tab_cost_rd_mult.csv'
+
+tfpr_road_class <- function(
+    dat = 'bcfishpass'){
+
+  # rebuild using bcfishpass object from the tables.R script.
+  # see older repos if we need to go back to a system that can run these before we have pscis IDs simplifying for now on
+  rd_class_surface <- dat %>%
+    dplyr::select(stream_crossing_id, transport_line_structured_name_1:dam_operating_status) %>%
+    dplyr::filter(stream_crossing_id %in% (
+      pscis_all %>% dplyr::pull(pscis_crossing_id))
+    ) %>%
+    dplyr::mutate(my_road_class = ften_file_type_description) %>%
+    dplyr::mutate(my_road_class = dplyr::case_when(is.na(my_road_class) & !is.na(transport_line_type_description) ~
+                                                     transport_line_type_description,
+                                                   T ~ my_road_class)) %>%
+
+    dplyr::mutate(my_road_class = dplyr::case_when(is.na(my_road_class) & !is.na(rail_owner_name) ~
+                                                     'rail',
+                                                   T ~ my_road_class)) %>%
+    dplyr::mutate(my_road_surface = dplyr::case_when(is.na(transport_line_surface_description) & !is.na(ften_file_type_description) ~
+                                                       'loose',
+                                                     T ~ transport_line_surface_description)) %>%
+    dplyr::mutate(my_road_surface = dplyr::case_when(is.na(my_road_surface) & !is.na(rail_owner_name) ~
+                                                       'rail',
+                                                     T ~ my_road_surface)) %>%
+    dplyr::mutate(my_road_class = stringr::str_replace_all(my_road_class, 'Forest Service Road', 'fsr'),
+                  my_road_class = stringr::str_replace_all(my_road_class, 'Road ', ''),
+                  my_road_class = stringr::str_replace_all(my_road_class, 'Special Use Permit, ', 'Permit-Special-'),
+                  my_road_class = dplyr::case_when(
+                    stringr::str_detect(my_road_class, 'driveway') ~ 'driveway',
+                    T ~ my_road_class),
+                  my_road_class = stringr::word(my_road_class, 1),
+                  my_road_class = stringr::str_to_lower(my_road_class)) %>%
+    dplyr::filter(stream_crossing_id %in% (
+      pscis_all %>% dplyr::pull(pscis_crossing_id))
+    )
+
+
+
+  conn <- readwritesqlite::rws_connect(glue::glue("data/{dat}.sqlite"))
+  readwritesqlite::rws_list_tables(conn)
+  readwritesqlite::rws_write(rd_class_surface, exists = F, delete = T,
+                             conn = conn, x_name = "rd_class_surface")
+  readwritesqlite::rws_disconnect(conn)
+
+}
 
