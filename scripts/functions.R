@@ -198,6 +198,104 @@ tfpr_road_class <- function(
 
 }
 
+
+#' Determine replacement structure type and size based on measured field metrics.
+#' @param dat PSCIS data
+#' @param fill_dpth standard fill depth, default is 3m.
+#' @param brdg_wdth standard bridge width, default is 15m.
+#' @param chn_wdth_max maximum channel width where the bridge should start to be more than brdg_wdth, default is brdg_wdth - 5m.
+#' @param fill_dpth_mult for every 1 m deeper than 3m, we need a 1.5:1 slope so there is 3m more bridge required
+#'
+#' @importFrom dplyr mutate filter select case_when
+#' @importFrom plyr round_any
+#' @importFrom readr write_csv
+#' @importFrom chk chk_numeric
+#'
+#' @export
+#'
+#' #' @examples \dontrun{
+#' fpr_structure_size_type(dat)
+#' }
+#'
+
+lfpr_structure_size_type <- function(
+    dat = NULL,
+    fill_dpth = 3,
+    brdg_wdth = 15,
+    chn_wdth_max = brdg_wdth - 5,
+    fill_dpth_mult = 3) {
+
+  if (is.null(dat))
+    stop('please provide "dat" (dataframe) object')
+  if (!is.data.frame(dat))
+    stop('"dat" must inherit from a data.frame')
+
+  chk::chk_numeric(fill_dpth)
+  chk::chk_numeric(brdg_wdth)
+  chk::chk_numeric(chn_wdth_max)
+  chk::chk_numeric(fill_dpth_mult)
+
+  # Unsure if this still needs to be included, but can't find pcsis2...
+  # ##according to the moe specs in MoE 2011 - backwatering requires od<30 and slope <2, swr <1.2 see if there are options
+  # tab_backwater <- dat %>%  ##changed this to pscis2!
+  #   filter(barrier_result != 'Passable' &
+  #            barrier_result != 'Unknown' &
+  #            outlet_drop_meters < 0.3 &
+  #            stream_width_ratio_score < 1.2 &
+  #            culvert_slope_percent <= 2 )
+
+
+  str_type <- dat %>%
+    dplyr::select(rowid, aggregated_crossings_id, pscis_crossing_id, my_crossing_reference, source, barrier_result,
+                  downstream_channel_width_meters, fill_depth_meters) %>%
+    dplyr::mutate(fill_dpth_over = fill_depth_meters - fill_dpth_mult) %>%
+    dplyr::mutate(crossing_fix = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                  & downstream_channel_width_meters >= 2 ~ 'Replace with New Open Bottom Structure',
+                                                  barrier_result == 'Passable' | barrier_result == 'Unknown' ~ NA_character_,
+                                                  T ~ 'Replace Structure with Streambed Simulation CBS'))  %>%
+    dplyr::mutate(span_input = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                & downstream_channel_width_meters >= 2 ~ brdg_wdth,
+                                                barrier_result == 'Passable' | barrier_result == 'Unknown' ~ NA_real_,
+                                                T ~ 3))  %>%
+    dplyr::mutate(span_input = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                & fill_dpth_over > 0 & !crossing_fix %ilike% 'Simulation' ~
+                                                  (brdg_wdth + fill_dpth_mult * fill_dpth_over),  ##1m more fill = 3 m more bridge
+                                                T ~ span_input)) %>%
+    dplyr::mutate(span_input = dplyr::case_when(span_input < (downstream_channel_width_meters + 4) & ##span not need be extended if already 4m bigger than channel width
+                                                  downstream_channel_width_meters > chn_wdth_max ~
+                                                  (downstream_channel_width_meters - chn_wdth_max) + span_input,  ##for every m bigger than a 5 m channel add that much to each side in terms of span
+                                                T ~ span_input)) %>%
+    ##let's add an option that if the stream is under 3.5m wide and under more than 5m of fill we do a streambed simulation with a 4.5m embedded multiplate like 4607464 on Flathead fsr
+    dplyr::mutate(crossing_fix = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                  & downstream_channel_width_meters > 2 &
+                                                    downstream_channel_width_meters <= 3.5 &
+                                                    fill_depth_meters > 5 ~ 'Replace Structure with Streambed Simulation CBS',
+                                                  T ~ crossing_fix),
+                  span_input = dplyr::case_when((barrier_result == 'Barrier' | barrier_result == 'Potential')
+                                                & downstream_channel_width_meters > 2 &
+                                                  downstream_channel_width_meters <= 3.5 &
+                                                  fill_depth_meters > 5 ~ 4.5,
+                                                T ~ span_input)) %>%
+    dplyr::mutate(span_input = plyr::round_any(span_input, 0.5))
+
+
+  ##burn to a csvs so we can copy and paste into spreadsheet
+
+  str_type %>%
+    dplyr::filter(source %ilike% 'phase1') %>%
+    readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/str_type_pscis1.csv'),
+                     na = '')
+  str_type %>%
+    dplyr::filter(source %ilike% 'phase2') %>%
+    readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/str_type_pscis2.csv'),
+                     na = '')
+  str_type %>%
+    dplyr::filter(source %ilike% 'reasses') %>%
+    readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/str_type_pscis_reassessments.csv'),
+                     na = '')
+
+}
+
 # Reporting -------------
 
 #' Creates hydrograph and hydrology stats figures for a given station.
