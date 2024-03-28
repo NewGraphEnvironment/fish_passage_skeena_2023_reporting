@@ -1,3 +1,5 @@
+# Scripts to transfer photos to the PSCIS submission folder
+
 ##QA to be sure that you have all 6 required photos for submission to PSCIS
 ##convert jpg (or other formats - need to code) to JPG for consistency and to avoid issues with submission/reporting
 ##move the photos and spreadsheet ready for submission to pscis
@@ -9,7 +11,7 @@ name_repo <- 'fish_passage_skeena_2023_reporting'
 # stub_to <- 'C:/Users/matwi/OneDrive'
 stub_to <- '/Users/airvine/Library/CloudStorage/OneDrive-Personal'
 
-# Phase 1 submission -----------
+# Photos Phase 1 submission -----------
 
 ##path to the photos on onedrive
 # path <- paste0(stub_to, '/Projects/repo/', name_repo,
@@ -82,7 +84,7 @@ file.copy(from = 'data/pscis_phase1.xlsm',
 #copy folder over:
 #xcopy C:\Users\matwi\OneDrive\Projects\PSCIS\phase1_submissions\PSCIS_peace_2023_phase1 /e C:\Users\matwi\Projects\current\2023-063-sern-peace-fish-passage\PSCIS_peace_2023_phase1
 
-# Phase 2 submission ---------------
+# Photos Phase 2 submission ---------------
 
 ##use the pscis spreadsheet to make the folders to copy the photos to
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase2.xlsm')
@@ -149,74 +151,8 @@ file.copy(from = 'data/pscis_phase2.xlsm',
 #copy folder over:
 #xcopy C:\Users\matwi\OneDrive\Projects\PSCIS\phase1_submissions\PSCIS_skeena_2023_phase1 /e C:\Users\matwi\Projects\current\2023-066-sern-skeena-fish-passage\PSCIS_skeena_2023_phase1
 
-# Phase 2 submission ---------------
 
-##use the pscis spreadsheet to make the folders to copy the photos to
-d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase2.xlsm')
-
-folderstocopy<- d$pscis_crossing_id %>% as.character()
-
-path <- paste0(getwd(), '/data/photos/')
-
-path_to_photos <- paste0(path, folderstocopy)
-
-# here we transfer just the photos with labels over into the PSCIS directory where we will upload from to the gov interface
-targetdir = paste0(stub_from, '/Projects/PSCIS/phase2_submissions/PSCIS_skeena_2023_phase2/')
-dir.create(targetdir)
-
-folderstocreate<- paste0(targetdir, folderstocopy)
-
-##create the folders
-lapply(folderstocreate, dir.create)
-
-filestocopy_list <- path_to_photos %>%
-  purrr::map(fpr::fpr_photo_paths_to_copy) %>%
-  purrr::set_names(basename(folderstocreate))
-
-##view which files do not have any photos to paste by reviewing the empty_files object
-empty_idx <- which(!lengths(filestocopy_list))
-
-empty_files <- empty_idx %>% fpr_filter_list()
-
-
-##rename long names if necessary
-
-photo_sort_tracking <- path_to_photos %>%
-  purrr::map(fpr::fpr_photo_document_all) %>%
-  purrr::set_names(folderstocopy) %>%
-  bind_rows(.id = 'folder') %>%
-  mutate(photo_name = str_squish(str_extract(value, "[^/]*$")),
-         photo_name_length = stringr::str_length(photo_name))
-
-
-###here we back up a csv that gives us the new location and name of the original JPG photos.
-## Not ideal because we did some sorting by hand without adding name of camera to the file name but a start on reproducability nonetheless
-
-##burn to csv
-photo_sort_tracking %>%
-  readr::write_csv(file = paste0(getwd(), '/data/photos/photo_sort_tracking_phase2.csv'))
-
-filestopaste_list <- filestocopy_list %>%
-  map(fpr_photo_change_name)
-
-##!!!!!!!!!!!!!!!copy over the photos!!!!!!!!!!!!!!!!!!!!!!!
-mapply(fpr_copy_over_photos,
-       filescopy =  filestocopy_list,
-       filespaste = filestopaste_list)
-
-##also move over the pscis file
-file.copy(from = 'data/pscis_phase2.xlsm',
-          to = paste0(targetdir, 'pscis_phase2.xlsm'),
-          overwrite = T)
-
-#macros don't seem to work in one drive so copy the submission folder to a directory on my machine using windows command line shown below
-
-#create directory:
-#mkdir C:\Users\matwi\Projects\current\2023-049-sern-skeena-fish-passage\PSCIS_skeena_2023_phase2
-#copy folder over:
-#xcopy C:\Users\matwi\OneDrive\Projects\PSCIS\phase2_submissions\PSCIS_skeena_2023_phase2 /e C:\Users\matwi\Projects\current\2023-049-sern-skeena-fish-passage\PSCIS_skeena_2023_phase2
-
-# Reassessments submission------
+# Photos Reassessments submission------
 
 ##use the pscis spreadsheet to make the folders to copy the photos to
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_reassessments.xlsm')
