@@ -1,44 +1,44 @@
 rowid,aggregated_crossings_id,pscis_crossing_id,my_crossing_reference,source,barrier_result,downstream_channel_width_meters,fill_depth_meters,fill_dpth_over,crossing_fix,span_input
-5,1014000571,,14000571,pscis_phase1.xlsm,Barrier,2.8,8,5,Replace Structure with Streambed Simulation CBS,4.5
-6,1014000575,,14000575,pscis_phase1.xlsm,Barrier,2.2,1.5,-1.5,Replace with New Open Bottom Structure,15
-7,1014000638,,14000638,pscis_phase1.xlsm,Barrier,1.7,4,1,Replace Structure with Streambed Simulation CBS,3
-8,1014000855,,14000855,pscis_phase1.xlsm,Barrier,1.9,1,-2,Replace Structure with Streambed Simulation CBS,3
-9,1014001106,,14001106,pscis_phase1.xlsm,Barrier,1.9,0.7,-2.3,Replace Structure with Streambed Simulation CBS,3
-10,1014000707,,14000707,pscis_phase1.xlsm,Barrier,1.5,1.5,-1.5,Replace Structure with Streambed Simulation CBS,3
-11,1014000708,,14000708,pscis_phase1.xlsm,Potential,2.5,1,-2,Replace with New Open Bottom Structure,15
-12,1014000637,,14000637,pscis_phase1.xlsm,Barrier,2,5,2,Replace with New Open Bottom Structure,21
-13,1014001105,,14001105,pscis_phase1.xlsm,Barrier,0.8,0.6,-2.4,Replace Structure with Streambed Simulation CBS,3
-14,1024600461,,24600461,pscis_phase1.xlsm,Unknown,,,,,
-15,1024601268,,24601268,pscis_phase1.xlsm,Barrier,1.1,0.8,-2.2,Replace Structure with Streambed Simulation CBS,3
-16,1024601275,,24601275,pscis_phase1.xlsm,Passable,,,,,
-17,1024601279,,24601279,pscis_phase1.xlsm,Barrier,0.8,1.2,-1.8,Replace Structure with Streambed Simulation CBS,3
-18,1024601280,,24601280,pscis_phase1.xlsm,Barrier,1.8,1,-2,Replace Structure with Streambed Simulation CBS,3
-19,1008300003,,8300003,pscis_phase1.xlsm,Barrier,3.9,4,1,Replace with New Open Bottom Structure,18
-20,1008300013,,8300013,pscis_phase1.xlsm,Barrier,2.1,1,-2,Replace with New Open Bottom Structure,15
-21,1008300091,,8300091,pscis_phase1.xlsm,Barrier,3.1,2.2,-0.7999999999999998,Replace with New Open Bottom Structure,15
-22,1008300094,,8300094,pscis_phase1.xlsm,Barrier,0.9,3,0,Replace Structure with Streambed Simulation CBS,3
-23,1008300157,,8300157,pscis_phase1.xlsm,Barrier,5.8,4,1,Replace with New Open Bottom Structure,18
-24,1008300756,,8300756,pscis_phase1.xlsm,Barrier,2.4,6,3,Replace Structure with Streambed Simulation CBS,4.5
-25,1008300759,,8300759,pscis_phase1.xlsm,Potential,2.3,1.6,-1.4,Replace with New Open Bottom Structure,15
-26,1008300872,,8300872,pscis_phase1.xlsm,Barrier,4.1,3,0,Replace with New Open Bottom Structure,15
-27,1008300970,,8300970,pscis_phase1.xlsm,Barrier,3.9,1.2,-1.8,Replace with New Open Bottom Structure,15
-28,1008302868,,8302868,pscis_phase1.xlsm,Barrier,5,18,15,Replace with New Open Bottom Structure,60
-29,1008302869,,8302869,pscis_phase1.xlsm,Barrier,4.5,30,27,Replace with New Open Bottom Structure,96
-30,1008800020,,8800020,pscis_phase1.xlsm,Potential,1,4,1,Replace Structure with Streambed Simulation CBS,3
-31,1008800072,,8800072,pscis_phase1.xlsm,Barrier,6.4,0.2,-2.8,Replace with New Open Bottom Structure,15
-32,1008800026,,8800026,pscis_phase1.xlsm,Barrier,5.7,6,3,Replace with New Open Bottom Structure,24
-33,1008800047,,8800047,pscis_phase1.xlsm,Barrier,4.6,1,-2,Replace with New Open Bottom Structure,15
-34,1008800056,,8800056,pscis_phase1.xlsm,Barrier,2.1,5,2,Replace with New Open Bottom Structure,21
-35,1008800070,,8800070,pscis_phase1.xlsm,Barrier,5.6,1,-2,Replace with New Open Bottom Structure,15
-36,1008800076,,8800076,pscis_phase1.xlsm,Barrier,6.8,8,5,Replace with New Open Bottom Structure,30
-37,1008800130,,8800130,pscis_phase1.xlsm,Barrier,1.6,8,5,Replace Structure with Streambed Simulation CBS,3
-38,1008800140,,8800140,pscis_phase1.xlsm,Potential,8,1.7,-1.3,Replace with New Open Bottom Structure,15
-39,1008800144,,8800144,pscis_phase1.xlsm,Barrier,0.6,1,-2,Replace Structure with Streambed Simulation CBS,3
-40,1008800149,,8800149,pscis_phase1.xlsm,Barrier,10,4,1,Replace with New Open Bottom Structure,18
-41,1008801343,,8801343,pscis_phase1.xlsm,Potential,1.7,1.5,-1.5,Replace Structure with Streambed Simulation CBS,3
-42,1008801347,,8801347,pscis_phase1.xlsm,Passable,2.8,3.7,0.7000000000000002,,
-43,1008801379,,8801379,pscis_phase1.xlsm,Barrier,6.8,4,1,Replace with New Open Bottom Structure,18
-44,1008801406,,8801406,pscis_phase1.xlsm,Barrier,1.5,2.5,-0.5,Replace Structure with Streambed Simulation CBS,3
-45,1008801409,,8801409,pscis_phase1.xlsm,Barrier,2.7,3,0,Replace with New Open Bottom Structure,15
-46,1008801991,,8801991,pscis_phase1.xlsm,Unknown,,,,,
+5,1008300003,,8300003,pscis_phase1.xlsm,Barrier,3.9,4,1,Replace with New Open Bottom Structure,18
+6,1008300013,,8300013,pscis_phase1.xlsm,Barrier,2.1,1,-2,Replace with New Open Bottom Structure,15
+7,1008300091,,8300091,pscis_phase1.xlsm,Barrier,3.1,2.2,-0.7999999999999998,Replace with New Open Bottom Structure,15
+8,1008300094,,8300094,pscis_phase1.xlsm,Barrier,0.9,3,0,Replace Structure with Streambed Simulation CBS,3
+9,1008300157,,8300157,pscis_phase1.xlsm,Barrier,5.8,4,1,Replace with New Open Bottom Structure,18
+10,1008300756,,8300756,pscis_phase1.xlsm,Barrier,2.4,6,3,Replace Structure with Streambed Simulation CBS,4.5
+11,1008300759,,8300759,pscis_phase1.xlsm,Potential,2.3,1.6,-1.4,Replace with New Open Bottom Structure,15
+12,1008300872,,8300872,pscis_phase1.xlsm,Barrier,4.1,3,0,Replace with New Open Bottom Structure,15
+13,1008300970,,8300970,pscis_phase1.xlsm,Barrier,3.9,1.2,-1.8,Replace with New Open Bottom Structure,15
+14,1008302868,,8302868,pscis_phase1.xlsm,Barrier,5,9.9,6.9,Replace with New Open Bottom Structure,35.5
+15,1008302869,,8302869,pscis_phase1.xlsm,Barrier,4.5,9.9,6.9,Replace with New Open Bottom Structure,35.5
+16,1008800020,,8800020,pscis_phase1.xlsm,Potential,1,4,1,Replace Structure with Streambed Simulation CBS,3
+17,1008800026,,8800026,pscis_phase1.xlsm,Barrier,5.7,6,3,Replace with New Open Bottom Structure,24
+18,1008800047,,8800047,pscis_phase1.xlsm,Barrier,4.6,1,-2,Replace with New Open Bottom Structure,15
+19,1008800056,,8800056,pscis_phase1.xlsm,Barrier,2.1,5,2,Replace with New Open Bottom Structure,21
+20,1008800070,,8800070,pscis_phase1.xlsm,Barrier,5.6,1,-2,Replace with New Open Bottom Structure,15
+21,1008800072,,8800072,pscis_phase1.xlsm,Barrier,6.4,0.2,-2.8,Replace with New Open Bottom Structure,15
+22,1008800076,,8800076,pscis_phase1.xlsm,Barrier,6.8,8,5,Replace with New Open Bottom Structure,30
+23,1008800130,,8800130,pscis_phase1.xlsm,Barrier,1.6,8,5,Replace Structure with Streambed Simulation CBS,3
+24,1008800140,,8800140,pscis_phase1.xlsm,Potential,8,1.7,-1.3,Replace with New Open Bottom Structure,15
+25,1008800144,,8800144,pscis_phase1.xlsm,Barrier,0.6,1,-2,Replace Structure with Streambed Simulation CBS,3
+26,1008800149,,8800149,pscis_phase1.xlsm,Barrier,10,4,1,Replace with New Open Bottom Structure,18
+27,1008801343,,8801343,pscis_phase1.xlsm,Potential,1.7,1.5,-1.5,Replace Structure with Streambed Simulation CBS,3
+28,1008801347,,8801347,pscis_phase1.xlsm,Passable,2.8,3.7,0.7000000000000002,,
+29,1008801379,,8801379,pscis_phase1.xlsm,Barrier,6.8,4,1,Replace with New Open Bottom Structure,18
+30,1008801406,,8801406,pscis_phase1.xlsm,Barrier,1.5,2.5,-0.5,Replace Structure with Streambed Simulation CBS,3
+31,1008801409,,8801409,pscis_phase1.xlsm,Barrier,2.7,3,0,Replace with New Open Bottom Structure,15
+32,1008801991,,8801991,pscis_phase1.xlsm,Unknown,,,,,
+33,1014000571,,14000571,pscis_phase1.xlsm,Barrier,2.8,8,5,Replace Structure with Streambed Simulation CBS,4.5
+34,1014000575,,14000575,pscis_phase1.xlsm,Barrier,2.2,1.5,-1.5,Replace with New Open Bottom Structure,15
+35,1014000637,,14000637,pscis_phase1.xlsm,Barrier,2,5,2,Replace with New Open Bottom Structure,21
+36,1014000638,,14000638,pscis_phase1.xlsm,Barrier,1.7,4,1,Replace Structure with Streambed Simulation CBS,3
+37,1014000707,,14000707,pscis_phase1.xlsm,Barrier,1.5,1.5,-1.5,Replace Structure with Streambed Simulation CBS,3
+38,1014000708,,14000708,pscis_phase1.xlsm,Potential,2.5,1,-2,Replace with New Open Bottom Structure,15
+39,1014000855,,14000855,pscis_phase1.xlsm,Barrier,1.9,1,-2,Replace Structure with Streambed Simulation CBS,3
+40,1014001105,,14001105,pscis_phase1.xlsm,Barrier,0.8,0.6,-2.4,Replace Structure with Streambed Simulation CBS,3
+41,1014001106,,14001106,pscis_phase1.xlsm,Barrier,1.9,0.7,-2.3,Replace Structure with Streambed Simulation CBS,3
+42,1024600461,,24600461,pscis_phase1.xlsm,Unknown,,,,,
+43,1024601268,,24601268,pscis_phase1.xlsm,Barrier,1.1,0.8,-2.2,Replace Structure with Streambed Simulation CBS,3
+44,1024601275,,24601275,pscis_phase1.xlsm,Passable,,,,,
+45,1024601279,,24601279,pscis_phase1.xlsm,Barrier,0.8,1.2,-1.8,Replace Structure with Streambed Simulation CBS,3
+46,1024601280,,24601280,pscis_phase1.xlsm,Barrier,1.8,1,-2,Replace Structure with Streambed Simulation CBS,3
 47,2023092701,,2023092701,pscis_phase1.xlsm,Barrier,1.2,1,-2,Replace Structure with Streambed Simulation CBS,3

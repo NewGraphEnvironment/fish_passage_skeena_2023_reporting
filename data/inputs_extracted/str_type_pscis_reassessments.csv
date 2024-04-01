@@ -2,10 +2,6 @@ rowid,aggregated_crossings_id,pscis_crossing_id,my_crossing_reference,source,bar
 5,8518,8518,,pscis_reassessments.xlsm,Unknown,,,,,
 6,8529,8529,,pscis_reassessments.xlsm,Passable,,,,,
 7,58067,58067,,pscis_reassessments.xlsm,Barrier,6.1,1.2,-1.8,Replace with New Open Bottom Structure,15
-8,123377,123377,,pscis_reassessments.xlsm,Barrier,4.1,1,-2,Replace with New Open Bottom Structure,15
-9,124500,124500,,pscis_reassessments.xlsm,Barrier,3.2,0.8,-2.2,Replace with New Open Bottom Structure,15
-10,197365,197365,,pscis_reassessments.xlsm,Barrier,1.5,1,-2,Replace Structure with Streambed Simulation CBS,3
-11,197640,197640,,pscis_reassessments.xlsm,Barrier,4.2,0.7,-2.3,Replace with New Open Bottom Structure,15
-12,198215,198215,,pscis_reassessments.xlsm,Barrier,4.2,4,1,Replace with New Open Bottom Structure,18
-13,198217,198217,,pscis_reassessments.xlsm,Barrier,4.5,1.2,-1.8,Replace with New Open Bottom Structure,15
-14,198225,198225,,pscis_reassessments.xlsm,Barrier,4.1,3,0,Replace with New Open Bottom Structure,15
+8,197365,197365,,pscis_reassessments.xlsm,Barrier,1.5,1,-2,Replace Structure with Streambed Simulation CBS,3
+9,197640,197640,,pscis_reassessments.xlsm,Barrier,4.2,0.7,-2.3,Replace with New Open Bottom Structure,15
+10,198225,198225,,pscis_reassessments.xlsm,Barrier,4.1,3,0,Replace with New Open Bottom Structure,15

@@ -9,7 +9,7 @@ author: |
  |
  |
  | Prepared by
- | Al Irvine, B.Sc., R.P.Bio. and Mateo Wintersheidt, B.Sc.
+ | Al Irvine, B.Sc., R.P.Bio, Mateo Wintersheidt, B.Sc, and Lucy Schick, B.Sc.
  | New Graph Environment Ltd.
  | on behalf of
  | Society for Ecosytem Restoration in Northern British Columbia
@@ -39,14 +39,14 @@ bibliography: [book.bib, packages.bib, references.bib]
 biblio-style: apalike
 link-citations: no
 github-repo: rstudio/bookdown-demo
-description: "Skeena Fish Passage Planning 2022"
+description: "Skeena Fish Passage Planning 2023"
 
 
 ---
 
 ```{r switch-gitbook-html, echo=FALSE}
 gitbook_on <- TRUE
-gitbook_on <- FALSE  ##we just need turn  this on and off to switch between gitbook and pdf via paged.js
+# gitbook_on <- FALSE  ##we just need turn  this on and off to switch between gitbook and pdf via paged.js
 
 ```
 
