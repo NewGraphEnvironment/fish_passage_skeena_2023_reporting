@@ -11,7 +11,7 @@ name_repo <- 'fish_passage_skeena_2023_reporting'
 # stub_to <- 'C:/Users/matwi/OneDrive'
 
 # need to add photos to local machine to upload to PSCIS
-stub_to <- '~/Library/CloudStorage/OneDrive-Personal'
+stub_to <- '/Users/airvine/Library/CloudStorage/OneDrive-Personal'
 
 # Photos Phase 1 submission -----------
 
@@ -19,7 +19,7 @@ stub_to <- '~/Library/CloudStorage/OneDrive-Personal'
 # path <- paste0(stub_to, '/Projects/repo/', name_repo,
 #                '/data/photos/sorted/')
 
-path <- '~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/'
+path <- '/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/'
 ##use the pscis spreadsheet to make the folders to copy the photos to
 d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase1.xlsm')
 
@@ -29,8 +29,8 @@ path_to_photos <- paste0(path, folderstocopy)
 
 
 ##here we transfer just the photos with labels over into the PSCIS directory where we will upload from to the gov interface
-targetdir = paste0(stub_to, '/Projects/PSCIS/2023/skeena/')
-dir.create(targetdir)
+targetdir = paste0(stub_to, '/Projects/PSCIS/2023/skeena/phase1')
+dir.create(targetdir, recursive = TRUE)
 
 folderstocreate<- paste0(targetdir, folderstocopy)
 
@@ -64,7 +64,7 @@ photo_sort_tracking <- path_to_photos %>%
 
 ##burn to csv
 photo_sort_tracking %>%
-  readr::write_csv(file = paste0(getwd(), '/data/photos/photo_sort_tracking_phase1.csv'))
+  readr::write_csv(file ='data/photos/photo_sort_tracking_phase1.csv')
 
 filestopaste_list <- filestocopy_list %>%
   map(tfpr_photo_change_name)
@@ -78,6 +78,13 @@ mapply(tfpr_copy_over_photos,
 file.copy(from = 'data/pscis_phase1.xlsm',
           to = paste0(targetdir, 'pscis_phase1.xlsm'),
           overwrite = T)
+
+
+# cannot run excel validation on mac or onedrive so need to load to windows machine to test for errors that the
+# macros would catch.  If there are errors, the file will not upload to the PSCIS site.  If there are no errors,
+# the file still may not upload and may return criptic errors but at least the first issues were addressed.
+
+
 
 #macros don't seem to work in one drive so copy the submission folder to a directory on my machine sing windows command line
 
