@@ -52,13 +52,13 @@ filename_html <- 'Skeena2022'
 
   # print to pdf
   pagedown::chrome_print(
-    paste0(getwd(), '/', filename_html, '.html'),
-    output = paste0(getwd(),'/docs/', filename_html, '.pdf'),
+    paste0(filename_html, '.html'),
+    output = paste0('docs/', filename_html, '.pdf'),
     timeout = 180
   )
 
   # reduce the size
-  tools::compactPDF(paste0(getwd(), "/docs/", filename_html, ".pdf"),
+  tools::compactPDF(paste0("docs/", filename_html, ".pdf"),
                     gs_quality = 'screen',
                     ##this was on the windows machine
                     # gs_cmd = "C:/Program Files/gs/gs9.56.1/bin/gswin64.exe"
@@ -66,7 +66,7 @@ filename_html <- 'Skeena2022'
   )
 
   # get rid of the html as its too big and not needed
-  file.remove(paste0(getwd(), '/', filename_html, '.html'))
+  file.remove(paste0(filename_html, '.html'))
 
 }
 
