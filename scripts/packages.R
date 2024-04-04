@@ -33,7 +33,6 @@ pkgs_cran <- c(
   'leaflet.extras',
   'ggdark',
   'pdftools',
-  'pacman',
   'chron',
   'leafpop',
   'exifr',
@@ -49,7 +48,6 @@ pkgs_gh <- c(
   "newgraphenvironment/fpr",
   "poissonconsulting/fwapgr",
   'poissonconsulting/poisspatial',
-  "crsh/citr",
   "poissonconsulting/fishbc"
 )
 
