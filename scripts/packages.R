@@ -12,8 +12,8 @@ pkgs_cran <- c(
   'leaflet',
   'kableExtra',
   'httr',
-  'RPostgres',
-  'RPostgreSQL',
+  # 'RPostgres',
+  # 'RPostgreSQL',
   'DBI',
   'magick',
   'bcdata',
@@ -22,13 +22,11 @@ pkgs_cran <- c(
   'knitr',
   'data.table',
   'lubridate',
-  'forcats',
   'bookdown',
   'fasstr',
   'tidyhydat',
   'elevatr',
   'rayshader',
-  'geojsonio',
   'english',
   'leaflet.extras',
   'ggdark',
@@ -36,12 +34,8 @@ pkgs_cran <- c(
   'chron',
   'leafpop',
   'exifr',
-  'chron',
   'pagedown',
   'devtools'
-  # geojsonsf,
-  # bit64 ##to make integer column type for pg
-  # gert  ##to track git moves
 )
 
 pkgs_gh <- c(
@@ -66,17 +60,3 @@ lapply(pkgs_ld,
        require,
        character.only = TRUE)
 
-# for a fresh install of R
-# lapply(package_list,
-#        install.packages,
-#        character.only = TRUE)
-
-# we need the development version of pagedown as of 20200303 https://github.com/rstudio/pagedown/issues/265
-# remotes::install_github('rstudio/pagedown')
-
-
-# custom package
-# devtools::install_github("NewGraphEnvironment/fpr"
-#                          ,ref="main"
-#                          ,auth_token = git_token
-# )
