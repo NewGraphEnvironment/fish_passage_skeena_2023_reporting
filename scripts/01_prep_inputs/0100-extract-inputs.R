@@ -150,41 +150,7 @@ dbDisconnect(conn = conn)
 pscis_all_sf <- dat
 
 ##get the road info from the database
-conn <- DBI::dbConnect(
-  RPostgres::Postgres(),
-  dbname = Sys.getenv('PG_DB_SHARE'),
-  host = Sys.getenv('PG_HOST_SHARE'),
-  port = Sys.getenv('PG_PORT_SHARE'),
-  user = Sys.getenv('PG_USER_SHARE'),
-  password = Sys.getenv('PG_PASS_SHARE')
-)
-
-#
-# ##listthe schemas in the database
-dbGetQuery(conn,
-           "SELECT schema_name
-           FROM information_schema.schemata")
-# #
-# #
-# # # ##list tables in a schema
-dbGetQuery(conn,
-           "SELECT table_name
-           FROM information_schema.tables
-           WHERE table_schema='bcfishpass'")
-# # # # #
-# # # # # ##list column names in a table
-dbGetQuery(conn,
-           "SELECT column_name,data_type
-           FROM information_schema.columns
-           WHERE table_name='modelled_crossings_closed_bottom'")
-
-dbGetQuery(conn,
-           "SELECT column_name,data_type
-           FROM information_schema.columns
-           WHERE table_name='crossings'")
-
-
-# test <- dbGetQuery(conn, "SELECT * FROM bcfishpass.waterfalls")
+conn <- fpr::fpr_db_conn()
 
 # add a unique id - we could just use the reference number
 pscis_all_sf$misc_point_id <- seq.int(nrow(pscis_all_sf))
@@ -231,14 +197,7 @@ dbDisconnect(conn = conn)
 
 ##we also need to know if the culverts are within a municipality so we should check
 ##get the road info from our database
-conn <- DBI::dbConnect(
-  RPostgres::Postgres(),
-  dbname = dbname_wsl,
-  host = host_wsl,
-  port = port_wsl,
-  user = user_wsl,
-  password = password_wsl
-)
+conn <- fpr::fpr_db_conn()
 
 # load to database
 sf::st_write(obj = pscis_all_sf, dsn = conn, Id(schema= "working", table = "misc"))
