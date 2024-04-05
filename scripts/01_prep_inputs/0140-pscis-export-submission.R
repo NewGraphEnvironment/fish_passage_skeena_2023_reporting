@@ -80,6 +80,17 @@ file.copy(from = 'data/pscis_phase1.xlsm',
           overwrite = T)
 
 
+# need to deal with https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues/55
+error_unrezised_perhaps <- magick::image_read("/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/PSCIS/2023/skeena/phase1/8801379/TimePhoto_20230926_110112_downstream.jpg")
+magick::image_info(error_unrezised_perhaps)
+
+file.copy(from = "/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/8801379/TimePhoto_20230926_110112_downstream.jpg",
+          to = "/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/PSCIS/2023/skeena/phase1/8801379/TimePhoto_20230926_110112_downstream.jpg",
+          overwrite = TRUE)
+
+resized_image <- magick::image_read("/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/PSCIS/2023/skeena/phase1/8801379/TimePhoto_20230926_110112_downstream.jpg")
+magick::image_info(resized_image)
+
 # cannot run excel validation on mac or onedrive so need to load to windows machine to test for errors that the
 # macros would catch.  If there are errors, the file will not upload to the PSCIS site.  If there are no errors,
 # the file still may not upload and may return criptic errors but at least the first issues were addressed.
