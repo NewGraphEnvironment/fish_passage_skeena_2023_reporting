@@ -1,18 +1,10 @@
 # Re-tidy data from the field forms that was once cleaned with 01_pscis_tidy.R.
-# cache the current comments in `assessment_comment2`, concatenate all `discuss` and `notes` columns and add the moti
-# crossing IDs
-
-# name the project directory we are pulling from
-# dir_project <- 'sern_skeena_2023'
-#
-# # back up the current copy of the form
-#
-# form_pscis <- sf::st_read(
-#   paste0(
-#     '../../gis/',
-#     dir_project,
-#     '/data_field/2023/form_pscis_2023.gpkg')
-# )
+# NOTE AL 20240404 - some of this is an out of step workflow that was used because we were redoing past revisions of the form
+# and are adding columns that were not in the form at the time of assessment
+#  caching old assessment_comments as assessment_comments2 as a backup due to out of step workflow
+#  removing the moti crossing IDs from the assessment_comments as we will be adding later after all the new moti culvert IDs are added
+#  adding new columns for priority, citation keys and moti crossing IDs
+#  reordering the columns to make it easier to make edits in QGIS
 
 path <- "~/Projects/gis/sern_skeena_2023/data_field/2023/form_pscis_2023.gpkg"
 
@@ -25,9 +17,7 @@ form_pscis <- fpr_sp_gpkg_backup(
   write_to_rdata = TRUE,
   return_object = TRUE)
 
-t <- as_tibble(form_pscis$assessment_comment)
 
-# refresh the form so that we can amalgamate all the commments and moti/time info after QGIS review
 form_pscis_refreshed <- form_pscis %>%
   dplyr::mutate(
     # back up the updated assessment comments so we can redo this amalgamation of text if we need to
@@ -43,6 +33,7 @@ form_pscis_refreshed <- form_pscis %>%
          assessment_comment = str_split(assessment_comment,
                                         pattern = "\\s+\\d{2}:\\d{2}",
                                         simplify = TRUE)[, 1],
+         # THESE NEW COLUMNS WILL BE SUPERSEEDED BY COLUMNS BUILT INTO THE FORM AS PER https://github.com/NewGraphEnvironment/dff-2022/issues/119
          # we need more MoTi structure columns so that we can add multiple structure IDs in Q)
          moti_chris_culvert_id2 = NA_integer_,
          moti_chris_culvert_id3 = NA_integer_,
@@ -65,10 +56,7 @@ form_pscis_refreshed <- form_pscis %>%
     everything()) %>%
   arrange(crew_members, date_time_start)
 
-
-
 # burn cleaned copy to QGIS project gpkg, the pscis clean section can be repeated again when changes are made in Q
-# if we don't name the layer - the layer becomes the filename sans extension
 form_pscis_refreshed %>%
   sf::st_write(path, append = FALSE,
                delete_dsn = TRUE)
