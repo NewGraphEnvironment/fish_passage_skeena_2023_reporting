@@ -12,6 +12,9 @@ preview_chapter('0100-intro.Rmd')
 source('scripts/02_reporting/0180-photos-extract-metadata.R')
 
 {
+
+  news_to_appendix()
+
   # These files are included in the gitbook version already so we move them out of the build
   files_to_move <- list.files(pattern = ".Rmd$") %>%
     stringr::str_subset(., '2300', negate = F) #move the attachments out
@@ -37,7 +40,7 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
 
 
 # define the _bookfile_name from _bookdown.yml
-filename_html <- 'Skeena2022'
+filename_html <- 'fish_passage_skeena_2023'
 
 {
 
@@ -76,7 +79,7 @@ filename_html <- 'Skeena2022'
 
 
 files_to_move <- list.files(pattern = ".Rmd$") %>%
-  stringr::str_subset(., 'index|Skeena2022|0600', negate = T)
+  stringr::str_subset(., 'index|fish_passage_skeena_2023|0600', negate = T)
 files_destination <- paste0('hold/', files_to_move)
 
 ##move the files
