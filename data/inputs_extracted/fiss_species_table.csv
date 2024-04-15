@@ -1,0 +1,50 @@
+Scientific Name,Species Name,Species Code,BC List,Provincial FRPA,COSEWIC,SARA,Morice,Zymoetz,Kispiox
+Catostomus catostomus,Longnose Sucker,LSU,Yellow,NA,NA,NA,Yes,Yes,Yes
+Catostomus commersonii,White Sucker,WSU,Yellow,NA,NA,NA,Yes,NA,Yes
+Catostomus macrocheilus,Largescale Sucker,CSU,Yellow,NA,NA,NA,Yes,Yes,Yes
+Coregonus clupeaformis,Lake Whitefish,LW,Yellow,NA,NA,NA,Yes,NA,Yes
+Cottus aleuticus,Coastrange Sculpin (formerly Aleutian Sculpin),CAL,Yellow,NA,NA,NA,Yes,NA,Yes
+Cottus asper,Prickly Sculpin,CAS,Yellow,NA,NA,NA,Yes,Yes,Yes
+Cottus cognatus,Slimy Sculpin,CCG,Yellow,NA,NA,NA,NA,NA,Yes
+Couesius plumbeus,Lake Chub,LKC,Yellow,NA,DD,NA,Yes,NA,Yes
+Entosphenus tridentatus,Pacific Lamprey,PL,Yellow,NA,NA,NA,Yes,NA,NA
+Gasterosteus aculeatus,Threespine Stickleback,TSB,Yellow,NA,NA,NA,NA,NA,Yes
+Lota lota,Burbot,BB,Yellow,NA,NA,NA,Yes,Yes,Yes
+Mylocheilus caurinus,Peamouth Chub,PCC,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus clarkii,Cutthroat Trout,CT,No Status,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus clarkii,Cutthroat Trout (Anadromous),ACT,No Status,NA,NA,NA,NA,Yes,Yes
+Oncorhynchus clarkii clarkii,Coastal Cutthroat Trout,CCT,Blue,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus clarkii lewisi,Westslope (Yellowstone) Cutthroat Trout,WCT,Blue,Y (Jun 2006),SC (Nov 2016),1-SC (Feb 2010),NA,NA,Yes
+Oncorhynchus gorbuscha,Pink Salmon,PK,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus keta,Chum Salmon,CM,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus kisutch,Coho Salmon,CO,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus mykiss,Rainbow Trout,RB,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus mykiss,Steelhead,ST,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus mykiss,Steelhead (Summer-run),SST,Yellow,NA,NA,NA,Yes,NA,NA
+Oncorhynchus mykiss,Steelhead (Winter-run),WST,Yellow,NA,NA,NA,NA,Yes,Yes
+Oncorhynchus nerka,Kokanee,KO,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus nerka,Sockeye Salmon,SK,Yellow,NA,NA,NA,Yes,Yes,Yes
+Oncorhynchus tshawytscha,Chinook Salmon,CH,Yellow,NA,E/T/SC (Dec 2018),NA,Yes,Yes,Yes
+Prosopium coulterii,Pygmy Whitefish,PW,Yellow,NA,NAR (Nov 2016),NA,Yes,NA,Yes
+Prosopium williamsoni,Mountain Whitefish,MW,Yellow,NA,NA,NA,Yes,Yes,Yes
+Ptychocheilus oregonensis,Northern Pikeminnow,NSC,Yellow,NA,NA,NA,Yes,Yes,Yes
+Rhinichthys cataractae,Longnose Dace,LNC,Yellow,NA,NA,NA,Yes,Yes,Yes
+Rhinichthys falcatus,Leopard Dace,LDC,Yellow,NA,NAR (May 1990),NA,Yes,NA,NA
+Richardsonius balteatus,Redside Shiner,RSC,Yellow,NA,NA,NA,Yes,Yes,Yes
+Salvelinus confluentus,Bull Trout,BT,Blue,Y (Jun 2006),SC (Nov 2012),NA,Yes,Yes,Yes
+Salvelinus fontinalis,Brook Trout,EB,Exotic,NA,NA,NA,Yes,NA,NA
+Salvelinus malma,Dolly Varden,DV,Yellow,NA,NA,NA,Yes,Yes,Yes
+Salvelinus namaycush,Lake Trout,LT,Yellow,NA,NA,NA,Yes,NA,Yes
+NA,All Salmon,AO,NA,NA,NA,NA,NA,NA,Yes
+NA,Arctic Char,AC,NA,NA,NA,NA,Yes,NA,NA
+NA,Chub (General),CBC,NA,NA,NA,NA,NA,NA,Yes
+NA,Cutthroat/Rainbow cross,CRS,NA,NA,NA,NA,NA,NA,Yes
+NA,Dace (General),DC,NA,NA,NA,NA,Yes,NA,NA
+NA,Lamprey (General),L,NA,NA,NA,NA,Yes,NA,Yes
+NA,Minnow (General),C,NA,NA,NA,NA,Yes,NA,Yes
+NA,Salmon (General),SA,NA,NA,NA,NA,Yes,Yes,Yes
+NA,Sculpin (General),CC,NA,NA,NA,NA,Yes,Yes,Yes
+NA,Squanga,SQ,NA,NA,NA,NA,NA,NA,Yes
+NA,Stickleback (General),SB,NA,NA,NA,NA,NA,NA,Yes
+NA,Sucker (General),SU,NA,NA,NA,NA,Yes,Yes,Yes
+NA,Whitefish (General),WF,NA,NA,NA,NA,Yes,Yes,Yes
