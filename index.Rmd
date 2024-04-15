@@ -40,6 +40,7 @@ biblio-style: apalike
 link-citations: no
 github-repo: rstudio/bookdown-demo
 description: "Skeena Fish Passage Planning 2023"
+lof: TRUE
 
 
 ---
@@ -49,6 +50,12 @@ gitbook_on <- TRUE
 # gitbook_on <- FALSE  ##we just need turn  this on and off to switch between gitbook and pdf via paged.js
 
 ```
+
+```{r jquery, echo=FALSE, eval=FALSE}
+#see https://github.com/NewGraphEnvironment/mybookdown-template/issues/16
+htmltools::tagList(rmarkdown::html_dependency_jquery())
+```
+
 
 ```{r setup, echo=identical(gitbook_on, TRUE), include = TRUE}
 knitr::opts_chunk$set(echo=identical(gitbook_on, TRUE), message=FALSE, warning=FALSE, dpi=60, out.width = "100%")
@@ -72,9 +79,9 @@ font_set <- 9
 
 ```{r}
 source('scripts/packages.R')
-source('scripts/tables.R')
-source('scripts/moti_climate.R')
-source('scripts/functions.R')
+# source('scripts/tables.R')
+# source('scripts/moti_climate.R')
+# source('scripts/functions.R')
 ```
 
 
