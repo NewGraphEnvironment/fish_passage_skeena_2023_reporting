@@ -1,8 +1,8 @@
 # install.packages('pak')
 
 pkgs_cran <- c(
-  #'plotKML', #this takes forever to load so going to leave it out for now
-  'raster', #load this dog before dplyr yo
+  #'plotKML', #this takes forever to load - and doesn't work due to rgdal depends so going to leave it out for now
+  'raster', #load this dog before dplyr
   'tidyverse',
   'readwritesqlite',
   'sf',
@@ -12,8 +12,7 @@ pkgs_cran <- c(
   'leaflet',
   'kableExtra',
   'httr',
-  # 'RPostgres',
-  # 'RPostgreSQL',
+  'RPostgres',
   'DBI',
   'magick',
   'bcdata',
@@ -26,7 +25,6 @@ pkgs_cran <- c(
   'fasstr',
   'tidyhydat',
   'elevatr',
-  'rayshader',
   'english',
   'leaflet.extras',
   'ggdark',

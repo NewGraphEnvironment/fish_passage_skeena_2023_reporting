@@ -100,3 +100,10 @@ fpr::fpr_photo_resize_convert(photo = "/Users/airvine/Library/CloudStorage/OneDr
 
 resized_image <- magick::image_read("/Users/airvine/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/8801379/TimePhoto_20230926_110112_downstream.jpg")
 magick::image_info(resized_image)
+
+
+# same error... lets look at an amalgamated photo for clues
+fpr_photo_amalg_cv(site_id = 8801379,
+                   dir_photos = "~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/")
+
+# looks fine.  will replace with no_photo.jpg and try submitting again
