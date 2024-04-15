@@ -38,7 +38,7 @@ form_pscis_refreshed <- form_pscis %>%
          moti_chris_culvert_id2 = NA_integer_,
          moti_chris_culvert_id3 = NA_integer_,
          # we may as well have a place for priority follow up ranking and citation keys too.
-         # no fix, low, medium and high.  Justify why in the assessment comments
+         # no fix, low, medium (should actually be mod - whoops) and high.  Justify why in the assessment comments
          my_priority = NA_character_,
          my_citation_key1 = NA_character_,
          my_citation_key2 = NA_character_,
@@ -64,21 +64,16 @@ form_pscis_refreshed %>%
 # burn to version controlled csv, so changes can be viewed on git
 # this is actually pretty ugly because even one minor change in a row and git sees the whole row change
 # that is b/c git is for code and not designed for data.  We should use a different diff tool for this but we are not there yet
-
-form_pscis_refreshed %>%
-  readr::write_csv('data/backup/form_pscis_2023.csv', na='')
-
-# we will also save the refreshed form as an RData file so we can easily reload it in the future
+# we can also save the refreshed form as an RData file so we can easily reload it in the future
 # use fpr to be consistent as far as row order issue #57
-
-# we actually grab it back from Q
+# we  grab it back from Q
 fpr_sp_gpkg_backup(
   path_gpkg = path,
   update_utm = TRUE,
   update_site_id = TRUE,
   write_back_to_path = FALSE,
   write_to_csv = TRUE,
-  # b/c we see no changes to the csv we know the rdata change is just metadata
+  # whenever we see no changes to the csv we know the rdata change is just metadata
   # so we git checkout data/backup/form_pscis_2023.RData (revert changes to last commit) and turn this false and rerun
   write_to_rdata = TRUE,
   return_object = FALSE)
