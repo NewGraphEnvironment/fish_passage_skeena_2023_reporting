@@ -1,8 +1,3 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: console
----
 # Background
 
 The study area includes the Bulkley River, Zymoetz River, Kispiox River and Morice River watershed groups (Figure \@ref(fig:overview-map)) and is within the traditional territories of the Gitxsan and Wet'suwet'en.
@@ -235,7 +230,7 @@ Summaries of historical fish observations in the Bulkley River and Morice River 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("<br><br><br><br>")`
 
 ```{r fiss-species-table}
-fiss_species_table <- readr::read_csv(paste0(getwd(), '/data/inputs_extracted/fiss_species_table.csv'))
+fiss_species_table <- readr::read_csv('data/inputs_extracted/fiss_species_table.csv')
 
 fiss_species_table %>% 
   fpr::fpr_kable(caption_text = 'Fish species recorded in the Morice River, Zymoetz River, and Kispiox River watershed groups.', 
