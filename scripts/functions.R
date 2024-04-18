@@ -354,7 +354,6 @@ lfpr_create_hydrograph <- function(
   tidyhat_info <- tidyhydat::search_stn_number(station)
 
 
-
   ##### Hydrograph Pane #####
 
   ##build caption for the pane figure
@@ -370,9 +369,16 @@ lfpr_create_hydrograph <- function(
 
   if (pane_hydat == TRUE){
     #Create pane of hydrographs with "Mean", "Minimum", "Maximum", and "Standard Deviation" flows
-    hydrograph_stats_print <- fasstr::plot_data_screening(station_number = station, start_year = start_year,
+    hydrograph_data <- fasstr::plot_data_screening(station_number = station, start_year = start_year,
                                                           include_stats = c("Mean", "Minimum", "Maximum", "Standard Deviation"),
-                                                          plot_availability = FALSE)[["Data_Screening"]] + ggdark::dark_theme_bw() ##first version is not dark
+                                                          plot_availability = FALSE
+                                                          )[["Data_Screening"]]
+
+      # Plot hydrographs with the appropriate date format on the x-axis
+      hydrograph_stats_print <- hydrograph_data +
+        ggdark::dark_theme_bw() +
+        theme(axis.text.x = element_text(angle = 45, hjust=1))
+
     hydrograph_stats_print
 
     #Save hydrograph pane
