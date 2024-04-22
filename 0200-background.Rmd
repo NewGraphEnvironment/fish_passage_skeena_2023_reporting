@@ -419,7 +419,7 @@ Summaries of historical fish observations in the Bulkley River and Morice River 
 fiss_species_table <- readr::read_csv('data/inputs_extracted/fiss_species_table.csv')
 
 fiss_species_table %>% 
-  fpr::fpr_kable(caption_text = 'Fish species recorded in the Morice River, Zymoetz River, and Kispiox River watershed groups.', 
+  fpr::fpr_kable(caption_text = 'Fish species recorded in the Morice River, Bulkley River, Zymoetz River, Kispiox River, and Kitsumkalum River watershed groups.', 
                  footnote_text = 'COSEWIC abbreviations : 
                  SC - Special concern 
                  DD - Data deficient

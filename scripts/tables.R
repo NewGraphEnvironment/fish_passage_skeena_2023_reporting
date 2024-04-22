@@ -4,8 +4,8 @@
 
 
 # add project specific variables ------------------------------------------
-filename_html <- 'Skeena2022'
-repo_name <- 'fish_passage_skeena_2022_reporting'
+filename_html <- 'Skeena2023'
+repo_name <- 'fish_passage_skeena_2023_reporting'
 maps_location <- 'https://hillcrestgeo.ca/outgoing/fishpassage/projects/bulkley/archive/2022-05-02/'
 maps_location_zip <- 'https://hillcrestgeo.ca/outgoing/fishpassage/projects/bulkley/archive/2022-05-02/bulkley_2022-05-02.zip'
 
