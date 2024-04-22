@@ -1,13 +1,11 @@
-# this file imports our data and builds the tables we need for our reporting
+# Import our data and builds the tables we need for our reporting
 
 
+# this is the name of the funding project we used to submit our data to the province.  we use it to filter the raw
+# pscis data for our entire study area to just the data we submitted
+my_funding_project_number = "skeena_2023_Phase1"
 
 
-# add project specific variables ------------------------------------------
-filename_html <- 'Skeena2022'
-repo_name <- 'fish_passage_skeena_2022_reporting'
-maps_location <- 'https://hillcrestgeo.ca/outgoing/fishpassage/projects/bulkley/archive/2022-05-02/'
-maps_location_zip <- 'https://hillcrestgeo.ca/outgoing/fishpassage/projects/bulkley/archive/2022-05-02/bulkley_2022-05-02.zip'
 
 
 pscis_list <- fpr::fpr_import_pscis_all()
@@ -20,22 +18,9 @@ pscis_all_prep <- pscis_list %>%
 
 # for now convert to pscis_all since we are not ready for the wshds yet
 
-# this is a workaround for the wshd area since it is now dropped from the crossings table
-# wshds <- sf::read_sf('data/fishpass_mapping/fishpass_mapping.gpkg', layer = 'hab_wshds')
-
-##lets add in the xref pscis id info - this is made from 01_prep_data/0140-extract-crossings-xref.R
-# xref_pscis_my_crossing_modelled <- readr::read_csv(
-#   file = paste0(getwd(),
-#                 '/data/inputs_extracted/xref_pscis_my_crossing_modelled.csv'))
-  # mutate(external_crossing_reference = as.numeric(external_crossing_reference)) %>%
-  # rename(my_crossing_reference = external_crossing_reference)
-
-
 
 # import data from sqlite -------------------------------------------------
-
-
-#this is our new db made from 0282-extract-bcfishpass2-crossing-corrections.R and 0290
+#this is our new db made from load-bcfishpass-data.R and 0290
 conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 readwritesqlite::rws_list_tables(conn)
 bcfishpass_phase2 <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) %>%
@@ -45,24 +30,27 @@ bcfishpass_phase2 <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) 
   filter(!is.na(stream_crossing_id))
 bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) %>%
   mutate(ch_cm_co_pk_sk_network_km = round(ch_cm_co_pk_sk_network_km,2))
-# bcfishpass_archive <- readwritesqlite::rws_read_table("bcfishpass_archive_2022-03-02-1403", conn = conn)
-bcfishpass_column_comments <- readwritesqlite::rws_read_table("bcfishpass_column_comments", conn = conn)
-# bcfishpass_archived <- readwritesqlite::rws_read_table("bcfishpass_morr_bulk_archive", conn = conn) %>%
-#   mutate(downstream_route_measure = as.integer(downstream_route_measure))
 # pscis_historic_phase1 <- readwritesqlite::rws_read_table("pscis_historic_phase1", conn = conn)
 bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn_rear_model", conn = conn)
 # tab_cost_rd_mult <- readwritesqlite::rws_read_table("rd_cost_mult", conn = conn)
-rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
-xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
-#
-wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) %>%
-   mutate(aspect = as.character(aspect))
+# rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
+pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
+
+# wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) %>%
+#    mutate(aspect = as.character(aspect))
 
 photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
 # # fiss_sum <- readwritesqlite::rws_read_table("fiss_sum", conn = conn)
 rws_disconnect(conn)
 
-tab_cost_rd_mult <- readr::read_csv(paste0(getwd(), '/data/inputs_raw/tab_cost_rd_mult.csv'))
+xref_pscis_my_crossing_modelled <- pscis_assessment_svw |>
+  dplyr::filter(funding_project_number == my_funding_project_number) |>
+  dplyr::select(external_crossing_reference, stream_crossing_id) |>
+  dplyr::arrange(external_crossing_reference)
+
+bcfishpass_column_comments <- fpr::fpr_xref_crossings
+
+tab_cost_rd_mult <- readr::read_csv('data/inputs_raw/tab_cost_rd_mult.csv')
 
 # this doesn't work till our data loads to pscis
 pscis_all <- left_join(
