@@ -34,7 +34,7 @@ utm <- 9
 #                       format(lubridate::now(), "%Y%m%d"),'.gpkg'), append=FALSE)
 
 
----------TO DEAL with ISSUE #16 we needed and extra backup version --------------------
+#---------TO DEAL with ISSUE #16 we needed and extra backup version --------------------
 # read in the cleaned fiss form and archive
 dir.create(paste0('../../gis/', dir_gis, '/data_field/2023/archive'))
 form_fiss_site_raw_prep <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg')) %>%
@@ -108,7 +108,7 @@ form_fiss_site_cleaned %>%
   sf::st_write(paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg'), append=FALSE, delete_dsn = T)
 
 
-# -----------------read in form after reveiw and finalization in QGIS------------------
+# -----------------read in form after review and finalization in QGIS------------------
 # read in the form
 form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg')) %>%
   # need to convert date type b/c gpkg and excel import differently
@@ -119,10 +119,8 @@ names(form_fiss_site_raw)
 
 # let's get the names of the input template
 # there is lots of work to do to pull out all the information we can use so we will start with one small step at a time
-# lets just populate the location and site info pages for now and then move on to the other information later
-form_raw_names_site <- fpr::fpr_import_hab_con(
-  "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
-  backup = F,
+# lets just populate the location and site info pages.
+form_raw_names_site <- fpr::fpr_import_hab_con(backup = F,
   row_empty_remove = T) %>%
   # pull out just the site info page for now
   pluck(4) %>%
@@ -130,14 +128,14 @@ form_raw_names_site <- fpr::fpr_import_hab_con(
   names()
 
 # location names
-form_raw_names_location <- fpr::fpr_import_hab_con(
-  "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
-  backup = F,
+form_raw_names_location <- fpr::fpr_import_hab_con(backup = F,
   row_empty_remove = T) %>%
   # pull out just the site info page for now
   pluck(1) %>%
   # only keep the names of the columns
   names()
+
+
 
 # we don't want duplicate column names because it messes with them (renames them both) so we need to get rid of dupes
 names_dup <- intersect(form_raw_names_site, form_raw_names_location)
@@ -159,13 +157,13 @@ form_site_info_prep <- form_fiss_site_raw %>%
 form_fiss_loc <- bind_rows(
 
   # we need the raw form or we don't have all the right columns
-  fpr::fpr_import_hab_con("../dff-2022/data/templates/FDS_Template2023-05-03.xls",
-                          backup = F,
+  fpr::fpr_import_hab_con(backup = F,
                           row_empty_remove = T) %>%
     # pull out just the site info page for now
-    pluck(1) %>%
+    pluck("step_1_ref_and_loc_info") %>%
     mutate(survey_date = lubridate::as_date(survey_date)) %>%
-    slice(0),
+    slice(0) %>%
+    mutate(dewatered_dry_int_channel = as.character(dewatered_dry_int_channel)),
 
   form_site_info_prep %>%
     sf::st_drop_geometry() %>%
@@ -173,21 +171,23 @@ form_fiss_loc <- bind_rows(
     rename(alias_local_name = local_name,
            gazetted_name = gazetted_names) %>%
     mutate(utm_method = as.character(utm_method)) %>%
-    select(rowid,
-           dplyr::any_of(form_raw_names_location))
-)
+    select(rowid, dplyr::any_of(form_raw_names_location))) %>%
+  mutate(site_number = dplyr::row_number(),
+         reference_number = dplyr::row_number())
+
+
 
 # make the site form
 form_fiss_site <- bind_rows(
 
   # we need the raw form or we don't have all the right columns
-  fpr::fpr_import_hab_con(
-    "../dff-2022/data/templates/FDS_Template2023-05-03.xls",
-    backup = F,
+  a <- fpr::fpr_import_hab_con(backup = F,
     row_empty_remove = T) %>%
     # pull out just the site info page for now
     pluck("step_4_stream_site_data") %>%
-    slice(0),
+    slice(0) %>%
+    mutate(feature_height_length_method = as.character(feature_height_length_method),
+           utm_method = as.character(utm_method)),
 
   form_site_info_prep %>%
     sf::st_drop_geometry() %>%
@@ -201,6 +201,8 @@ form_fiss_site <- bind_rows(
   select(rowid, everything())
 
 # burn to file
+# The following fields need to be added by hand in the spreadsheet:
+# UTM method, No Visible Channel, Dewatered-Dry/Int Channel, Waterbody (ID) Identifier (this should be scripted eventually)
 form_fiss_loc %>%
   readr::write_csv(paste0(
     'data/inputs_extracted/form_fiss_loc_tidy',
@@ -208,6 +210,7 @@ form_fiss_loc %>%
     # format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
+
 
 form_fiss_site %>%
   readr::write_csv(paste0(
@@ -217,3 +220,4 @@ form_fiss_site %>%
     '.csv'),
     na = '')
 
+## Next populate step 3 in fish_data_tidy.R then populate step 2 in extract_inputs.R.
