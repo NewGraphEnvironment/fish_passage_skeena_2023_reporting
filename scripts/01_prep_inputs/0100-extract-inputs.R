@@ -590,6 +590,7 @@ hab_loc <- habitat_confirmations %>%
   dplyr::filter(!is.na(site_number))%>%
   mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))
 
+
 ##add the species code
 hab_fish_codes <- fishbc::freshwaterfish %>%
   select(species_code = Code, common_name = CommonName) %>%
@@ -755,6 +756,9 @@ plot_fish_hist
 
 
 ####-----------summary tables for input to spreadsheet----------------------
+dir_gis <- 'sern_skeena_2023'
+year <-  "2023"
+
 hab_fish_input_prep <- hab_fish_indiv %>%
   group_by(across(-contains(c('length_mm', 'weight_g')))) %>%
   # group_by(reference_number:model, species_code, life_stage) %>%
@@ -765,7 +769,7 @@ hab_fish_input_prep <- hab_fish_indiv %>%
 
 
 ##need to add the species name
-hab_fish_input <- left_join(
+hab_fish_input_prep2 <- left_join(
   hab_fish_input_prep,
   select(hab_fish_codes, common_name, species_code),
   by = 'species_code'
@@ -778,9 +782,7 @@ hab_fish_input <- left_join(
   )) %>%
   mutate(age = '') %>%
   select(reference_number,
-         local_name,
          site,
-         temperature_c:turbidity,
          sampling_method:haul_number_pass_number,
          ef_seconds:model,
          date_in:time_out,
@@ -793,17 +795,53 @@ hab_fish_input <- left_join(
          # a hack to get number of columns right
          fish_activity = age,
          comments) %>%
-  mutate(model = case_when(local_name %like% 'ef' ~ 'halltech HT2000'),
-         make = case_when(local_name %like% 'ef' ~ 'other')) %>%
   mutate(total_number = case_when(
     species == 'No Fish Caught' ~ NA_integer_,
     T ~ total_number
   )) #%>% ths was commented out because it was changing the character types of columns
   #janitor::adorn_totals()   ##use this to ensure you have the same number of fish in the summary as the individual fish sheet
 
-##burn to a csv so you can cut and paste into your fish submission
+
+## Read in form_fiss to get the following fields: Temp, conductivity, turbidity, and site length.
+form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_', year, '.gpkg')) %>%
+  st_drop_geometry()
+
+
+## Read in step_4_stream_site_data to get the average wetted width which is the site width
+hab_site_dat_raw <- habitat_confirmations %>%
+  purrr::pluck("step_4_stream_site_data") %>%
+  dplyr::filter(!is.na(site_number))
+
+
+## Join columns together so we can add them to the fish data (hab_fish_input_prep2)
+hab_site_dat <- left_join(form_fiss_site_raw %>%
+                            select(local_name, temperature_c, conductivity_m_s_cm, turbidity, site_length),
+                          hab_site_dat_raw %>%
+                            select(reference_number, local_name, avg_wetted_width_m) %>%
+                            mutate(avg_wetted_width_m = round(avg_wetted_width_m, digits = 2)),
+                          by = 'local_name')
+
+## Join the fish data with the site data
+hab_fish_input <- left_join(hab_fish_input_prep2,
+                            hab_site_dat,
+                            by = 'reference_number') %>%
+  # Order like template
+  relocate(temperature_c, conductivity_m_s_cm, turbidity, .after = site) %>%
+  relocate(local_name, .after = reference_number) %>%
+  # Rename columns
+  mutate(ef_length_m = site_length,
+         ef_width_m = avg_wetted_width_m) %>%
+  # Now we can remove these columns
+  select(-site_length, -avg_wetted_width_m) %>%
+  # Add in make and model of ef
+  mutate(model = case_when(local_name %like% 'ef' ~ 'halltech HT2000'),
+         make = case_when(local_name %like% 'ef' ~ 'other'),
+         method_number = "1")
+
+## Burn to a csv so you can cut and paste into your fish submission
+## The following fields need to be added by hand from the fish cards: sampling_method, ef_seconds, enclosure, voltage, frequency
 hab_fish_input %>%
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/hab_con_fish_summary.csv'),
+  readr::write_csv(file = paste0('data/inputs_extracted/hab_con_fish_summary.csv'),
                    na = "")
 
 
