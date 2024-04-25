@@ -5,9 +5,6 @@
 # pscis data for our entire study area to just the data we submitted
 my_funding_project_number = "skeena_2023_Phase1"
 
-
-
-
 pscis_list <- fpr::fpr_import_pscis_all()
 pscis_phase1 <- pscis_list %>% pluck('pscis_phase1')
 pscis_phase2 <- pscis_list %>% pluck('pscis_phase2') %>%
