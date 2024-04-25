@@ -33,10 +33,11 @@ pscis_export_raw <- fpr::fpr_sp_gpkg_backup(
 #                    "198215", # Dale Creek
 #                    "123377", # thompson
 #                    "124500", # helps
+#                    "8529",  # trib to Coal Creek
 #                    "197360" # reddick - no cv ass
 # )
-#
-# # these are ones with my_crossing_reference so we need to delegate by hand
+# #
+# # # these are ones with my_crossing_reference so we need to delegate by hand P2 =phase2
 # p2 <- c(
 #   #trib to houston Tommy
 #   "14000571",
@@ -54,6 +55,8 @@ pscis_export_raw <- fpr::fpr_sp_gpkg_backup(
 #   dplyr::select(-rowid) |>
 #   tibble::rowid_to_column() |>
 #   dplyr::relocate(rowid, .after = length_or_width_meters) |>
+#   # EDIT: thinking in the future we should use assess_type_phase1, assess_type_reassessment, assess_type_phase2 with TRUE/FALSE
+#   # not going to redo though
 #   dplyr::mutate(pscis_phase = dplyr::case_when(pscis_crossing_id %in% reassessment ~ "reassessment",
 #                                                !is.na(pscis_crossing_id) & !pscis_crossing_id %in% reassessment ~ "phase2",
 #                                                my_crossing_reference %in% p2 ~ "phase2",

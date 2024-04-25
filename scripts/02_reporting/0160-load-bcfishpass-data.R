@@ -23,7 +23,7 @@ bcfishpass_spawn_rear_model <- fpr_db_query(
 
 # get all the pscis data for the watershed from the database which is updated weekly on our server
 # could consider nameing more effectively in the future
-pscis <- fpr_db_query(
+pscis_assessment_svw <- fpr_db_query(
   glue::glue(
     "SELECT p.*, wsg.watershed_group_code
    FROM whse_fish.pscis_assessment_svw p
@@ -33,15 +33,6 @@ pscis <- fpr_db_query(
   {glue::glue_collapse(glue::single_quote(wsg), sep = ', ')}
   );"
   )
-)
-
-# here is a cross reference of our `my_crossing_id` and the PSCIS ID assigned after submission
-xref_pscis_my_crossing_modelled <- rfp::rfp_bcd_get_data(
-  bcdata_record_id = "WHSE_FISH.PSCIS_ASSESSMENT_SVW",
-  col_filter = 'FUNDING_PROJECT_NUMBER',
-  col_filter_value = 'skeena_2023_Phase1',
-  col_extract = c('EXTERNAL_CROSSING_REFERENCE', 'STREAM_CROSSING_ID'),
-  drop_geom = TRUE
 )
 
 
@@ -54,14 +45,14 @@ xref_pscis_my_crossing_modelled <- rfp::rfp_bcd_get_data(
 ## May need to drop tables if this has been done before
 conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 readwritesqlite::rws_list_tables(conn)
+
 readwritesqlite::rws_write(bcfishpass, exists = F, delete = TRUE,
           conn = conn, x_name = "bcfishpass")
-readwritesqlite::rws_write(pscis, exists = F, delete = TRUE,
-          conn = conn, x_name = "pscis")
+readwritesqlite::rws_write(pscis_assessment_svw, exists = F, delete = TRUE,
+          conn = conn, x_name = "pscis_assessment_svw")
 readwritesqlite::rws_write(bcfishpass_spawn_rear_model, exists = F, delete = TRUE,
           conn = conn, x_name = "bcfishpass_spawn_rear_model")
-readwritesqlite::rws_write(xref_pscis_my_crossing_modelled, exists = F, delete = TRUE,
-                           conn = conn, x_name = "xref_pscis_my_crossing_modelled")
+
 # building the comments no longer works so we have `fpr::fpr_xref_crossings` in the meantime
 # bcfishpass_column_comments_archive <- readwritesqlite::rws_read_table("bcfishpass_column_comments", conn = conn)
 # rws_write(bcfishpass_column_comments_archive, exists = F, delete = TRUE,
