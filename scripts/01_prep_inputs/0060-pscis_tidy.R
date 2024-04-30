@@ -31,24 +31,6 @@ form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gp
 
 #---------------------pscis clean and QA only--------------------------
 
-# NOTE: once the data clean is run once it does not need to be repeated, if changes are made in Q just read in the file below,
-# and then skip to the re burn to geopackage and csv step
-
-# form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg')) %>%
-#   # assumes in albers
-#   mutate(
-#     x = sf::st_coordinates(.)[,1],
-#     y = sf::st_coordinates(.)[,2]) %>%
-#   # then grab the utms. fragile since relies on having only 1 utm zone. there
-#   # are functions somewhere to deal with this (can't remember which repo though)
-#   st_transform(crs = 26900 + utm) %>%
-#   mutate(
-#     easting = sf::st_coordinates(.)[,1],
-#     northing = sf::st_coordinates(.)[,2]) %>%
-#   # add in utm zone of study area
-#   mutate(utm_zone = utm) %>%
-#   # not sure we need to but turn non-spatial
-#   sf::st_drop_geometry()
 
 # check for duplicates
 form_pscis %>%
@@ -58,6 +40,7 @@ form_pscis %>%
 
 # check for sites that have a culvert length over 99.9 or a fill depth over 9.9,
 # anything over this will cause error in submission sheet
+# we can code in these changes in the future
 form_pscis %>%
   filter(length_or_width_meters>99.9|fill_depth_meters>9.9)
 
