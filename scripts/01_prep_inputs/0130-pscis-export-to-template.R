@@ -93,46 +93,46 @@ pscis_export_raw <- fpr::fpr_sp_gpkg_backup(
 # Time issue-----------------------------------------------------------------------------------------------------
 # Skeena 2023 PSCIS form has the incorrect time and needs to have 7hrs added to be in PDT. This is a temporary fix.
 # First double check the repaired time is correct
-pscis_correct_time_check <- pscis_export_raw %>%
+pscis_correct_time_check <- pscis_export_raw |>
   # there is perhaps a more reliable method for this issue in
   # Seems like  more reliable method way to do would be to use force_tz and with_tz since it takes into account daylight savings time
   # https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues/49
-  dplyr::mutate(date_time_start_repaired = date_time_start + hours(7)) %>%
+  dplyr::mutate(date_time_start_repaired = date_time_start + lubridate::hours(7)) |>
   dplyr::relocate(date_time_start_repaired, .after = date_time_start)
 
 # If correct -  replace - we will replace object to avoid confusino in future when we hopefully don't need this step
-pscis_export_raw <- pscis_correct_time_check %>%
-  dplyr::mutate(date_time_start = date_time_start_repaired) %>%
+pscis_export_raw <- pscis_correct_time_check |>
+  dplyr::mutate(date_time_start = date_time_start_repaired) |>
   dplyr::select(-date_time_start_repaired)
 
 
 # DON'T run this more than once because you will end up with duplicate text appended on...
-pscis_export <- pscis_export_raw %>%
+pscis_export <- pscis_export_raw |>
   # Get time to append to comments
   dplyr::mutate(date_time_start = lubridate::ymd_hms(date_time_start),
                 date = lubridate::date(date_time_start),
-                time = hms::as_hms(date_time_start)) %>%
+                time = hms::as_hms(date_time_start)) |>
   # append moti ids to comments, differentiate between highway major structure, and add time to end
-  mutate(assessment_comment = case_when(
+  dplyr::mutate(assessment_comment = dplyr::case_when(
     moti_chris_culvert_id > 1000000 ~ paste0(assessment_comment, ' MoTi chris_culvert_id: ', moti_chris_culvert_id),
     moti_chris_culvert_id < 1000000 ~ paste0(assessment_comment, ' MoTi chris_hwy_structure_road_id: ', moti_chris_culvert_id),
-    TRUE ~ assessment_comment)) %>%
-  mutate(assessment_comment = case_when(moti_chris_culvert_id2 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id2), TRUE ~ assessment_comment)) %>%
-  mutate(assessment_comment = case_when(moti_chris_culvert_id3 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id3), TRUE ~ assessment_comment)) %>%
+    TRUE ~ assessment_comment)) |>
+  dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id2 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id2), TRUE ~ assessment_comment)) |>
+  dplyr::mutate(assessment_comment = dplyr::case_when(moti_chris_culvert_id3 > 1000000 ~ paste0(assessment_comment, ', ', moti_chris_culvert_id3), TRUE ~ assessment_comment)) |>
   # add time to end
-  mutate(assessment_comment = paste0(assessment_comment, '. ', time)) %>%
+  dplyr::mutate(assessment_comment = paste0(assessment_comment, '. ', time)) |>
   # ditch time column
-  select(-time) |>
+  dplyr::select(-time) |>
   dplyr::select(
-    any_of(names(fpr_xref_template_pscis())),
+    dplyr::any_of(names(fpr::fpr_xref_template_pscis())),
     pscis_phase,
     date_time_start
-    ) %>%
+    ) |>
   # remove scoring columns, as these can't be copied and pasted anyways because of macros
-  dplyr::select(-stream_width_ratio:-barrier_result) %>%
-  sf::st_drop_geometry() %>%
+  dplyr::select(-stream_width_ratio:-barrier_result) |>
+  sf::st_drop_geometry() |>
   # arrange by phase so easy to copy/paste into correct spreadsheet
-  arrange(pscis_phase,
+  dplyr::arrange(pscis_phase,
           crew_members,
           date_time_start)
 
@@ -140,6 +140,6 @@ pscis_export <- pscis_export_raw %>%
 # write to the imports_extracted dir. This is data we import to the project but they are extracted from other places.
 dir.create("data/inputs_extracted")
 
-pscis_export %>%
+pscis_export |>
   readr::write_csv('data/inputs_extracted/pscis_export_submission.csv', na='')
 
