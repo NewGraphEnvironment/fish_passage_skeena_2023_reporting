@@ -1,24 +1,26 @@
 # #NOTE: there is a missing step here where the photos were transfered to onedrive and resized.  Not a manual
 # step but documentation may have been lacking when it was done.
 
-# make photo directories ------------------------------------------------------------
 
-# steps
+# define our shared photos location (this is where they live when they are all sorted and resized)
+dir_photos_shared = "~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/"
+
+
 # import form_pscis.gpkg direct from mergin
 dir_project <- 'sern_skeena_2023'
 
-form_pscis <- sf::st_read(dsn= paste0('../../gis/', dir_project, '/form_pscis.gpkg')) %>%
-  mutate(
-  site_id = case_when(is.na(pscis_crossing_id) ~ my_crossing_reference,
-                      T ~ pscis_crossing_id)
-) %>%
-  # remove the form making site
-  filter(site_id != '12345') %>%
+
+# NOTE - this was originally run with `form_pscis.gpkg` and sf::st_read in main directory but altered after the fact for QA down
+form_pscis <- fpr::fpr_sp_gpkg_backup(
+  path = paste0('~/Projects/gis/', dir_project, '/data_field/2023/form_pscis_2023.gpkg'),
+  update_site_id = TRUE,
+  write_to_csv = FALSE,
+  write_to_rdata = FALSE,
+  return_object = TRUE
+) |>
   arrange(site_id)
 
-# pscis_all <- fpr::fpr_import_pscis_all() %>%
-#   bind_rows()
-
+# make photo directories ------------------------------------------------------------
 
 ##create the data and photos folder (recursive param) ON ONEDRIVE yo
 # replace url of onedrive below
@@ -26,14 +28,14 @@ dir.create('onedriveurl/data/photos', recursive = T)
 
 # check for duplicate sites
 form_pscis %>%
-  filter(!is.na(site_id)) %>%
+  dplyr::filter(!is.na(site_id)) %>%
   group_by(site_id) %>%
-  filter(n()>1) %>%
+  dplyr::filter(n()>1) %>%
   nrow()
 
 # check for empty sites
 form_pscis %>%
-  filter(is.na(site_id)) %>%
+  dplyr::filter(is.na(site_id)) %>%
   nrow()
 
 # create folders ON ONEDRIVE by changing the "path" param yo!!!!! ?fpr::fpr_photo_folders
@@ -106,4 +108,136 @@ magick::image_info(resized_image)
 fpr_photo_amalg_cv(site_id = 8801379,
                    dir_photos = "~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/")
 
-# looks fine.  will replace with no_photo.jpg and try submitting again
+# what a nightmare.  needed to replace.  pretty sure this was the result of point and click windows crap to resize this
+# photo that was added after the fact - again see https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues/55
+
+#QA renamed photos-----------------------------------------------------------------------------------------------------
+# check for missing photos/duplicates with the spreadsheets as the input (default)
+fpr::fpr_photo_qa_df(dir_photos = dir_photos_shared)
+
+# check for missing photos/duplicates with our imported gpkg built dataframe
+fpr::fpr_photo_qa_df(dat = form_pscis, dir_photos = dir_photos_shared)
+
+# make sure the site_id's in the two locations are the same.  If there not use waldo::compare to sleuth it out
+identical(
+  sort(form_pscis$site_id),
+
+  sort(fpr::fpr_import_pscis_all() |>
+         dplyr::bind_rows() |>
+         distinct(site_id) |>
+         pull(site_id))
+  )
+
+
+# build photo amalgamation for each site ------------------------------------------------
+# get a list of sites to burn
+sites_l <- fpr::fpr_import_pscis_all() %>%
+  bind_rows() %>%
+  distinct(site_id) %>%
+  arrange(site_id) %>%
+  pull(site_id)
+
+# burn the amal photos to onedrive
+sites_l %>%
+  purrr::map(fpr::fpr_photo_amalg_cv, dir_photos = dir_photos_shared)
+
+# Find sites that have directories but do not have an entry in the PSCIS spreadsheets
+setdiff(
+  list.dirs(dir_photos_shared, full.names = F, recursive = F),
+
+  pscis_all %>%
+    distinct(site_id) %>%
+    arrange(site_id) %>%
+    # head() %>% #test
+    pull(site_id)
+)
+
+# result is [1] "123379" "197360" "197378" "197379" "197912" "198060"
+
+
+#make Phase 2 photo directories-----------------------------------------------------------------------------------------------------
+# for this step we copy phase 1 directories that have phase 2 events and give then the PSCIS ID. We need to do this
+# to complete the reporting
+path <- "~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos"
+
+# define our phase 1 project to speed up our call to the bc catalougue api
+funding_project_number <- 'skeena_2023_Phase1'
+
+##use the pscis spreadsheet to make the folders to copy the photos to (d is dat)
+d <- fpr::fpr_import_pscis(workbook_name = 'pscis_phase2.xlsm')
+
+# build our xref to get pscis ids - https://github.com/NewGraphEnvironment/fpr/issues/73
+# note that we don't actually need to filter this at all since its a join but it is waaay faster and we don't need all 18k records so we will
+xref_pscis_my_crossing_modelled <- rfp::rfp_bcd_get_data(
+  bcdata_record_id = "WHSE_FISH.PSCIS_ASSESSMENT_SVW",
+  col_filter = 'FUNDING_PROJECT_NUMBER',
+  # this part is project specific!
+  col_filter_value = funding_project_number,
+  col_extract = c('EXTERNAL_CROSSING_REFERENCE', 'STREAM_CROSSING_ID'),
+  drop_geom = TRUE
+)
+
+pscis_new_sites <- dplyr::left_join(
+  d,
+  xref_pscis_my_crossing_modelled,
+  by = c('pscis_crossing_id' = 'stream_crossing_id')
+) %>%
+  dplyr::filter(!is.na(external_crossing_reference))
+
+folderstocopy <- pscis_new_sites$external_crossing_reference |>
+  as.character()
+
+folders_new_names <- pscis_new_sites$pscis_crossing_id |>
+  as.character()
+
+path_to_photos <- paste0(path, folderstocopy)
+
+folderstocreate <- paste0(path, folders_new_names)
+
+##create the folders
+lapply(folderstocreate, dir.create)
+
+
+paths_to_copy <- function(target){
+  list.files(path = target,
+             pattern = ".JPG$",
+             recursive = TRUE,
+             full.names = T,
+             include.dirs = T)
+  # stringr::str_subset(., 'barrel|outlet|upstream|downstream|road|inlet')
+}
+
+photo_names_to_copy <- function(target){
+  list.files(path = target,
+             pattern = ".JPG$",
+             recursive = TRUE,
+             full.names = F,
+             include.dirs = T)
+  # stringr::str_subset(., 'barrel|outlet|upstream|downstream|road|inlet')
+}
+
+
+filestocopy_list <- path_to_photos %>%
+  purrr::map(paths_to_copy)
+
+change_file_names <- function(filestocopy, filename_before, filename_after){
+  gsub(filestocopy, pattern = filename_before, replacement = filename_after)
+}
+
+
+filestopaste_list <- mapply(change_file_names, filestocopy_list, folderstocopy, folders_new_names)
+
+copy_over_photos <- function(filescopy, filespaste){
+  file.copy(from=filescopy, to=filespaste,
+            overwrite = T,
+            copy.mode = TRUE)
+}
+
+mapply(copy_over_photos, filescopy =  filestocopy_list,
+       filespaste = filestopaste_list)
+
+
+
+
+#make amalgamated photos
+fpr::fpr_photo_amalg_cv()
