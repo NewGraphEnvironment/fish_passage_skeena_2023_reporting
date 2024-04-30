@@ -451,3 +451,12 @@ news_to_appendix <- function(
     rmd_name
   )
 }
+
+# looks like the api maxes out at 220 queries and we have 223.  As a work around lets make a function then split by source
+# don't want to add poisspatial as a dependency to the package so we will just use the function locally
+get_elev <- function(dat){
+  poisspatial::ps_elevation_google(dat,
+                                   key = Sys.getenv('GOOG_API_KEY'),
+                                   Z = 'elev') %>%
+    mutate(elev = round(elev, 0))
+}
