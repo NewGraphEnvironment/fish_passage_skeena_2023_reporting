@@ -1,0 +1,129 @@
+---
+title: "Transfer `habitat_confirmations.xls` data to `form_fiss_2023.gpkg`"
+date: "Created: 2024-04-26 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "none"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_skeena_2023_reporting"
+---
+
+```{r setup, echo=TRUE, include = TRUE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, dpi=60, out.width = "100%", eval = FALSE)
+options(scipen=999)
+options(knitr.kable.NA = '--') 
+options(knitr.kable.NAN = '--')
+```
+
+
+## Purpose
+
+This workflow is unique to the 2023 fiss form data and only needs to be done once. While populating the `habitat_confirmations.xls` spreadsheet, edits were made by hand to the `temperature`, `conductivity`, and `turbidity` columns in the `step_2_fish_coll_data` sheet. While doing so we realized we should QA `form_fiss_2023` in Q before populating the `habitat_confirmations.xls` spreadsheet so that we shouldn't need to make edits by hand, like in this case. 
+
+But we learn from our mistakes and will now go and QA `form_fiss_2023`. We don't need to duplicate our edits, so we will copy the edits made by hand in `habitat_confirmations.xls` to `form_fiss_2023.gpkg` before starting the QA. The purpose of this script is to add data from the `habitat_confirmations.xls` spreadsheet to the `form_fiss_2023.gpkg`. `eval = FALSE` because we only need to run this code once, and don't want to run this chunk when knitting the document.
+
+Moving forward we should use the following workflow:
+
+  1. QA `form_fiss_2023` in Q.
+  2. Run `fiss_site_tidy.R` to populate step 1 and step 4 of the `habitat_confirmations.xls` spreadsheet.
+  3. Run `extract_inputs.R` to populate step 2 of the `habitat_confirmations.xls` spreadsheet.
+  4. Run `fiss_data_tidy.R` to populate step 3 of the `habitat_confirmations.xls` spreadsheet.
+
+
+# Define Variables and Import Data
+
+-  Mergin project directory
+-  Input and output files for this script
+-  Import the raw `form_fiss_2023.gpkg`
+-  Import the `habitat_confirmations.xls`
+
+```{r def-var, echo = TRUE}
+
+dir_project <- 'sern_skeena_2023'
+file_in <- 'scripts/hab_conf_transfer_to_Q.Rmd'
+# This assumes we use the same directory for the output file as the input file
+file_out <- 'hab_conf_transfer_to_Q.html'
+
+## Import the raw form_fiss_2023.gpkg
+form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = paste0("~/Projects/gis/", dir_project, '/data_field/2023/form_fiss_site_2023.gpkg'),
+  update_utm = TRUE,
+  update_site_id = FALSE,
+  write_back_to_path = FALSE,
+  write_to_csv = FALSE,
+  write_to_rdata = FALSE,
+  return_object = TRUE)
+
+
+## Import the habitat_confirmations.xlsm
+habitat_confirmations <- fpr::fpr_import_hab_con(path = '~/Projects/repo/fish_passage_skeena_2023_reporting/data/habitat_confirmations.xls', row_empty_remove = T)
+```
+
+## Extract temp, cond, and turb data
+
+We need to extract temp, cond, turb data from `step_2_fish_coll_data` sheet in the `habitat_confirmations.xls` file. 
+
+As per [PR feedback](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/pull/68#discussion_r1583971038), I used `all_of()` instead of `c()` to select columns, but turns out you still need to use `c()` within `all_of()` to select columns if the column names are not stored in variables or in a vector, so I made a vector of column names. Not sure if this is worth it because we only use this vector once, but may be nice to reproducibility in the future.
+
+```{r extract_temp_cond_turb, echo=TRUE, include = TRUE, eval = FALSE}
+vars <- c('local_name', 'temperature_c', 'conductivity_m_s_cm', 'turbidity')
+
+fish_coll_data <- habitat_confirmations %>%
+  purrr::pluck("step_2_fish_coll_data") %>%
+  dplyr::select(dplyr::all_of(vars))
+```
+
+
+## Join extracted data to form_fiss_site_2023
+
+Add temp, cond, and turb data from `step_2_fish_coll_data` to `form_fiss_site_2023`.
+
+Here we use `all_of(c())` to deselect the target columns. We can't use vars because is includes the `local_name` which we don't want to remove. We could have made another vector of column names, but since its only used once I didn't think it was necessary, but please let me know if I should. `all_of(c())` will still throw errors if a column is missing.
+
+As explained here https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues/64, the three downstream sites at Thompson Creek were sampled twice (two haul passes) and each haul pass has there own temp, cond, and turb data. Therefore in `form_fiss_prep1` there are 3 extra observations (68) compared to `form_fiss_site_raw` (65), because `123377_ds_ef1`, `123377_ds_ef2`, `123377_ds_ef3` are duplicated to represent each haul pass. There is no haul pass column in `form_fiss_site_2023` so when doing QA read the comments to identify which fiss site corresponds to each haul pass (we should think about adding a haul pass column to `form_fiss_site_2023` in the future).
+
+
+```{r add_temp_cond_turb, echo=TRUE, include = TRUE, eval = FALSE}
+
+form_fiss_prep1 <- dplyr::left_join(form_fiss_site_raw %>%
+                               #remove target columns that are in form_fiss_site_raw so we can add them from fish_coll_data
+                               dplyr::select(-dplyr::all_of(c('temperature_c', 'conductivity_m_s_cm', 'turbidity'))),
+                              fish_coll_data %>%
+                               dplyr::distinct(local_name, temperature_c, conductivity_m_s_cm, turbidity),
+                              by = "local_name") %>%
+  dplyr::relocate(temperature_c:turbidity, .after = "location")
+```
+
+## Burn to geopackage
+
+Now we will burn the updated `form_fiss_site_2023` to the QGIS project in `'/data_field/2023/form_pscis_2023.gpkg'`.
+
+```{r burn, echo=TRUE, include = TRUE, eval = FALSE}
+form_fiss_prep1 %>%
+  sf::st_write(paste0("~/Projects/gis/", dir_project, '/data_field/2023/form_fiss_site_2023.gpkg'), append=F, delete_dsn=T)
+```
+
+## Backup
+
+Let's backup `form_fiss_site_2023.gpkg` so we can commit the `Rdata` file to git. Then we will update
+https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues/60 with the mergin version number and explanation of what we did.
+
+
+```{r backup, echo=TRUE, include = TRUE,  eval = FALSE}
+fpr::fpr_sp_gpkg_backup(
+  path_gpkg = paste0("~/Projects/gis/", dir_project, '/data_field/2023/form_fiss_site_2023.gpkg'),
+  update_utm = TRUE,
+  update_site_id = FALSE,
+  write_back_to_path = FALSE,
+  write_to_csv = TRUE,
+  write_to_rdata = TRUE,
+  return_object = FALSE)
+```
+
+We still cannot knit this with the `knit` button now that the knit directory is set to `Project` directory!  We can 
+run the chunks one by one though which is huge.  We copy below to terminal to build the documentation.
+
+```{r render, eval = FALSE}
+rmarkdown::render(input = file_in, output_file = file_out)
+```
