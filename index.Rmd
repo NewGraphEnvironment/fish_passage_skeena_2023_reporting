@@ -23,6 +23,10 @@ output:
   bookdown::gitbook:
           includes:
             in_header: header.html
+            
+params:
+  repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/'
+  report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting'
 nocite: |
   @busch_etal2013LandscapeLevelModel, 
   @woll_etal2017SalmonEcological,
