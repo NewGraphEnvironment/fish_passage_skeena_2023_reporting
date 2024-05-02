@@ -520,6 +520,30 @@ all the paper cards and there is no data in case it was done by hand but not in 
 this day so it was likely that we just pinned it out of there to get to Reddick and get that done before too long of a day hit
 us.
 
+Let's make an issue for this
+
+```{r issue050}
+output_issue_create <- gh::gh(
+  endpoint = "POST /repos/{owner}/{repo}/issues",
+  title = "No culvert assessment data for 198060 but we have photos present",
+  body = "We have photos from the site but we do not have any data.  We may have stopped at the site to look at fish sampling but did not actually assess the culvert because the stream was completely dry.  Reviewed all the paper cards and there is no data in case it was done by hand but not in the fieldform. We sampled three differenct streams this day so it was likely that we just pinned it out of there to get to Reddick and get that done before too long of a day hit us.",
+  assignee = "NewGraphEnvironment",
+  owner = params$repo_owner,
+  repo = params$repo_name
+)
+
+# add the photo label
+gh::gh(
+  endpoint = "POST /repos/{owner}/{repo}/issues/{issue_number}/labels",
+  labels = as.array("photos"),
+  owner = params$repo_owner,
+  repo = params$repo_name,
+  issue_number = output_issue_create$number
+)
+
+```
+
+
 # Make Phase 2 photo directories
 
 For this step we copy phase 1 directories that have phase 2 events and give then the PSCIS ID. We need to do this to complete the reporting.
