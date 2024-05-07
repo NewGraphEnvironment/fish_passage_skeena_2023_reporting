@@ -1,18 +1,22 @@
+# retrieve the watersheds and elevations of the pscis sites then burn to the sqlite
+
 source('scripts/packages.R')
 # source('scripts/functions.R')
 # source('scripts/private_info.R')
-source('scripts/tables.R')
+# source('scripts/tables.R')
 
-# retrieve the watersheds and elevations of the pscis sites then burn to the sqlite
 
-##we needed to remove crossings that are first order - this used to run but doesn't want to anymore
-##i wonder if it is because the 1st order watershed is the first one on the list so the api kicks us off...
-bcfishpass_phase2_clean <- bcfishpass_phase2 %>%
-  filter(stream_order != 1)
+#NOTE!!!! - we don't actually need everything from the tables script. Just the bcfishpass_phase2 and the pscis_all_sf objects.
 
-bcfishpass_phase2_1st_order %>%
-  filter(stream_order == 1)
-#
+##we needed to remove crossings that are first order because the fwapgr api kicksus off
+
+bcfishpass_phase2_clean <- bcfishpass_phase2 |>
+  dplyr::filter(stream_order != 1)
+
+# for this years data there is none
+bcfishpass_phase2_1st_order <- bcfishpass_phase2 |>
+  dplyr::filter(stream_order == 1)
+
 # conn <- DBI::dbConnect(
 #   RPostgres::Postgres(),
 #   dbname = dbname,
@@ -99,12 +103,16 @@ wshds_fwapgr <- fpr::fpr_sp_watershed(bcfishpass_phase2_clean)
 wshds <- wshds_fwapgr
 
 
-## add in the elvation of the site
-wshds <- left_join(wshds %>% mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
-                   pscis_all_sf %>% distinct(pscis_crossing_id, .keep_all = T) %>%
-                     st_drop_geometry() %>%
-                     select(pscis_crossing_id, elev_site = elev),
-                   by = c('stream_crossing_id' = 'pscis_crossing_id'))
+## add in the elevation of the site
+wshds <- left_join(
+  wshds |> mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
+
+  pscis_all_sf |> distinct(pscis_crossing_id, .keep_all = T) %>%
+    st_drop_geometry() %>%
+    select(pscis_crossing_id, elev_site = elev),
+
+  by = c('stream_crossing_id' = 'pscis_crossing_id'))
+
 
 # calculate stats for each watershed
 wshds <- fpr::fpr_sp_wshd_stats(dat = wshds) %>%
