@@ -1,5 +1,7 @@
 # Import our data and builds the tables we need for our reporting
 
+source("scripts/functions.R")
+
 # define the repo name since it is used in tab_map in this script within this environment (vs the bookdown rendering environment)
 # not sure those links in those tables work anyway though... need to confirm
 repo_name <- 'fish_passage_skeena_2023_reporting'
@@ -90,6 +92,7 @@ pscis_all_sf <- pscis_all %>%
 pscis_all_sf <- pscis_all_sf %>%
   # we only split it b/c the api can only handle so many requests at once
   dplyr::group_split(source) %>%
+  # this funciton is in the scripts/functions.R file
   purrr::map(get_elev) %>%
   dplyr::bind_rows()
 
