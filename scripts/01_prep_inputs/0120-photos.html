@@ -437,7 +437,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">120-photos</h1>
-<h4 class="date">Created: 2024-04-26 | Updated: 2024-04-29</h4>
+<h4 class="date">Created: 2024-04-26 | Updated: 2024-05-07</h4>
 
 </div>
 
@@ -489,10 +489,7 @@ all sorted and resized)</li>
 </ul>
 <p><br></p>
 <pre class="r"><code>dir_photos_shared = &quot;~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/&quot;
-dir_project &lt;- &#39;~/Projects/gis/sern_skeena_2023&#39;
-file_in &lt;- &#39;scripts/01_prep_inputs/0120-photos.Rmd&#39;
-# This assumes we use the same directory for the output file as the input file
-file_out &lt;- &#39;0120-photos.html&#39;</code></pre>
+dir_project &lt;- &#39;~/Projects/gis/sern_skeena_2023&#39;</code></pre>
 <p><br></p>
 <p>Now we import our field data. We turn on the
 <code>update_site_id</code>, <code>write_to_csv</code> and
@@ -964,6 +961,24 @@ three differenct streams this day so it was likely that we just pinned
 it out of there to get to Reddick and get that done before too long of a
 day hit us.</li>
 </ol>
+<p>Let’s make an issue for this</p>
+<pre class="r"><code>output_issue_create &lt;- gh::gh(
+  endpoint = &quot;POST /repos/{owner}/{repo}/issues&quot;,
+  title = &quot;No culvert assessment data for 198060 but we have photos present&quot;,
+  body = &quot;We have photos from the site but we do not have any data.  We may have stopped at the site to look at fish sampling but did not actually assess the culvert because the stream was completely dry.  Reviewed all the paper cards and there is no data in case it was done by hand but not in the fieldform. We sampled three differenct streams this day so it was likely that we just pinned it out of there to get to Reddick and get that done before too long of a day hit us.&quot;,
+  assignee = &quot;NewGraphEnvironment&quot;,
+  owner = params$repo_owner,
+  repo = params$repo_name
+)
+
+# add the photo label
+gh::gh(
+  endpoint = &quot;POST /repos/{owner}/{repo}/issues/{issue_number}/labels&quot;,
+  labels = as.array(&quot;photos&quot;),
+  owner = params$repo_owner,
+  repo = params$repo_name,
+  issue_number = output_issue_create$number
+)</code></pre>
 </div>
 <div id="make-phase-2-photo-directories" class="section level1">
 <h1>Make Phase 2 photo directories</h1>
@@ -1090,7 +1105,7 @@ now.</p>
 
 fs::dir_copy(
   path = dir_photos_shared,
-  new_path = &quot;data/&quot;,
+  new_path = &quot;data/photos/&quot;,
   overwrite = TRUE)</code></pre>
 <p>Amazing. So easy. Let’s close the issue we opened about this needing
 to happen.</p>
@@ -1110,7 +1125,7 @@ gh::gh(endpoint = &quot;POST /repos/NewGraphEnvironment/fish_passage_skeena_2023
 the knit directory is set to <code>Project</code> directory! We can run
 the chunks one by one though which is huge. We copy below to terminal to
 build the documentation.</p>
-<pre class="r"><code>rmarkdown::render(input = file_in, output_file = file_out)</code></pre>
+<pre class="r"><code>rmarkdown::render(input = params$file_in, output_file = params$file_out)</code></pre>
 </div>
 
 
