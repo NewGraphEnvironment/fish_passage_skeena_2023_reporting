@@ -109,7 +109,7 @@ pscis_all_sf <- pscis_all_sf %>%
 
 # prob fine to keep costs locally since they change all the time
 tab_cost_rd_mult_report <- tab_cost_rd_mult %>%
-  mutate(cost_m_1000s_bridge = cost_m_1000s_bridge * 10) %>%
+  mutate(cost_m_1000s_bridge = cost_m_1000s_bridge * 10) |>
   rename(
     Class = my_road_class,
     Surface = my_road_surface,
@@ -117,7 +117,7 @@ tab_cost_rd_mult_report <- tab_cost_rd_mult %>%
     `Surface Multiplier` = road_surface_mult,
     `Bridge $K/10m` = cost_m_1000s_bridge,
     `Streambed Simulation $K` = cost_embed_cv
-  ) %>%
+  ) |>
   dplyr::filter(!is.na(Class)) %>%
   mutate(Class =case_when(
     Class == 'fsr' ~ str_to_upper(Class),
