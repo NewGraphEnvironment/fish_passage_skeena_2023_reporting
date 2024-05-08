@@ -1,66 +1,69 @@
 reference_number,gazetted_name,alias_local_name,waterbody_type,waterbody_id_identifier,watershed_code_45_digit,twc_number,reach_number,site_number,survey_date,utm_method,utm_zone,utm_easting,utm_northing,no_visible_channel,dewatered_dry_int_channel,rowid
-1,Tributary to Zymoetz River,8543_ds,stream,,,,,1,2023-09-20,,9,592248,6072202,,,1
-2,Tributary to McDonell Lake,8547_ds,stream,,,,,2,2023-09-20,,9,590138,6072526,,,2
-3,Tributary to Owen Creek,197378_ds_ef1,stream,,,,,3,2023-09-13,,9,645112,5998805,,,3
-4,Tributary to Owen Creek,197378_us_ef1,stream,,,,,4,2023-09-13,,9,645029,5998834,,,4
-5,Riddeck Creek,197360_ds_ef1,stream,,,,,5,2023-09-13,,9,649898,5992410,,,5
-6,Riddeck Creek ,197360_us_ef1,stream,,,,,6,2023-09-13,,9,650116,5992672,,,6
-7,Thompson Creek,123377_us_ef1,stream,,,,,7,2023-09-14,,9,641658,6049371,,,7
-8,Thompson Creek,123377_us_ef2,stream,,,,,8,2023-09-14,,9,641655,6049351,,,8
-9,Thompson Creek,123377_us_ef3,stream,,,,,9,2023-09-14,,9,641670,6049329,,,9
-10,Thompson Creek,123377_ds_ef1,stream,,,,,10,2023-09-14,,9,641612,6049412,,,10
-11,Thompson Creek,123377_ds_ef2,stream,,,,,11,2023-09-14,,9,641614,6049407,,,11
-12,Tributary to Houston Tommy Creek,14001106_us,stream,,,,,12,2023-09-16,,9,631517,6018098,,,12
-13,Tributary to Houston Tommy Creek,14000571_ds,stream,,,,,13,2023-09-16,,9,631740,6017146,,,13
-14,Tributary to Coal Creek,8525_ds_ef1,stream,,,,,14,2023-09-18,,9,580868,6074610,,,14
-15,Tributary to Coal Creek,8525_ds_ef2,stream,,,,,15,2023-09-18,,9,580903,6074626,,,15
-16,Tributary to Coal Creek,8525_ds_ef3,stream,,,,,16,2023-09-18,,9,580964,6074661,,,16
-17,Tributary to Coal Creek,8525_us_ef1,stream,,,,,17,2023-09-18,,9,581060,6074703,,,17
-18,Tributary to Coal Creek,8525_us_ef2,stream,,,,,18,2023-09-18,,9,581107,6074730,,,18
-19,Tributary to Coal Creek,8525_us_ef3,stream,,,,,19,2023-09-18,,9,581213,6074795,,,19
-20,Tributary to McDonell Lake,8478_ds_ef1,stream,,,,,20,2023-09-19,,9,589978,6069951,,,20
-21,Tributary to McDonell Lake,8478_ds_ef2,stream,,,,,21,2023-09-19,,9,589993,6069933,,,21
-22,Tributary to McDonell Lake,8478_ds_ef3,stream,,,,,22,2023-09-19,,9,590022,6069913,,,22
-23,Tributary to McDonell Lake,8478_us,stream,,,,,23,2023-09-19,,9,590074,6069851,,,23
-24,Tributary to McDonell Lake,8547_us,stream,,,,,24,2023-09-20,,9,589985,6072668,,,24
-25,Tributary to McDonell Lake,8547_ds_ef1,stream,,,,,25,2023-09-20,,9,590042,6072583,,,25
-26,Tributary to McDonell Lake,8547_ds_ef2,stream,,,,,26,2023-09-20,,9,590011,6072605,,,26
-27,Tributary to McDonell Lake,8547_ds_ef3,stream,,,,,27,2023-09-20,,9,589992,6072647,,,27
-28,Tributary to McDonell Lake ,8547_us_ef1,stream,,,,,28,2023-09-20,,9,589978,6072679,,,28
-29,Tributary to McDonell Lake,8547_us_ef2,stream,,,,,29,2023-09-20,,9,589975,6072693,,,29
-30,Tributary to McDonell Lake,8547_us_ef3,stream,,,,,30,2023-09-20,,9,589969,6072710,,,30
-31,Dale Creek,198215_ds_ef1,stream,,,,,31,2023-09-21,,9,582200,6135014,,,31
-32,Dale Creek,198215_ds_ef2,stream,,,,,32,2023-09-21,,9,582209,6135015,,,32
-33,Dale Creek,198215_ds_ef3,stream,,,,,33,2023-09-21,,9,582226,6135015,,,33
-34,Dale Creek,198215_us_ef1,stream,,,,,34,2023-09-21,,9,582144,6135023,,,34
-35,Dale Creek,198215_us_ef2,stream,,,,,35,2023-09-21,,9,582128,6135028,,,35
-36,Dale Creek,198215_us_ef3,stream,,,,,36,2023-09-21,,9,582116,6135031,,,36
-37,Tributary to Skeena River,198217_us_ef1,stream,,,,,37,2023-09-22,,9,582272,6130911,,,37
-38,Tributary to Skeena River,198217_us_ef2,stream,,,,,38,2023-09-22,,9,582259,6130925,,,38
-39,Tributary to Skeena River,198217_us_ef3,stream,,,,,39,2023-09-22,,9,582252,6130939,,,39
-40,Tributary to Skeena River,198217_ds_ef1,stream,,,,,40,2023-09-22,,9,582876,6130483,,,40
-41,Tributary to Skeena River,198217_ds_ef2,stream,,,,,41,2023-09-22,,9,582868,6130485,,,41
-42,Tributary to Skeena River,198217_ds_ef3,stream,,,,,42,2023-09-22,,9,582861,6130490,,,42
-43,Tributary to Tagit Creek,197949_us,stream,,,,,43,2023-09-27,,9,614391,6010358,,,43
-44,Tributary to Tagit Creek,198022_ds,stream,,,,,44,2023-09-27,,9,614883,6009868,,,44
-45,Thompson Creek,123377_ds_ef3,stream,,,,,45,2023-09-14,,9,641618,6049402,,,45
-46,Helps Creek,124500_ds_ef1,stream,,,,,46,2023-09-15,,9,627620,6058938,,,46
-47,Helps Creek,124500_ds_ef2,stream,,,,,47,2023-09-15,,9,627620,6058930,,,47
-48,Helps Creek,124500_ds_ef3,stream,,,,,48,2023-09-15,,9,627609,6058917,,,48
-49,Helps Creek,124500_us_ef3,stream,,,,,49,2023-09-15,,9,627537,6058635,,,49
-50,Helps Creek,124500_us_ef1,stream,,,,,50,2023-09-15,,9,627541,6058667,,,50
-51,Helps Creek,124500_us_ef2,stream,,,,,51,2023-09-15,,9,627540,6058654,,,51
-52,Tributary to Houston Tommy Creek,14000571_us,stream,,,,,52,2023-09-16,,9,631697,6017428,,,52
-53,Tributary to Coal Creek,8525_ds,stream,,,,,53,2023-09-18,,9,580618,6074538,,,53
-54,Tributary to Coal Creek,8525_us,stream,,,,,54,2023-09-18,,9,581054,6074699,,,54
-55,Tributary to Coal Creek,8525_us2,stream,,,,,55,2023-09-18,,9,582415,6075427,,,55
-56,Tributary to McDonell Lake,8547_ds2,stream,,,,,56,2023-09-18,,9,590949,6071965,,,56
-57,Tributary to McDonell Lake,8478_ds,stream,,,,,57,2023-09-19,,9,589913,6069977,,,57
-58,Tributary to Zymoetz River,24601280_us,stream,,,,,58,2023-09-19,,9,597625,6070210,,,58
-59,Tributary to Zymoetz River,24601280_ds,stream,,,,,59,2023-09-19,,9,597717,6070257,,,59
-60,Tributary to Zymoetz River ,8543_us,stream,,,,,60,2023-09-20,,9,592157,6072361,,,60
-61,Gramophone Creek,58067_ds,stream,,,,,61,2023-09-24,,9,609040,6093110,,,61
-62,Gramophone Creek,58067_ds2,stream,,,,,62,2023-09-24,,9,607606,6093513,,,62
-63,Tributary to Tagit Creek ,198022_us,stream,,,,,63,2023-09-27,,9,614704,6009978,,,63
-64,Tributary to Tagit Creek,198022_ds_ef1,stream,,,,,64,2023-09-27,,9,614721,6009969,,,64
-65,Tributary to Tagit Creek,198022_us_ef1,stream,,,,,65,2023-09-27,,9,614401,6010343,,,65
+1,Tributary to Zymoetz River,8543_ds,stream,,,,,,2023-09-20,,9,592248,6072202,,,1
+2,Tributary to McDonell Lake,8547_ds,stream,,,,,,2023-09-20,,9,590138,6072526,,,2
+3,Tributary to Owen Creek,197378_ds_ef1,stream,,,,,,2023-09-13,,9,645112,5998805,,,3
+4,Tributary to Owen Creek,197378_us_ef1,stream,,,,,,2023-09-13,,9,645029,5998834,,,4
+5,Riddeck Creek,197360_ds_ef1,stream,,,,,,2023-09-13,,9,649898,5992410,,,5
+6,Riddeck Creek ,197360_us_ef1,stream,,,,,,2023-09-13,,9,650116,5992672,,,6
+7,Thompson Creek,123377_us_ef1,stream,,,,,,2023-09-14,,9,641658,6049371,,,7
+8,Thompson Creek,123377_us_ef2,stream,,,,,,2023-09-14,,9,641655,6049351,,,8
+9,Thompson Creek,123377_us_ef3,stream,,,,,,2023-09-14,,9,641670,6049329,,,9
+10,Thompson Creek,123377_ds_ef1,stream,,,,,,2023-09-14,,9,641612,6049412,,,10
+11,Thompson Creek,123377_ds_ef2,stream,,,,,,2023-09-14,,9,641614,6049407,,,11
+12,Tributary to Houston Tommy Creek,14001106_us,stream,,,,,,2023-09-16,,9,631517,6018098,,,12
+13,Tributary to Houston Tommy Creek,14000571_ds,stream,,,,,,2023-09-16,,9,631740,6017146,,,13
+14,Tributary to Coal Creek,8525_ds_ef1,stream,,,,,,2023-09-18,,9,580868,6074610,,,14
+15,Tributary to Coal Creek,8525_ds_ef2,stream,,,,,,2023-09-18,,9,580903,6074626,,,15
+16,Tributary to Coal Creek,8525_ds_ef3,stream,,,,,,2023-09-18,,9,580964,6074661,,,16
+17,Tributary to Coal Creek,8525_us_ef1,stream,,,,,,2023-09-18,,9,581060,6074703,,,17
+18,Tributary to Coal Creek,8525_us_ef2,stream,,,,,,2023-09-18,,9,581107,6074730,,,18
+19,Tributary to Coal Creek,8525_us_ef3,stream,,,,,,2023-09-18,,9,581213,6074795,,,19
+20,Tributary to McDonell Lake,8478_ds_ef1,stream,,,,,,2023-09-19,,9,589978,6069951,,,20
+21,Tributary to McDonell Lake,8478_ds_ef2,stream,,,,,,2023-09-19,,9,589993,6069933,,,21
+22,Tributary to McDonell Lake,8478_ds_ef3,stream,,,,,,2023-09-19,,9,590022,6069913,,,22
+23,Tributary to McDonell Lake,8478_us,stream,,,,,,2023-09-19,,9,590074,6069851,,,23
+24,Tributary to McDonell Lake,8547_us,stream,,,,,,2023-09-20,,9,589985,6072668,,,24
+25,Tributary to McDonell Lake,8547_ds_ef1,stream,,,,,,2023-09-20,,9,590042,6072583,,,25
+26,Tributary to McDonell Lake,8547_ds_ef2,stream,,,,,,2023-09-20,,9,590011,6072605,,,26
+27,Tributary to McDonell Lake,8547_ds_ef3,stream,,,,,,2023-09-20,,9,589992,6072647,,,27
+28,Tributary to McDonell Lake ,8547_us_ef1,stream,,,,,,2023-09-20,,9,589978,6072679,,,28
+29,Tributary to McDonell Lake,8547_us_ef2,stream,,,,,,2023-09-20,,9,589975,6072693,,,29
+30,Tributary to McDonell Lake,8547_us_ef3,stream,,,,,,2023-09-20,,9,589969,6072710,,,30
+31,Dale Creek,198215_ds_ef1,stream,,,,,,2023-09-21,,9,582200,6135014,,,31
+32,Dale Creek,198215_ds_ef2,stream,,,,,,2023-09-21,,9,582209,6135015,,,32
+33,Dale Creek,198215_ds_ef3,stream,,,,,,2023-09-21,,9,582226,6135015,,,33
+34,Dale Creek,198215_us_ef1,stream,,,,,,2023-09-21,,9,582144,6135023,,,34
+35,Dale Creek,198215_us_ef2,stream,,,,,,2023-09-21,,9,582128,6135028,,,35
+36,Dale Creek,198215_us_ef3,stream,,,,,,2023-09-21,,9,582116,6135031,,,36
+37,Tributary to Skeena River,198217_us_ef1,stream,,,,,,2023-09-22,,9,582272,6130911,,,37
+38,Tributary to Skeena River,198217_us_ef2,stream,,,,,,2023-09-22,,9,582259,6130925,,,38
+39,Tributary to Skeena River,198217_us_ef3,stream,,,,,,2023-09-22,,9,582252,6130939,,,39
+40,Tributary to Skeena River,198217_ds_ef1,stream,,,,,,2023-09-22,,9,582876,6130483,,,40
+41,Tributary to Skeena River,198217_ds_ef2,stream,,,,,,2023-09-22,,9,582868,6130485,,,41
+42,Tributary to Skeena River,198217_ds_ef3,stream,,,,,,2023-09-22,,9,582861,6130490,,,42
+43,Tributary to Tagit Creek,197949_us,stream,,,,,,2023-09-27,,9,614391,6010358,,,43
+44,Tributary to Tagit Creek,198022_ds,stream,,,,,,2023-09-27,,9,614883,6009868,,,44
+45,Thompson Creek,123377_ds_ef3,stream,,,,,,2023-09-14,,9,641618,6049402,,,45
+46,Helps Creek,124500_ds_ef1,stream,,,,,,2023-09-15,,9,627620,6058938,,,46
+47,Helps Creek,124500_ds_ef2,stream,,,,,,2023-09-15,,9,627620,6058930,,,47
+48,Helps Creek,124500_ds_ef3,stream,,,,,,2023-09-15,,9,627609,6058917,,,48
+49,Helps Creek,124500_us_ef3,stream,,,,,,2023-09-15,,9,627537,6058635,,,49
+50,Helps Creek,124500_us_ef1,stream,,,,,,2023-09-15,,9,627541,6058667,,,50
+51,Helps Creek,124500_us_ef2,stream,,,,,,2023-09-15,,9,627540,6058654,,,51
+52,Tributary to Houston Tommy Creek,14000571_us,stream,,,,,,2023-09-16,,9,631697,6017428,,,52
+53,Tributary to Coal Creek,8525_ds,stream,,,,,,2023-09-18,,9,580618,6074538,,,53
+54,Tributary to Coal Creek,8525_us,stream,,,,,,2023-09-18,,9,581054,6074699,,,54
+55,Tributary to Coal Creek,8525_us2,stream,,,,,,2023-09-18,,9,582415,6075427,,,55
+56,Tributary to McDonell Lake,8547_ds2,stream,,,,,,2023-09-18,,9,590949,6071965,,,56
+57,Tributary to McDonell Lake,8478_ds,stream,,,,,,2023-09-19,,9,589913,6069977,,,57
+58,Tributary to Zymoetz River,24601280_us,stream,,,,,,2023-09-19,,9,597625,6070210,,,58
+59,Tributary to Zymoetz River,24601280_ds,stream,,,,,,2023-09-19,,9,597717,6070257,,,59
+60,Tributary to Zymoetz River ,8543_us,stream,,,,,,2023-09-20,,9,592157,6072361,,,60
+61,Gramophone Creek,58067_ds,stream,,,,,,2023-09-24,,9,609040,6093110,,dewatered,61
+62,Gramophone Creek,58067_ds2,stream,,,,,,2023-09-24,,9,607606,6093513,,dewatered,62
+63,Tributary to Tagit Creek ,198022_us,stream,,,,,,2023-09-27,,9,614704,6009978,,,63
+64,Tributary to Tagit Creek,198022_ds_ef1,stream,,,,,,2023-09-27,,9,614721,6009969,,,64
+65,Tributary to Tagit Creek,198022_us_ef1,stream,,,,,,2023-09-27,,9,614401,6010343,,,65
+66,Thompson Creek,123377_ds_ef4,stream,,,,,,2023-09-15,,9,641612,6049412,,,10
+67,Thompson Creek,123377_ds_ef5,stream,,,,,,2023-09-15,,9,641614,6049407,,,11
+68,Thompson Creek,123377_ds_ef6,stream,,,,,,2023-09-15,,9,641618,6049402,,,45
