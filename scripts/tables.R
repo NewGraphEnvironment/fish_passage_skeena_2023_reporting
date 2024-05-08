@@ -219,7 +219,7 @@ tabs_phase1_pdf <- mapply(
 # tabs_phase1_pdf <- mapply(fpr_print_tab_summary_all_pdf, tab_sum = tab_summary, comments = tab_summary_comments, photos = tab_photo_url)
 
 ####-------------- habitat and fish data------------------
-habitat_confirmations <- fpr_import_hab_con(col_filter_na = T, row_empty_remove = T)
+habitat_confirmations <- fpr::fpr_import_hab_con(col_filter_na = T, row_empty_remove = T)
 
 
 hab_site_prep <-  habitat_confirmations |>
@@ -257,12 +257,57 @@ hab_fish_collect_map_prep <- habitat_confirmations |>
 
 ##prep the location info so it is ready to join to the fish data
 
+# name sites that don't have `ef` or `mt` in their name but have fish info b/c we still need
+# those UTMs
+sites_no_label <- c("8478_us", "58067_ds2")
+
+# now we are getting really custom
+# read in the UTM of the canyon at Gramaphone so we get accurate point for the coho for our own mapping
+# waypoints are only in the "waypoints" file because they were scripted out
+# to avoid the mess that basecamp makes of duplicate names and to give unique IDs based on the surveyor. not sure why
+# they are not also in skeena_2023_field_al.gpx - seems odd but not dealing with it now
+gpx <- "~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/gps/skeena_2023_field_waypoints_al.gpx"
+
+# see the layers
+sf::st_layers(gpx)
+
+wp_al <- sf::st_read(gpx,
+                     layer = 'waypoints',
+                     quiet = T) |>
+  fpr::fpr_sp_assign_utm() |>
+  # add a column to join on
+  dplyr::mutate(alias_local_name =
+                  dplyr::case_when(
+                    name == 'ai_314' ~ "58067_ds2",
+                    T ~ NA_character_))
 
 
-hab_loc2 <- hab_loc |>
+hab_loc2_prep <- hab_loc |>
   tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F) |>
   mutate(site_id = paste0(site, location)) |>
-  dplyr::filter(str_detect(alias_local_name, 'ef|mt')) ##filter ef and mt sites
+  dplyr::filter(str_detect(alias_local_name, paste(c('ef', 'mt', sites_no_label), collapse = '|'))) ##filter ef and mt sites
+
+# now join the waypoint table and hab_loc2 and sub in this utm in place of the existing "58067_ds2"
+hab_loc2 <- dplyr::left_join(
+  hab_loc2_prep,
+
+  wp_al |>
+    dplyr::select(alias_local_name, easting, northing) |>
+    sf::st_drop_geometry(),
+
+  by = "alias_local_name"
+  ) |>
+  dplyr::mutate(utm_easting =
+                  dplyr::case_when(
+                    !is.na(easting) ~ easting,
+                    T ~ utm_easting),
+                utm_northing =
+                  dplyr::case_when(
+                    !is.na(northing) ~ northing,
+                    T ~ utm_northing)) |>
+  dplyr::select(-all_of(c("easting", "northing")))
+
+
 
 
 # test to see what we get at each site
