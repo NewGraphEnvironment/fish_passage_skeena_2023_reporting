@@ -79,28 +79,28 @@ reference_number,gazetted_names,local_name,waterbody_id,reach_number,site_number
 45,Thompson Creek,123377_ds_ef3,0,0,0,,,1,Rainbow Trout,63,2.4,,,,,,,,
 45,Thompson Creek,123377_ds_ef3,0,0,0,,,1,Rainbow Trout,59,2.3,,,,,,,,
 45,Thompson Creek,123377_ds_ef3,0,0,0,,,1,Rainbow Trout,67,3.1,,,,,,,,3DD.003E192B64
-10,Thompson Creek,123377_ds_ef1,0,0,0,,,2,Dolly Varden,117,18.7,,,,,,,,3DD.003E192B7D. MW photo 9:25:16
-10,Thompson Creek,123377_ds_ef1,0,0,0,,,2,Rainbow Trout,106,13.6,,,,,,,,3DD.003E192BF0
-10,Thompson Creek,123377_ds_ef1,0,0,0,,,2,Rainbow Trout,68,3.7,,,,,,,,3DD.003E192BBC
-11,Thompson Creek,123377_ds_ef2,0,0,0,,,2,Rainbow Trout,167,68.5,,,,,,,,3DD.003E192B5A. MW photo 9:42:59
-11,Thompson Creek,123377_ds_ef2,0,0,0,,,2,Rainbow Trout,102,13.3,,,,,,,,3DD.003E192B83
-11,Thompson Creek,123377_ds_ef2,0,0,0,,,2,Rainbow Trout,100,12.9,,,,,,,,3DD.003E192BE1
-11,Thompson Creek,123377_ds_ef2,0,0,0,,,2,Rainbow Trout,107,12.2,,,,,,,,3DD.003E192B94
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,79,8.1,,,,,,,,mort
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,84,8.8,,,,,,,,mort
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Rainbow Trout,60,2.1,,,,,,,,
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,92,10,,,,,,,,3DD.003E192B8C. MW photo 10:00:42
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Rainbow Trout,131,25.9,,,,,,,,3DD.003E192B70
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,90,6.6,,,,,,,,3DD.003E192B68
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,89,7.1,,,,,,,,has puncture mark but no tag
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,90,8.3,,,,,,,,3DD.003E192B89
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Rainbow Trout,98,10.1,,,,,,,,3DD.003E192B8A
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,85,6.6,,,,,,,,3DD.003E192BF1
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Rainbow Trout,89,7.8,,,,,,,,3DD.003E192B67
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,94,8.5,,,,,,,,3DD.003E192B79
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Rainbow Trout,60,2.9,,,,,,,,
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Coho Salmon,85,6.9,,,,,,,,3DD.003E192BD5
-45,Thompson Creek,123377_ds_ef3,0,0,0,,,2,Rainbow Trout,63,2.6,,,,,,,,
+66,Thompson Creek,123377_ds_ef4,0,0,0,,,1,Dolly Varden,117,18.7,,,,,,,,3DD.003E192B7D. MW photo 9:25:16
+66,Thompson Creek,123377_ds_ef4,0,0,0,,,1,Rainbow Trout,106,13.6,,,,,,,,3DD.003E192BF0
+66,Thompson Creek,123377_ds_ef4,0,0,0,,,1,Rainbow Trout,68,3.7,,,,,,,,3DD.003E192BBC
+67,Thompson Creek,123377_ds_ef5,0,0,0,,,1,Rainbow Trout,167,68.5,,,,,,,,3DD.003E192B5A. MW photo 9:42:59
+67,Thompson Creek,123377_ds_ef5,0,0,0,,,1,Rainbow Trout,102,13.3,,,,,,,,3DD.003E192B83
+67,Thompson Creek,123377_ds_ef5,0,0,0,,,1,Rainbow Trout,100,12.9,,,,,,,,3DD.003E192BE1
+67,Thompson Creek,123377_ds_ef5,0,0,0,,,1,Rainbow Trout,107,12.2,,,,,,,,3DD.003E192B94
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,79,8.1,,,,,,,,mort
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,84,8.8,,,,,,,,mort
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Rainbow Trout,60,2.1,,,,,,,,
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,92,10,,,,,,,,3DD.003E192B8C. MW photo 10:00:42
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Rainbow Trout,131,25.9,,,,,,,,3DD.003E192B70
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,90,6.6,,,,,,,,3DD.003E192B68
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,89,7.1,,,,,,,,has puncture mark but no tag
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,90,8.3,,,,,,,,3DD.003E192B89
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Rainbow Trout,98,10.1,,,,,,,,3DD.003E192B8A
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,85,6.6,,,,,,,,3DD.003E192BF1
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Rainbow Trout,89,7.8,,,,,,,,3DD.003E192B67
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,94,8.5,,,,,,,,3DD.003E192B79
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Rainbow Trout,60,2.9,,,,,,,,
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Coho Salmon,85,6.9,,,,,,,,3DD.003E192BD5
+68,Thompson Creek,123377_ds_ef6,0,0,0,,,1,Rainbow Trout,63,2.6,,,,,,,,
 46,Helps Creek,124500_ds_ef1,0,0,0,,,1,Coho Salmon,81,7.1,,,,,,,,3DD.003E192B81. MW photo 13:11:14
 46,Helps Creek,124500_ds_ef1,0,0,0,,,1,Coho Salmon,86,6.6,,,,,,,,3DD.003E192B60
 46,Helps Creek,124500_ds_ef1,0,0,0,,,1,Coho Salmon,82,5.6,,,,,,,,3DD.003E192B84
