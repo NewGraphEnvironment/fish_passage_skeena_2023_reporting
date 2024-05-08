@@ -114,6 +114,22 @@ form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_fiel
   # need to convert date type b/c gpkg and excel import differently
   mutate(survey_date = lubridate::as_date(survey_date))
 
+# Time issue-----------------------------------------------------------------------------------------------------
+# Skeena 2023 fiss form has the incorrect time and needs to have 7hrs added to be in PDT. This is a temporary fix.
+# First double check the repaired time is correct
+fiss_correct_time_check <- form_fiss_site_raw |>
+  # there is perhaps a more reliable method for this issue in
+  # Seems like  more reliable method way to do would be to use force_tz and with_tz since it takes into account daylight savings time
+  # https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues/49
+  # I still can't get this method to work, so sticking with what's below for now
+  dplyr::mutate(date_time_start_repaired = date_time_start + lubridate::hours(7)) |>
+  dplyr::relocate(date_time_start_repaired, .after = date_time_start)
+
+# If correct -  replace - we will replace object to avoid confusion in future when we hopefully don't need this step
+form_fiss_site_raw <- fiss_correct_time_check |>
+  dplyr::mutate(date_time_start = date_time_start_repaired) |>
+  dplyr::select(-date_time_start_repaired)
+
 # see the names of our form
 names(form_fiss_site_raw)
 
@@ -202,12 +218,10 @@ form_fiss_site <- bind_rows(
 
 # burn to file
 # The following fields need to be added by hand in the spreadsheet:
-# UTM method, No Visible Channel, Dewatered-Dry/Int Channel, Waterbody (ID) Identifier (this should be scripted eventually)
+# UTM method, No Visible Channel, Waterbody (ID) Identifier (this should be scripted eventually)
 form_fiss_loc %>%
   readr::write_csv(paste0(
     'data/inputs_extracted/form_fiss_loc_tidy',
-    # '_',
-    # format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
 
@@ -215,9 +229,7 @@ form_fiss_loc %>%
 form_fiss_site %>%
   readr::write_csv(paste0(
     'data/inputs_extracted/form_fiss_site_tidy',
-    # '_',
-    # format(lubridate::now(), "%Y%m%d"),
     '.csv'),
     na = '')
 
-## Next populate step 3 in fish_data_tidy.R then populate step 2 in extract_inputs.R.
+## Next populate step 3 in fish_data_tidy.R then populate step 2 in 0100-extract-inputs.R.
