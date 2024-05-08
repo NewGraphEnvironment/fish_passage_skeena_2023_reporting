@@ -232,8 +232,8 @@ hab_site_prep <-  habitat_confirmations |>
 
 
 hab_loc <- habitat_confirmations |>
-  purrr::pluck("step_1_ref_and_loc_info")
-  dplyr::filter(!is.na(site_number))|>
+  purrr::pluck("step_1_ref_and_loc_info") |>
+  dplyr::filter(!is.na(alias_local_name))|>
   mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date)))
 
 hab_site <- left_join(
@@ -256,10 +256,13 @@ hab_fish_collect_map_prep <- habitat_confirmations |>
 
 
 ##prep the location info so it is ready to join to the fish data
+
+
+
 hab_loc2 <- hab_loc |>
   tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F) |>
   mutate(site_id = paste0(site, location)) |>
-  dplyr::filter(str_detect(alias_local_name, 'ef|198222|mt')) ##filter ef and mt sites
+  dplyr::filter(str_detect(alias_local_name, 'ef|mt')) ##filter ef and mt sites
 
 
 # test to see what we get at each site
@@ -268,48 +271,67 @@ test <- hab_fish_collect_map_prep |>
 
 
 
-##join the tables together
-hab_fish_collect_map_prep2 <- right_join(
+##join the tables together and keep a rational column order and `local_name` (vs `alias_local_name`) with the right join
+hab_fish_collect_map_prep2 <- dplyr::right_join(
   # distinct to get rid of lots of sites
-  select(hab_loc2, reference_number, alias_local_name, utm_zone:utm_northing) |> distinct(alias_local_name, .keep_all = T),
-  select(hab_fish_collect_map_prep |> distinct(local_name, species, .keep_all = T), local_name, species),
+
+  hab_loc2 |>
+    select(reference_number, alias_local_name, utm_zone:utm_northing) |>
+    distinct(alias_local_name, .keep_all = T),
+
+  hab_fish_collect_map_prep |>
+    select(local_name, species) |>
+    distinct(local_name, species, .keep_all = T),
+
   by = c('alias_local_name' = 'local_name')
 )
+
 
 
 ##add the species code
 hab_fish_codes <- fishbc::freshwaterfish |>
   select(species_code = Code, common_name = CommonName) |>
   tibble::add_row(species_code = 'NFC', common_name = 'No Fish Caught') |>
-  mutate(common_name = case_when(common_name == 'Cutthroat Trout' ~ 'Cutthroat Trout (General)', T ~ common_name))
+  mutate(common_name =
+           case_when(common_name == 'Cutthroat Trout' ~ 'Cutthroat Trout (General)',
+                     T ~ common_name))
+
 
 # this is the table to burn to geojson for mapping
 # we are just going to keep 1 site for upstream and downstream because more detail won't show well on the map anyway
 # purpose is to show which fish are there vs. show all the sites and what was caught at each. TMI
 
-hab_fish_collect_map_prep3 <- left_join(
+# view what species we have
+# hab_fish_collect_map_prep2 |>
+# dplyr::distinct(species) |>
+#   dplyr::pull(species)
+
+hab_fish_collect_map_prep3 <- dplyr::left_join(
   hab_fish_collect_map_prep2 |>
     mutate(species = as.factor(species)),  ##just needed to do this b/c there actually are no fish.
 
-  select(hab_fish_codes, common_name, species_code),
+  hab_fish_codes |>
+    select(common_name, species_code),
+
   by = c('species' = 'common_name')
 )
-  # this time we ditch the nfc because we don't want it to look like sites are non-fish bearing.  Its a multipass thing
-  # WATCH THIS IN THE FUTURE
+  # when we did muli-pass sites we ditched the nfc because we didn't want it to look like sites are non-fish bearing.
+ # Its a multipass thing from 2022 and not something we ditch this time
   # dplyr::filter(species_code != 'NFC')
 
 # need to make an array for mapping the hab_fish_collect files
 # this gives a list column vs an array.  prob easier to use postgres and postgis to make the array
-hab_fish_collect <- left_join(
+hab_fish_collect <- dplyr::left_join(
   hab_fish_collect_map_prep3 |>
-    select(alias_local_name:utm_northing) |>
-    distinct(),
+    dplyr::select(alias_local_name:utm_northing) |>
+    dplyr::distinct(),
 
   hab_fish_collect_map_prep3 |>
-    select(-species, -reference_number, -utm_zone:-utm_northing) |>
-    pivot_wider(names_from = 'alias_local_name', values_from = "species_code") |>
-    pivot_longer(cols = '8530_ds_ef2':'8525_ds_mt') |>
-    rename(alias_local_name = name,
+    dplyr::select(-species, -reference_number, -utm_zone:-utm_northing) |>
+    tidyr::pivot_wider(names_from = 'alias_local_name', values_from = "species_code") %>% #we need the magrittr pipe to keep syntax simple
+    # get first and last column name
+    tidyr::pivot_longer(cols = names(.)[1]:names(.)[ncol(.)]) |>
+    dplyr::rename(alias_local_name = name,
              species_code = value),
 
     by = 'alias_local_name'
