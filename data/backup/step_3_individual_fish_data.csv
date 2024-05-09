@@ -1,4 +1,426 @@
 reference_number,gazetted_names,local_name,waterbody_id,reach_number,site_number,sampling_method,method_number,haul_number_pass_number,species,length_mm,weight_g,sex,maturity,age_structure,age_sample_number,age,genetic_structure,genetic_sample_number,comments
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,108,,,,,,,,,3DD.003E192B88. AI photo 12:26:14
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,108,,,,,,,,,3DD.003E192B98
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,87,,,,,,,,,3DD.003E192BC1
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,90,,,,,,,,,3DD.003E192BD3
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,49,,,,,,,,,AI photo 12:35:40
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,105,,,,,,,,,3DD.003E192BA0
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,70,,,,,,,,,3DD.003E192BD3
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,56,,,,,,,,,Some yellow under jaw. AI photo 12:51:13-33
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,47,,,,,,,,,
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,47,,,,,,,,,
+3,Tributary to Owen Creek,197378_ds_ef1,0,0,3,electrofishing,1,1,Rainbow Trout,43,,,,,,,,,
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,49,,,,,,,,,AI photo 13:27:35
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,55,,,,,,,,,
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,43,,,,,,,,,
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,90,,,,,,,,,3DD.003E192BD9. AI photo 13:31:50
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,40,,,,,,,,,
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,52,,,,,,,,,AI photo 13:35:15
+4,Tributary to Owen Creek,197378_us_ef1,0,0,4,electrofishing,1,1,Rainbow Trout,43,,,,,,,,,
+5,Riddeck Creek,197360_ds_ef1,0,0,5,electrofishing,1,1,Rainbow Trout,59,,,,,,,,,
+5,Riddeck Creek,197360_ds_ef1,0,0,5,electrofishing,1,1,Rainbow Trout,54,,,,,,,,,
+6,Riddeck Creek,197360_us_ef1,0,0,6,electrofishing,1,1,Rainbow Trout,58,,,,,,,,,AI photo 16:06:51
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Rainbow Trout,100,9.2,,,,,,,,3DD.003E192BAB. AI photo 10:11:11
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,97,10,,,,,,,,3DD.003E192BA1. AI photo 10:15:47
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Rainbow Trout,91,9.6,,,,,,,,3DD.003E192B92
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Dolly Varden,120,15.6,,,,,,,,3DD.003E192BA8
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Rainbow Trout,92,8,,,,,,,,3DD.003E192BAE
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Rainbow Trout,145,32.8,,,,,,,,3DD.003E192B97
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,98,9.3,,,,,,,,3DD.003E192BBB
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Dolly Varden,119,16.4,,,,,,,,3DD.003E192B99. AI photo 10:28:11
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,92,7.4,,,,,,,,3DD.003E192B96
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,88,7.1,,,,,,,,3DD.003E192BBE
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,84,6.4,,,,,,,,3DD.003E192BB1
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Rainbow Trout,160,52,,,,,,,,3DD.003E192BA9
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,88,9.4,,,,,,,,3DD.003E192BB7
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,93,10.6,,,,,,,,3DD.003E192BA3. AI photo 10:37:51
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Dolly Varden,111,9.4,,,,,,,,3DD.003E192BBF. AI photo 10:41:23
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,93,8.5,,,,,,,,3DD.003E192BB4
+7,Thompson Creek,123377_us_ef1,0,0,7,electrofishing,1,1,Coho Salmon,95,9.7,,,,,,,,3DD.003E192B95
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,60,2.4,,,,,,,,AI photo 11:14:59
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,63,3.9,,,,,,,,3DD.003E192BD1
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,56,2,,,,,,,,
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,70,3.5,,,,,,,,3DD.003E192BB0
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,53,1.9,,,,,,,,
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,52,1.2,,,,,,,,
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,66,3,,,,,,,,3DD.003E192BC7
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Coho Salmon,85,7.1,,,,,,,,3DD.003E192BCD. AI photo 11:24:30
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,58,2.1,,,,,,,,
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,58,2.7,,,,,,,,
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,66,3.1,,,,,,,,3DD.003E192BF2
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Coho Salmon,85,6.8,,,,,,,,3DD.003E192BA7. AI photo 11:30:36
+8,Thompson Creek,123377_us_ef2,0,0,8,electrofishing,1,1,Rainbow Trout,60,2.5,,,,,,,,
+9,Thompson Creek,123377_us_ef3,0,0,9,electrofishing,1,1,Coho Salmon,79,5.3,,,,,,,,3DD.003E192B9E. AI photo 12:04:54
+9,Thompson Creek,123377_us_ef3,0,0,9,electrofishing,1,1,Rainbow Trout,70,3,,,,,,,,3DD.003E192BC6. AI photo 12:07:13
+9,Thompson Creek,123377_us_ef3,0,0,9,electrofishing,1,1,Rainbow Trout,62,4.7,,,,,,,,3DD.003E192BEF
+9,Thompson Creek,123377_us_ef3,0,0,9,electrofishing,1,1,Coho Salmon,83,9,,,,,,,,3DD.003E192BD8. AI photo 12:09:02
+9,Thompson Creek,123377_us_ef3,0,0,9,electrofishing,1,1,Coho Salmon,109,14.3,,,,,,,,3DD.003E192BE6
+10,Thompson Creek,123377_ds_ef1,0,0,10,electrofishing,1,1,Rainbow Trout,124,22,,,,,,,,3DD.003E192BA2. MW photo 13:56:01
+10,Thompson Creek,123377_ds_ef1,0,0,10,electrofishing,1,1,Rainbow Trout,105,13.9,,,,,,,,3DD.003E192BF0
+10,Thompson Creek,123377_ds_ef1,0,0,10,electrofishing,1,1,Rainbow Trout,63,2.7,,,,,,,,3DD.003E192B9C
+10,Thompson Creek,123377_ds_ef1,0,0,10,electrofishing,1,1,Rainbow Trout,68,3.4,,,,,,,,3DD.003E192BBC
+11,Thompson Creek,123377_ds_ef2,0,0,11,electrofishing,1,1,Rainbow Trout,105,12.8,,,,,,,,3DD.003E192BE1
+11,Thompson Creek,123377_ds_ef2,0,0,11,electrofishing,1,1,Rainbow Trout,105,12.5,,,,,,,,3DD.003E192B94
+11,Thompson Creek,123377_ds_ef2,0,0,11,electrofishing,1,1,Rainbow Trout,69,3.5,,,,,,,,3DD.003E192BDF
+11,Thompson Creek,123377_ds_ef2,0,0,11,electrofishing,1,1,Rainbow Trout,59,2.8,,,,,,,,
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,86,7.4,,,,,,,,3DD.003E192BB3
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,105,12.8,,,,,,,,3DD.003E192BBD
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,104,4.7,,,,,,,,3DD.003E192BE7
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,119,17.6,,,,,,,,3DD.003E192B9A
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,82,6.7,,,,,,,,3DD.003E192BF1
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,85,6.5,,,,,,,,3DD.003E192BD5
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,95,9.7,,,,,,,,3DD.003E192B8C
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,99,10.2,,,,,,,,3DD.003E192B77
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,98,10.1,,,,,,,,3DD.003E192B8A
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,92,8.2,,,,,,,,3DD.003E192B79. MW photo 15:01:47
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Dolly Varden,114,11.9,,,,,,,,3DD.003E192B6A. MW photo 15:10:12
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,90,7.9,,,,,,,,3DD.003E192B80
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Coho Salmon,95,8.3,,,,,,,,3DD.003E192B89
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,63,2.4,,,,,,,,
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,59,2.3,,,,,,,,
+45,Thompson Creek,123377_ds_ef3,0,0,45,electrofishing,1,1,Rainbow Trout,67,3.1,,,,,,,,3DD.003E192B64
+66,Thompson Creek,123377_ds_ef4,0,0,66,electrofishing,1,1,Dolly Varden,117,18.7,,,,,,,,3DD.003E192B7D. MW photo 9:25:16
+66,Thompson Creek,123377_ds_ef4,0,0,66,electrofishing,1,1,Rainbow Trout,106,13.6,,,,,,,,3DD.003E192BF0
+66,Thompson Creek,123377_ds_ef4,0,0,66,electrofishing,1,1,Rainbow Trout,68,3.7,,,,,,,,3DD.003E192BBC
+67,Thompson Creek,123377_ds_ef5,0,0,67,electrofishing,1,1,Rainbow Trout,167,68.5,,,,,,,,3DD.003E192B5A. MW photo 9:42:59
+67,Thompson Creek,123377_ds_ef5,0,0,67,electrofishing,1,1,Rainbow Trout,102,13.3,,,,,,,,3DD.003E192B83
+67,Thompson Creek,123377_ds_ef5,0,0,67,electrofishing,1,1,Rainbow Trout,100,12.9,,,,,,,,3DD.003E192BE1
+67,Thompson Creek,123377_ds_ef5,0,0,67,electrofishing,1,1,Rainbow Trout,107,12.2,,,,,,,,3DD.003E192B94
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,79,8.1,,,,,,,,mort
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,84,8.8,,,,,,,,mort
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Rainbow Trout,60,2.1,,,,,,,,
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,92,10,,,,,,,,3DD.003E192B8C. MW photo 10:00:42
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Rainbow Trout,131,25.9,,,,,,,,3DD.003E192B70
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,90,6.6,,,,,,,,3DD.003E192B68
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,89,7.1,,,,,,,,has puncture mark but no tag
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,90,8.3,,,,,,,,3DD.003E192B89
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Rainbow Trout,98,10.1,,,,,,,,3DD.003E192B8A
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,85,6.6,,,,,,,,3DD.003E192BF1
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Rainbow Trout,89,7.8,,,,,,,,3DD.003E192B67
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,94,8.5,,,,,,,,3DD.003E192B79
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Rainbow Trout,60,2.9,,,,,,,,
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Coho Salmon,85,6.9,,,,,,,,3DD.003E192BD5
+68,Thompson Creek,123377_ds_ef6,0,0,68,electrofishing,1,1,Rainbow Trout,63,2.6,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,81,7.1,,,,,,,,3DD.003E192B81. MW photo 13:11:14
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,86,6.6,,,,,,,,3DD.003E192B60
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,82,5.6,,,,,,,,3DD.003E192B84
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,48,1,,,,,,,,3DD.003E192B7B
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,45,1,,,,,,,,MW photo 13:29:49 and 13:30:01
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,82,5.4,,,,,,,,3DD.003E192B6C
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,96,9.3,,,,,,,,3DD.003E192B76
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,96,9.1,,,,,,,,3DD.003E192B72
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Sucker (General),68,3.4,,,,,,,,3DD.003E192B63. MW photo 13:37:53
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,83,6.2,,,,,,,,3DD.003E192B47
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,48,1.1,,,,,,,,MW photo 13:42:26
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Sucker (General),28,0.4,,,,,,,,MW photo 13:44:29
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Sucker (General),29,0.4,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,89,7.3,,,,,,,,3DD.003E192B6D
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Rainbow Trout,121,19.3,,,,,,,,3DD.003E192BB3
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Rainbow Trout,118,17.5,,,,,,,,3DD.003E192B8E
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Coho Salmon,74,4.5,,,,,,,,3DD.003E192B73
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,34,2.4,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,35,1.5,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,33,0.5,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,34,0.6,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,32,1.7,,,,,,,,
+46,Helps Creek,124500_ds_ef1,0,0,46,electrofishing,1,1,Longnose Dace,31,0.5,,,,,,,,
+47,Helps Creek,124500_ds_ef2,0,0,47,electrofishing,1,1,Coho Salmon,98,10.8,,,,,,,,3DD.003E192B4C
+47,Helps Creek,124500_ds_ef2,0,0,47,electrofishing,1,1,Coho Salmon,95,7.6,,,,,,,,3DD.003E192B5B
+47,Helps Creek,124500_ds_ef2,0,0,47,electrofishing,1,1,Coho Salmon,84,6.2,,,,,,,,3DD.003E192B5F. MW photo 14:14:00
+47,Helps Creek,124500_ds_ef2,0,0,47,electrofishing,1,1,Coho Salmon,83,5.8,,,,,,,,3DD.003E192B58
+48,Helps Creek,124500_ds_ef3,0,0,48,electrofishing,1,1,Lamprey (General),129,3.3,,,,,,,,
+48,Helps Creek,124500_ds_ef3,0,0,48,electrofishing,1,1,Coho Salmon,85,7.6,,,,,,,,3DD.003E192B5D
+48,Helps Creek,124500_ds_ef3,0,0,48,electrofishing,1,1,Coho Salmon,88,7.6,,,,,,,,3DD.003E192B4B
+48,Helps Creek,124500_ds_ef3,0,0,48,electrofishing,1,1,Sucker (General),68,2.8,,,,,,,,3DD.003E192B6E. MW photo 14:28:03
+48,Helps Creek,124500_ds_ef3,0,0,48,electrofishing,1,1,Longnose Dace,48,1.2,,,,,,,,
+50,Helps Creek,124500_us_ef1,0,0,50,electrofishing,1,1,Coho Salmon,86,9.1,,,,,,,,3DD.003E192B4F. MW photo 15:41:09
+50,Helps Creek,124500_us_ef1,0,0,50,electrofishing,1,1,Sucker (General),71,3.5,,,,,,,,3DD.003E192B7A. MW photo 15:45:02
+50,Helps Creek,124500_us_ef1,0,0,50,electrofishing,1,1,Coho Salmon,91,8.4,,,,,,,,3DD.003E192B3D
+50,Helps Creek,124500_us_ef1,0,0,50,electrofishing,1,1,Coho Salmon,89,8.2,,,,,,,,3DD.003E192B45
+50,Helps Creek,124500_us_ef1,0,0,50,electrofishing,1,1,Coho Salmon,81,6.3,,,,,,,,3DD.003E192B65
+50,Helps Creek,124500_us_ef1,0,0,50,electrofishing,1,1,Longnose Dace,61,2.4,,,,,,,,MW photo 15:56:33
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,50,1.3,,,,,,,,
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,73,4.7,,,,,,,,3DD.003E192B5C. MW photo 14:06:13
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,66,2.9,,,,,,,,3DD.003E192B6F
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,52,1.3,,,,,,,,
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,64,2.6,,,,,,,,3DD.003E192B90
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Coho Salmon,85,8.2,,,,,,,,3DD.003E192B74
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Coho Salmon,99,9.8,,,,,,,,3DD.003E192B48. MW photo 16:18:54
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,80,5.4,,,,,,,,3DD.003E192B4B
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Coho Salmon,78,5.3,,,,,,,,3DD.003E192B78
+51,Helps Creek,124500_us_ef2,0,0,51,electrofishing,1,1,Longnose Dace,52,1.2,,,,,,,,
+49,Helps Creek,124500_us_ef3,0,0,49,electrofishing,1,1,No Fish Caught,,,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Dolly Varden,85,6,,,,,,,,3DD.003E192B8D
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Dolly Varden,87,6.2,,,,,,,,3DD.003E192B71
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,44,0.8,,,,,,,,AI photos 11:08:16-11:10:31
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,50,1.6,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,41,0.8,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,39,0.6,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,44,0.8,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,39,0.6,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,40,0.9,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,45,1.1,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,39,0.3,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,41,0.4,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,35,0.3,,,,,,,,
+14,Tributary to Coal Creek,8525_ds_ef1,0,0,14,electrofishing,1,1,Rainbow Trout,38,0.6,,,,,,,,
+15,Tributary to Coal Creek,8525_ds_ef2,0,0,15,electrofishing,1,1,Dolly Varden,82,6,,,,,,,,3DD.003E192B3A. MW photo 12:07:09
+15,Tributary to Coal Creek,8525_ds_ef2,0,0,15,electrofishing,1,1,Dolly Varden,90,6.1,,,,,,,,3DD.003E192B62
+15,Tributary to Coal Creek,8525_ds_ef2,0,0,15,electrofishing,1,1,Dolly Varden,79,5.1,,,,,,,,3DD.003E192B33
+16,Tributary to Coal Creek,8525_ds_ef3,0,0,16,electrofishing,1,1,Dolly Varden,80,5.3,,,,,,,,3DD.003E192B87. MW photo 12:42:53
+16,Tributary to Coal Creek,8525_ds_ef3,0,0,16,electrofishing,1,1,Dolly Varden,82,4.9,,,,,,,,3DD.003E192B59
+17,Tributary to Coal Creek,8525_us_ef1,0,0,17,electrofishing,1,1,Dolly Varden,89,7.9,,,,,,,,3DD.003E192B54. MW photo 14:02:20
+17,Tributary to Coal Creek,8525_us_ef1,0,0,17,electrofishing,1,1,Dolly Varden,74,4.2,,,,,,,,3DD.003E192B50. MW photo 14:45:06
+17,Tributary to Coal Creek,8525_us_ef1,0,0,17,electrofishing,1,1,Dolly Varden,83,5.9,,,,,,,,3DD.003E192B25
+18,Tributary to Coal Creek,8525_us_ef2,0,0,18,electrofishing,1,1,Dolly Varden,110,12.8,,,,,,,,3DD.003E192B4A. MW photo 15:46:18
+18,Tributary to Coal Creek,8525_us_ef2,0,0,18,electrofishing,1,1,Dolly Varden,121,19.5,,,,,,,,3DD.003E192B8F
+18,Tributary to Coal Creek,8525_us_ef2,0,0,18,electrofishing,1,1,Dolly Varden,90,7.2,,,,,,,,3DD.003E192B36
+19,Tributary to Coal Creek,8525_us_ef3,0,0,19,electrofishing,1,1,Dolly Varden,106,13.8,,,,,,,,3DD.003E192B43. MW photo 16:33:43
+19,Tributary to Coal Creek,8525_us_ef3,0,0,19,electrofishing,1,1,Dolly Varden,110,11.7,,,,,,,,3DD.003E192B46
+19,Tributary to Coal Creek,8525_us_ef3,0,0,19,electrofishing,1,1,Dolly Varden,83,6.2,,,,,,,,3DD.003E192B53
+20,Tributary to McDonell Lake,8478_ds_ef1,0,0,20,electrofishing,1,1,Dolly Varden,90,7.8,,,,,,,,3DD.003E192B8B. MW photo 12:00:35
+20,Tributary to McDonell Lake,8478_ds_ef1,0,0,20,electrofishing,1,1,Dolly Varden,92,8.1,,,,,,,,3DD.003E192B32
+20,Tributary to McDonell Lake,8478_ds_ef1,0,0,20,electrofishing,1,1,Dolly Varden,65,3.3,,,,,,,,3DD.003E192B6B
+20,Tributary to McDonell Lake,8478_ds_ef1,0,0,20,electrofishing,1,1,Dolly Varden,29,1.8,,,,,,,,
+21,Tributary to McDonell Lake,8478_ds_ef2,0,0,21,electrofishing,1,1,Dolly Varden,122,16.4,,,,,,,,3DD.003E192B42. MW photo 12:35:00
+21,Tributary to McDonell Lake,8478_ds_ef2,0,0,21,electrofishing,1,1,Dolly Varden,115,14.8,,,,,,,,3DD.003E192B7E
+21,Tributary to McDonell Lake,8478_ds_ef2,0,0,21,electrofishing,1,1,Dolly Varden,108,12.6,,,,,,,,3DD.003E192B38
+21,Tributary to McDonell Lake,8478_ds_ef2,0,0,21,electrofishing,1,1,Dolly Varden,63,3.4,,,,,,,,
+22,Tributary to McDonell Lake,8478_ds_ef3,0,0,22,electrofishing,1,1,Dolly Varden,169,17.7,,,,,,,,3DD.003E192B3E. AI photo 12:59:11. Gill plate lesion
+22,Tributary to McDonell Lake,8478_ds_ef3,0,0,22,electrofishing,1,1,Dolly Varden,97,8.6,,,,,,,,3DD.003E192B88. AI photo 13:02:08. Gill plate mark
+22,Tributary to McDonell Lake,8478_ds_ef3,0,0,22,electrofishing,1,1,Dolly Varden,109,10.7,,,,,,,,3DD.003E192B56. Both gill plates marked
+22,Tributary to McDonell Lake,8478_ds_ef3,0,0,22,electrofishing,1,1,Dolly Varden,64,2.7,,,,,,,,3DD.003E192B82
+23,Tributary to McDonell Lake,8478_us,0,0,23,electrofishing,1,1,Dolly Varden,63,3,,,,,,,,3DD.003E192B44. Caught at 14:37
+23,Tributary to McDonell Lake,8478_us,0,0,23,electrofishing,1,1,Dolly Varden,82,3,,,,,,,,3DD.003E192B2F. Caught at 14:52
+23,Tributary to McDonell Lake,8478_us,0,0,23,electrofishing,1,1,Dolly Varden,62,2.6,,,,,,,,3DD.003E192B49. Caught at 14:52
+23,Tributary to McDonell Lake,8478_us,0,0,23,electrofishing,1,1,Dolly Varden,101,10.4,,,,,,,,Caught at 15:08
+23,Tributary to McDonell Lake,8478_us,0,0,23,electrofishing,1,1,Dolly Varden,53,1.7,,,,,,,,Caught at 15:10
+25,Tributary to McDonell Lake,8547_ds_ef1,0,0,25,electrofishing,1,1,Cutthroat Trout (General),27,0.2,,,,,,,,Mort
+25,Tributary to McDonell Lake,8547_ds_ef1,0,0,25,electrofishing,1,1,Cutthroat Trout (General),70,3.3,,,,,,,,3DD.003E192B51. MW photo 14:02:58
+25,Tributary to McDonell Lake,8547_ds_ef1,0,0,25,electrofishing,1,1,Cutthroat Trout (General),36,0.5,,,,,,,,
+25,Tributary to McDonell Lake,8547_ds_ef1,0,0,25,electrofishing,1,1,Cutthroat Trout (General),31,0.3,,,,,,,,MW photo 14:12:57
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),30,,,,,,,,,VO
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),30,,,,,,,,,VO
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),93,9.3,,,,,,,,3DD.003E192B69. AI photo 14:37:44. Purple gill plate
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),80,4.9,,,,,,,,3DD.003E192B39
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),95,9,,,,,,,,3DD.003E192B40
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),75,4.9,,,,,,,,3DD.003E192B3B
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),61,2.1,,,,,,,,3DD.003E192B37
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),33,0.3,,,,,,,,
+26,Tributary to McDonell Lake,8547_ds_ef2,0,0,26,electrofishing,1,1,Cutthroat Trout (General),33,0.3,,,,,,,,
+27,Tributary to McDonell Lake,8547_ds_ef3,0,0,27,electrofishing,1,1,Cutthroat Trout (General),113,15,,,,,,,,3DD.003E192B7C. AI photo 15:14:46
+27,Tributary to McDonell Lake,8547_ds_ef3,0,0,27,electrofishing,1,1,Cutthroat Trout (General),99,11,,,,,,,,3DD.003E192B41
+28,Tributary to McDonell Lake,8547_us_ef1,0,0,28,electrofishing,1,1,Cutthroat Trout (General),32,0.3,,,,,,,,AI photo 15:44:52
+28,Tributary to McDonell Lake,8547_us_ef1,0,0,28,electrofishing,1,1,Cutthroat Trout (General),34,0.2,,,,,,,,
+28,Tributary to McDonell Lake,8547_us_ef1,0,0,28,electrofishing,1,1,Cutthroat Trout (General),28,0.2,,,,,,,,
+28,Tributary to McDonell Lake,8547_us_ef1,0,0,28,electrofishing,1,1,Cutthroat Trout (General),30,0.2,,,,,,,,
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),89,7.7,,,,,,,,3DD.003E192B31. AI photo 16:07:21
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),64,3.1,,,,,,,,3DD.003E192B57
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),76,5.1,,,,,,,,3DD.003E192B3C
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),58,1.9,,,,,,,,
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),63,2.4,,,,,,,,3DD.003E192B34
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),68,3.4,,,,,,,,3DD.003E192B35
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),35,0.3,,,,,,,,
+29,Tributary to McDonell Lake,8547_us_ef2,0,0,29,electrofishing,1,1,Cutthroat Trout (General),31,0.2,,,,,,,,
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),66,2.9,,,,,,,,3DD.003E192B30. AI photo 16:40:43
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),73,4,,,,,,,,3DD.003E192B3F
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),69,3.5,,,,,,,,3DD.003E192B7F
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),62,2.7,,,,,,,,3DD.003E192B86
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),61,2.2,,,,,,,,3DD.003E192B85
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),33,0.3,,,,,,,,
+30,Tributary to McDonell Lake,8547_us_ef3,0,0,30,electrofishing,1,1,Cutthroat Trout (General),35,0.5,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),111,,,,,,,,,AI photo 13:01:43
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Rainbow Trout,78,,,,,,,,,AI photo 13:03:53 and 13:04:00
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Rainbow Trout,98,,,,,,,,,AI photo 13:05:35
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),85,,,,,,,,,AI photo 13:07:00 and 13:07:04
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),107,,,,,,,,,AI photo 13:08:23
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),59,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),117,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),162,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),51,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),98,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),82,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),50,,,,,,,,,AI photo 13:10:38
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),135,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),125,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),80,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),105,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),127,,,,,,,,,AI photo 13:13:45
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),109,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Rainbow Trout,93,,,,,,,,,AI photo 13:15:00 and 13:15:04
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),47,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Cutthroat Trout (General),52,,,,,,,,,
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Rainbow Trout,48,,,,,,,,,AI photo 13:20:31
+31,Dale Creek,198215_ds_ef1,0,0,31,electrofishing,1,1,Rainbow Trout,46,,,,,,,,,AI photo 13:21:37 and 13:21:40
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Rainbow Trout,99,,,,,,,,,AI photo 13:39:10. Likely mortality
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Dolly Varden,101,,,,,,,,,AI photo 13:40:06
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Cutthroat Trout (General),60,,,,,,,,,AI photo 13:41:29
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Cutthroat Trout (General),52,,,,,,,,,
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Cutthroat Trout (General),53,,,,,,,,,
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Cutthroat Trout (General),49,,,,,,,,,AI photo 13:43:59
+32,Dale Creek,198215_ds_ef2,0,0,32,electrofishing,1,1,Cutthroat Trout (General),53,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),48,,,,,,,,,AI photo 14:02:55
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),43,,,,,,,,,mort?
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),48,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),59,,,,,,,,,AI photo 14:04:53 and 14:04:59
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),52,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Dolly Varden,53,,,,,,,,,AI photo 14:08:54
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Rainbow Trout,37,,,,,,,,,AI photo 14:12:21-14:12:39
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Rainbow Trout,40,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),52,,,,,,,,,AI photo 14:16:29
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),50,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),56,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),48,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),41,,,,,,,,,
+33,Dale Creek,198215_ds_ef3,0,0,33,electrofishing,1,1,Cutthroat Trout (General),36,,,,,,,,,
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Rainbow Trout,45,,,,,,,,,AI photo 14:52:36-14:52:59
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Rainbow Trout,86,,,,,,,,,AI photo 14:56:02
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),60,,,,,,,,,AI photo 14:57:30 and 14:58:07
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),98,,,,,,,,,
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Rainbow Trout,105,,,,,,,,,AI photo 15:00:25
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Rainbow Trout,87,,,,,,,,,
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),56,,,,,,,,,
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),60,,,,,,,,,AI photo 15:01:40
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Rainbow Trout,81,,,,,,,,,
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),55,,,,,,,,,
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),56,,,,,,,,,AI photo 15:05:56
+34,Dale Creek,198215_us_ef1,0,0,34,electrofishing,1,1,Cutthroat Trout (General),58,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),105,,,,,,,,,AI photo 15:21:41
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),95,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),58,,,,,,,,,AI photo 15:24:37
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),65,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),60,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),67,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),57,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),59,,,,,,,,,AI photo 15:28:31 and 15:28:40
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),56,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),57,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),61,,,,,,,,,
+35,Dale Creek,198215_us_ef2,0,0,35,electrofishing,1,1,Cutthroat Trout (General),51,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Rainbow Trout,85,,,,,,,,,AI photo 15:47:46
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Rainbow Trout,108,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Rainbow Trout,87,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),56,,,,,,,,,AI photo 15:50:14
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),55,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),51,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),58,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),54,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Rainbow Trout,43,,,,,,,,,AI photo 15:53:18 and 15:53:25
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),51,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),53,,,,,,,,,AI photo 15:55:15
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),58,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),49,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),40,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),55,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),60,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),53,,,,,,,,,
+36,Dale Creek,198215_us_ef3,0,0,36,electrofishing,1,1,Cutthroat Trout (General),51,,,,,,,,,
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),96,8.3,,,,,,,,3DD.003E192B4D. AI photo 11:30:11
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),39,0.6,,,,,,,,AI photo 11:36:19
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),39,0.7,,,,,,,,AI photo 11:38:00-11:42:43
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),63,2.4,,,,,,,,3DD.003E192B61
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),56,1.6,,,,,,,,
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),95,8.1,,,,,,,,3DD.003E192B5E. AI photo 11:46:53
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),54,1.7,,,,,,,,
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),50,1.2,,,,,,,,AI photo 11:50:49 and 11:51:14
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),60,2.4,,,,,,,,
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),35,0.6,,,,,,,,AI photo 11:55:36-11:56:03
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),56,2,,,,,,,,AI photo 11:57:32
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),41,0.7,,,,,,,,
+37,Tributary to Skeena River,198217_us_ef1,0,0,37,electrofishing,1,1,Cutthroat Trout (General),55,1.5,,,,,,,,
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),152,35.7,,,,,,,,3DD.003E192B66. AI photo 12:08:34
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),55,1.6,,,,,,,,
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),54,1.6,,,,,,,,
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),56,1.6,,,,,,,,
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),60,2.4,,,,,,,,
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),92,7.2,,,,,,,,3DD.003E192B14
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),77,4,,,,,,,,3DD.003E192AFB
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),82,5,,,,,,,,3DD.003E192B24
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),42,0.6,,,,,,,,AI photo 12:17:32
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),62,2.6,,,,,,,,3DD.003E192B0F
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),45,1,,,,,,,,AI photo 12:20:17
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),91,7.8,,,,,,,,3DD.003E192B19. Injured from tagging?
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),59,2.2,,,,,,,,
+38,Tributary to Skeena River,198217_us_ef2,0,0,38,electrofishing,1,1,Cutthroat Trout (General),42,0.7,,,,,,,,AI photo 12:23:59-12:24:32
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),101,10.5,,,,,,,,3DD.003E192B0E
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),131,22.2,,,,,,,,3DD.003E192B21
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),46,1.1,,,,,,,,AI photo 12:49:55-12:50:45
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),141,25,,,,,,,,3DD.003E192AD6. AI photo 12:52:28
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),167,42.5,,,,,,,,3DD.003E192B06
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),145,32,,,,,,,,3DD.003E192B23. AI photo 12:56:08
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),88,7.9,,,,,,,,3DD.003E192B22
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),104,10.1,,,,,,,,3DD.003E192B20
+39,Tributary to Skeena River,198217_us_ef3,0,0,39,electrofishing,1,1,Cutthroat Trout (General),113,12.8,,,,,,,,3DD.003E192B0B
+40,Tributary to Skeena River,198217_ds_ef1,0,0,40,electrofishing,1,1,Cutthroat Trout (General),44,0.8,,,,,,,,AI photo 14:20:08-14:20:14
+40,Tributary to Skeena River,198217_ds_ef1,0,0,40,electrofishing,1,1,Cutthroat Trout (General),57,1.6,,,,,,,,AI photo 14:21:36
+40,Tributary to Skeena River,198217_ds_ef1,0,0,40,electrofishing,1,1,Cutthroat Trout (General),38,0.5,,,,,,,,AI photo 14:22:34
+40,Tributary to Skeena River,198217_ds_ef1,0,0,40,electrofishing,1,1,Cutthroat Trout (General),43,0.7,,,,,,,,
+40,Tributary to Skeena River,198217_ds_ef1,0,0,40,electrofishing,1,1,Cutthroat Trout (General),38,0.6,,,,,,,,
+40,Tributary to Skeena River,198217_ds_ef1,0,0,40,electrofishing,1,1,Cutthroat Trout (General),45,1,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Dolly Varden,141,30,,,,,,,,3DD.003E192B2B. AI photo 14:49:03-14:53:19
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),101,10,,,,,,,,3DD.003E192B29. AI photo 14:54:54
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),103,9.5,,,,,,,,3DD.003E192B12
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Dolly Varden,59,2.2,,,,,,,,AI photo 15:01:11 and 15:01:42
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),56,1.9,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),46,1.1,,,,,,,,AI photo 15:06:26
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),38,0.6,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Dolly Varden,62,2.7,,,,,,,,3DD.003E192AFA
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),48,1.3,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),45,1.1,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),53,1.5,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),60,2.2,,,,,,,,
+41,Tributary to Skeena River,198217_ds_ef2,0,0,41,electrofishing,1,1,Cutthroat Trout (General),50,1.3,,,,,,,,
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),104,9.8,,,,,,,,3DD.003E192AF9. AI photo 15:33:46
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,118,20.4,,,,,,,,3DD.003E192AF4. AI photo 15:35:40-15:36:48
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,176,62.8,,,,,,,,3DD.003E192AE2
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),115,13.5,,,,,,,,mort
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,126,19.6,,,,,,,,3DD.003E192B26. AI photo 15:42:57-15:43:35. No gill plate left side.
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,121,19.8,,,,,,,,3DD.003E192AF3. AI photo 15:46:36-15:46:51. Healthy
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),102,9.6,,,,,,,,3DD.003E192B15
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),96,8.3,,,,,,,,3DD.003E192AE3. AI photo 15:50:03-15:50:16. CCT?
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),102,9.9,,,,,,,,3DD.003E192B2C
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),94,7.5,,,,,,,,3DD.003E192B04
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),49,1.1,,,,,,,,mort
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,52,1.6,,,,,,,,AI photo 15:55:42
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,58,2,,,,,,,,AI photo 15:57:38-15:57:41
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,124,19.1,,,,,,,,3DD.003E192B1D
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,140,31,,,,,,,,3DD.003E192B25. AI photo 16:01:00. Healthy
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),116,14.9,,,,,,,,3DD.003E192B0A
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,139,29.9,,,,,,,,3DD.003E192AD5
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),108,12.8,,,,,,,,3DD.003E192B1F
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,108,13.7,,,,,,,,3DD.003E192ACC. AI photo 16:08:13-16:08:18
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),104,10.6,,,,,,,,3DD.003E192ACF
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Dolly Varden,108,12.1,,,,,,,,3DD.003E192B00. AI photo 16:11:02
+42,Tributary to Skeena River,198217_ds_ef3,0,0,42,electrofishing,1,1,Cutthroat Trout (General),94,7.9,,,,,,,,3DD.003E192B28
+61,Gramophone Creek,58067_ds,0,0,61,dip netting,1,1,Coho Salmon,90,,,,,,,,,AI photo 13:15:24-13:31:01
+61,Gramophone Creek,58067_ds,0,0,61,dip netting,1,1,Coho Salmon,65,,,,,,,,,AI photo 13:54:50-13:35:27
+61,Gramophone Creek,58067_ds,0,0,61,dip netting,1,1,Coho Salmon,67,,,,,,,,,AI photo 13:41:25-13:43:18
+61,Gramophone Creek,58067_ds,0,0,61,dip netting,1,1,Coho Salmon,90,,,,,,,,,AI photo 13:46:33-13:46:50
+61,Gramophone Creek,58067_ds,0,0,61,dip netting,1,1,Coho Salmon,70,,,,,,,,,AI photo 13:52:25-13:53:06
+61,Gramophone Creek,58067_ds,0,0,61,dip netting,1,1,Coho Salmon,81,,,,,,,,,AI photo 13:55:09-13:55:18
+64,Tributary to Tagit Creek,198022_ds_ef1,0,0,64,electrofishing,1,1,Dolly Varden,128,26.1,,,,,,,,3DD.003E192B1A. AI photo 13:21:13
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),167,45.4,,,,,,,,3DD.003E192AD1. AI photo 14:45:47
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),101,9.7,,,,,,,,3DD.003E192AD4
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),105,10.6,,,,,,,,3DD.003E192AF7. AI photo 14:52:32
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),98,8.8,,,,,,,,3DD.003E192AF5
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),110,13.2,,,,,,,,3DD.003E192B2A
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),132,21.7,,,,,,,,3DD.003E192AE8. AI photo 14:58:57
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),101,10.1,,,,,,,,3DD.003E192AF1
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),67,2.7,,,,,,,,3DD.003E192AF6
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),70,3.7,,,,,,,,3DD.003E192B1B
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),94,7.5,,,,,,,,3DD.003E192AEF
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),85,6.1,,,,,,,,3DD.003E192B17. Injured?
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),71,3.4,,,,,,,,3DD.003E192AE9
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),108,12,,,,,,,,3DD.003E192B05
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),90,6.9,,,,,,,,3DD.003E192ADC
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),94,7.6,,,,,,,,3DD.003E192B10
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),80,4.5,,,,,,,,3DD.003E192B09
+65,Tributary to Tagit Creek,198022_us_ef1,0,0,65,electrofishing,1,1,Cutthroat Trout (General),106,11.4,,,,,,,,3DD.003E192AEB
+=======
+>>>>>>> merge-habcon
 3,Tributary to Owen Creek,197378_ds_ef1,0,0,0,electrofishing,1,1,Rainbow Trout,108,,,,,,,,,3DD.003E192B88. AI photo 12:26:14
 3,Tributary to Owen Creek,197378_ds_ef1,0,0,0,electrofishing,1,1,Rainbow Trout,108,,,,,,,,,3DD.003E192B98
 3,Tributary to Owen Creek,197378_ds_ef1,0,0,0,electrofishing,1,1,Rainbow Trout,87,,,,,,,,,3DD.003E192BC1
@@ -416,3 +838,7 @@ reference_number,gazetted_names,local_name,waterbody_id,reach_number,site_number
 65,Tributary to Tagit Creek,198022_us_ef1,0,0,0,electrofishing,1,1,Cutthroat Trout (General),94,7.599999999999999,,,,,,,,3DD.003E192B10
 65,Tributary to Tagit Creek,198022_us_ef1,0,0,0,electrofishing,1,1,Cutthroat Trout (General),80,4.5,,,,,,,,3DD.003E192B09
 65,Tributary to Tagit Creek,198022_us_ef1,0,0,0,electrofishing,1,1,Cutthroat Trout (General),106,11.4,,,,,,,,3DD.003E192AEB
+<<<<<<< HEAD
+=======
+>>>>>>> d4ad3f0 (temp changes to keep going on getting report done)
+>>>>>>> merge-habcon

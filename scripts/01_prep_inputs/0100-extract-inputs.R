@@ -668,26 +668,21 @@ hab_fish_indiv_prep3 |>
 hab_fish_indiv <- full_join(
   select(hab_fish_indiv_prep3,
          reference_number,
-         sampling_method,
-         method_number,
-         haul_number_pass_number,
+         alias_local_name,
          species_code,
          length_mm,
          weight_g),
   select(hab_fish_collect_prep,
          reference_number,
          local_name,
-         temperature_c:model,
+         sampling_method:model,
          date_in:time_out, ##added date_in:time_out because we did minnow traps
-         comments
-  ),
+         comments),
   by = c(
     "reference_number",
-    # 'alias_local_name' = 'local_name',
-    "sampling_method",
-    "method_number",
-    "haul_number_pass_number")
+    'alias_local_name' = 'local_name')
 ) |>
+  rename(local_name = alias_local_name) |>
   mutate(species_code = as.character(species_code)) |>
   mutate(species_code = case_when(
     is.na(species_code) ~ 'NFC',
@@ -700,17 +695,14 @@ hab_fish_indiv <- full_join(
     length_mm > 110 & length_mm <= 140 ~ 'juvenile',
     length_mm > 140 ~ 'adult',
     T ~ NA_character_
-    )
-  # life_stage = case_when(
-  #   species_code %in% c('L', 'SU', 'LSU') ~ NA_character_,
-  #   T ~ life_stage),
-  # comments = case_when(
-  #   species_code %in% c('L', 'SU', 'LSU') & !is.na(comments) ~
-  #     paste0(comments, 'Not salmonids so no life stage specified.'),
-  #   species_code %in% c('L', 'SU', 'LSU') & is.na(comments) ~
-  #     'Not salmonids so no life stage specified.',
-  #   T ~ comments)
-  )|>
+  )) |>
+  mutate(life_stage = case_when(
+    str_detect(species_code, 'L|SU|LSU') ~ NA_character_,
+    TRUE ~ life_stage)) |>
+  mutate(comments = case_when(
+    str_detect(species_code, 'L|SU|LSU') & is.na(comments) ~
+      'Not salmonids so no life stage specified.',
+    T ~ comments))|>
   mutate(life_stage = fct_relevel(life_stage,
                                   'fry',
                                   'parr',
@@ -718,6 +710,7 @@ hab_fish_indiv <- full_join(
                                   'adult')) |>
   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
   mutate(site_id = paste0(site, '_', location))
+
 
 
 
@@ -802,12 +795,12 @@ hab_fish_input_prep2 <- left_join(
   #janitor::adorn_totals()   ##use this to ensure you have the same number of fish in the summary as the individual fish sheet
 
 
-## Read in form_fiss to get the following fields: Temp, conductivity, turbidity, and site length.
+## Read in form_fiss to get the site length.
 form_fiss_site_raw <- sf::st_read(dsn= paste0('../../gis/', dir_gis, '/data_field/2023/form_fiss_site_', year, '.gpkg')) |>
   st_drop_geometry()
 
 
-## Read in step_4_stream_site_data to get the average wetted width which is the site width
+## Read in step_4_stream_site_data to get the average wetted width which is the site width, temp, conductivity, and turbidity.
 hab_site_dat_raw <- habitat_confirmations |>
   purrr::pluck("step_4_stream_site_data") |>
   dplyr::filter(!is.na(site_number))
@@ -815,9 +808,9 @@ hab_site_dat_raw <- habitat_confirmations |>
 
 ## Join columns together so we can add them to the fish data (hab_fish_input_prep2)
 hab_site_dat <- left_join(form_fiss_site_raw |>
-                            select(local_name, temperature_c, conductivity_m_s_cm, turbidity, site_length),
+                            select(local_name, site_length),
                           hab_site_dat_raw |>
-                            select(reference_number, local_name, avg_wetted_width_m) |>
+                            select(reference_number, local_name, temperature_c, conductivity_m_s_cm, turbidity, avg_wetted_width_m) |>
                             mutate(avg_wetted_width_m = round(avg_wetted_width_m, digits = 2)),
                           by = 'local_name')
 
@@ -828,15 +821,15 @@ hab_fish_input <- left_join(hab_fish_input_prep2,
   # Order like template
   relocate(temperature_c, conductivity_m_s_cm, turbidity, .after = site) |>
   relocate(local_name, .after = reference_number) |>
+  relocate(fish_activity, .after = reference_number) |>
   # Rename columns
   mutate(ef_length_m = site_length,
          ef_width_m = avg_wetted_width_m) |>
   # Now we can remove these columns
   select(-site_length, -avg_wetted_width_m) |>
   # Add in make and model of ef
-  mutate(model = case_when(local_name %like% 'ef' ~ 'halltech HT2000'),
-         make = case_when(local_name %like% 'ef' ~ 'other'),
-         method_number = "1")
+  mutate(model = case_when(str_detect(local_name, 'ef') ~ 'halltech HT2000'),
+         make = case_when(str_detect(local_name, 'ef') ~ 'other'))
 
 ## Burn to a csv so you can cut and paste into your fish submission
 ## The following fields need to be added by hand from the fish cards: sampling_method, ef_seconds, enclosure, voltage, frequency
