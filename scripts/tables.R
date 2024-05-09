@@ -257,6 +257,9 @@ hab_fish_collect_map_prep <- habitat_confirmations |>
 
 ##prep the location info so it is ready to join to the fish data
 
+################################################################################################################
+#------------------------------hack to deal with fish utm and demo waypoints - start----------------------------
+################################################################################################################
 # name sites that don't have `ef` or `mt` in their name but have fish info b/c we still need
 # those UTMs
 sites_no_label <- c("8478_us", "58067_ds2")
@@ -308,7 +311,9 @@ hab_loc2 <- dplyr::left_join(
   dplyr::select(-all_of(c("easting", "northing")))
 
 
-
+################################################################################################################
+#--------------------------------------------------end hack for utm fish gramaphone-----------------------------
+################################################################################################################
 
 # test to see what we get at each site
 test <- hab_fish_collect_map_prep |>
@@ -393,10 +398,10 @@ hab_fish_collect_prep1 <- habitat_confirmations |>
   dplyr::filter(!is.na(site_number)) |>
   select(-gazetted_name:-site_number)
 
-hab_features <- left_join(
+hab_features <- dplyr::left_join(
   habitat_confirmations |>
     purrr::pluck("step_4_stream_site_data") |>
-    select(reference_number,local_name, feature_type:utm_northing) |>
+    dplyr::select(reference_number,local_name, feature_type:utm_northing) |>
     dplyr::filter(!is.na(feature_type)),
 
   fpr::fpr_xref_obstacles,
@@ -419,7 +424,10 @@ hab_fish_indiv_prep2 <- left_join(
 
 hab_fish_indiv_prep3 <- left_join(
   hab_fish_indiv_prep2,
-  select(hab_fish_codes, common_name:species_code),
+
+  hab_fish_codes |>
+    select(common_name:species_code),
+
   by = c('species' = 'common_name')
 ) |>
   dplyr::select(reference_number,
@@ -439,21 +447,25 @@ hab_fish_collect_info <- habitat_confirmations |>
   dplyr::distinct(reference_number, sampling_method, method_number, haul_number_pass_number, .keep_all = T)
 
 # join the indiv fish data to existing site info
-hab_fish_indiv <- full_join(
-  select(hab_fish_indiv_prep3,
-         reference_number,
-         sampling_method,
-         method_number,
-         haul_number_pass_number,
-         species_code,
-         length_mm,
-         weight_g),
-  select(hab_fish_collect_info,
-         reference_number,
-         local_name,
-         temperature_c:model, ##added date_in:time_out
-         comments
-  ),
+hab_fish_indiv <- dplyr::full_join(
+
+  hab_fish_indiv_prep3 |>
+    dplyr::select(
+      reference_number,
+      sampling_method,
+      method_number,
+      haul_number_pass_number,
+      species_code,
+      length_mm,
+      weight_g),
+
+  hab_fish_collect_info |>
+    dplyr::select(
+      reference_number,
+      local_name,
+      temperature_c:model, ##added date_in:time_out
+      comments
+    ),
   by = c(
     "reference_number",
     # 'alias_local_name' = 'local_name',
@@ -462,6 +474,7 @@ hab_fish_indiv <- full_join(
     "haul_number_pass_number")
 ) |>
   mutate(species_code = as.character(species_code)) |>
+  # something is goign wrong here
   mutate(species_code = case_when(
     is.na(species_code) ~ 'NFC',
     T ~ species_code)
@@ -538,7 +551,14 @@ fish_nfc_tag<- fish_abund_prep2 |>
       species_code == 'NFC' ~ T,
       T ~ nfc_pass)
   ) |>
-  select(local_name, species_code, life_stage, haul_number_pass_number, pass_total, nfc_pass) |>
+  select(
+    local_name,
+    species_code,
+    life_stage,
+    haul_number_pass_number,
+    pass_total,
+    # catch, #update 2024 - added this temporarily to make easier to understand that no fish of particular species captured on pass
+    nfc_pass) |>
   arrange(desc(haul_number_pass_number)) |>
   # dplyr::filter(nfc_pass == T) |>
   distinct(local_name, species_code, life_stage, .keep_all = T) |>
@@ -648,11 +668,9 @@ tab_fish_sites_sum <- left_join(
   select(site = local_name, passes = pass_total, ef_length_m, ef_width_m, area_m2, enclosure)
 
 rm(
-  fish_abund_nfc_prep,
   fish_abund_prep,
   fish_abund_prep2,
   fish_abund_prep3,
-  fish_abund_prep4,
   fish_nfc_tag
 )
 
@@ -682,27 +700,30 @@ rm(
 # priorities phase 2--------------------------------------------------------------
 #load priorities
 habitat_confirmations_priorities <- readr::read_csv(
-  file = "./data/habitat_confirmations_priorities.csv",
+  file = "data/habitat_confirmations_priorities.csv",
   #this is not necessary but we will leave.
   locale = readr::locale(encoding = "UTF-8")) |>
-  dplyr::filter(!alias_local_name %like% 'ef' &
-           ##ditch the ef sites and the toboggan site that is passable
-           !alias_local_name %like% '198042') |> ##ditch the ef sites and the toboggan site that is passable
+  dplyr::filter(!stringr::str_detect(alias_local_name, "_ef")) |>
   # tidyr::separate(local_name, into = c('site', 'location'), remove = F) |>
-  mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1)) |>
-  rename(local_name = alias_local_name) #did this to stay consistent for later
+  dplyr::mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1)) |>
+  dplyr::rename(local_name = alias_local_name) #did this to stay consistent for later
 
 
 
-hab_site_priorities_prep <- left_join(
-  select(habitat_confirmations_priorities, reference_number, local_name, priority),
-  select(hab_site, reference_number, alias_local_name, site, utm_zone:utm_northing),
+hab_site_priorities_prep <- dplyr::left_join(
+
+  habitat_confirmations_priorities |>
+    dplyr::select(reference_number, local_name, priority),
+
+  hab_site |>
+    dplyr::select(reference_number, alias_local_name, site, utm_zone:utm_northing),
+
   by = 'reference_number'
 ) |>
-  dplyr::filter(!local_name %like% '_ds' &
+  dplyr::filter(!stringr::str_detect(local_name, '_ds') &
            # ends in a number
-           !local_name %like% '\\d$') |>
-  select(-local_name) |>
+             !stringr::str_detect(local_name,'\\d$')) |>
+  dplyr::select(-local_name) |>
   dplyr::filter(!is.na(priority))  ##this is how we did it before.  changed it to get a start on it
 
 hab_site_priorities <- left_join(
