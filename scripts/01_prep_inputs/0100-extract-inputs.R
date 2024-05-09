@@ -336,12 +336,135 @@ pscis2_rd_tenure %>%
 
 lfpr_structure_size_type(pscis_all)
 
+
+# extract rd cost multiplier ----------------------------------------------
+
+# rebuild using bcfishpass object from the tables.R script.
+# see older repos if we need to go back to a system that can run these before we have pscis IDs - simplifying for now on
+rd_class_surface <- bcfishpass %>%
+  dplyr::select(stream_crossing_id, transport_line_structured_name_1:dam_operating_status) %>%
+  dplyr::filter(stream_crossing_id %in% (
+    pscis_all %>% dplyr::pull(pscis_crossing_id))
+  ) %>%
+  dplyr::mutate(my_road_class = ften_file_type_description,
+                my_road_class = dplyr::case_when(is.na(my_road_class) & !is.na(transport_line_type_description) ~
+                                                   transport_line_type_description,
+                                                 T ~ my_road_class),
+                my_road_class = dplyr::case_when(is.na(my_road_class) & !is.na(rail_owner_name) ~
+                                                   'rail',
+                                                 T ~ my_road_class),
+                my_road_surface = dplyr::case_when(is.na(transport_line_surface_description) & !is.na(ften_file_type_description) ~
+                                                     'loose',
+                                                   T ~ transport_line_surface_description),
+                my_road_surface = dplyr::case_when(is.na(my_road_surface) & !is.na(rail_owner_name) ~
+                                                     'rail',
+                                                   T ~ my_road_surface),
+                my_road_class = stringr::str_replace_all(my_road_class, 'Forest Service Road', 'fsr'),
+                my_road_class = stringr::str_replace_all(my_road_class, 'Road ', ''),
+                my_road_class = stringr::str_replace_all(my_road_class, 'Special Use Permit, ', 'Permit-Special-'),
+                my_road_class = case_when(
+                  stringr::str_detect(my_road_class, 'driveway') ~ 'driveway',
+                  T ~ my_road_class),
+                my_road_class = stringr::word(my_road_class, 1),
+                my_road_class = stringr::str_to_lower(my_road_class)) %>%
+  dplyr::filter(stream_crossing_id %in% (
+    pscis_all %>% pull(pscis_crossing_id))
+  )
+
+conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+readwritesqlite::rws_list_tables(conn)
+readwritesqlite::rws_write(rd_class_surface, exists = F, delete = T,
+          conn = conn, x_name = "rd_class_surface")
+readwritesqlite::rws_disconnect(conn)
+
+
+#-------------xref_hab_site_corrected----------------------
+# This is used to sub in new PSCIS IDs for my crossing references in the `alias_local_name` of
+# habitat confirmations file.
+habitat_confirmations <- fpr_import_hab_con(row_empty_remove = T)
+
+hab_loc <- habitat_confirmations %>%
+  purrr::pluck("step_1_ref_and_loc_info") %>%
+  dplyr::filter(!is.na(site_number))%>%
+  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
+  tidyr::separate(alias_local_name, into = c('site', 'location', 'fish'), remove = F) %>%
+  select(site:fish) %>%
+  mutate(site = as.numeric(site))
+
+xref_hab_site_corrected <- left_join(
+  hab_loc,
+  xref_pscis_my_crossing_modelled,
+  by = c('site' = 'external_crossing_reference')
+) %>%
+  mutate(stream_crossing_id = as.numeric(stream_crossing_id),
+         stream_crossing_id = case_when(
+           is.na(stream_crossing_id) ~ site,
+           T ~ stream_crossing_id
+         )) %>%
+  mutate(site_corrected = paste(stream_crossing_id, location, fish, sep = '_')) %>%
+  mutate(site_corrected = stringr::str_replace_all(site_corrected, '_NA', '')) %>%
+  tibble::rownames_to_column() |>
+  readr::write_csv(file = 'data/inputs_extracted/xref_hab_site_corrected.csv', na = '')
+
+
+## xref_phase2_corrected------------------------------------
+# once we have our data loaded this gives us a xref dataframe to pull in pscis ids and join to our PSCIS  spreadsheet imports
+pscis_all <- bind_rows(pscis_list)
+
+xref_phase2_corrected <- left_join(
+  pscis_all,
+
+  xref_pscis_my_crossing_modelled,
+
+  by = c('my_crossing_reference' = 'external_crossing_reference')
+) |>
+  mutate(pscis_crossing_id = case_when(
+    is.na(pscis_crossing_id) ~ stream_crossing_id,
+    T ~ as.integer(pscis_crossing_id)
+  )) %>%
+  dplyr::filter(str_detect(source, 'phase2'))  |>
+  readr::write_csv(file = '/data/inputs_extracted/xref_phase2_corrected.csv', na = '')
+
+
+# UTMs Phase 2--------------------------------------------------------------------
+# get just the us sites that aren't ef sites.
+
+get_this <- bcdata::bcdc_tidy_resources('pscis-assessments') %>%
+  filter(bcdata_available == T)  |>
+  pull(package_id)
+
+dat <- bcdata::bcdc_get_data(get_this) |>
+  janitor::clean_names()
+
+
+habitat_confirmations <- fpr::fpr_import_hab_con(row_empty_remove = T)
+
+utms_hab_prep1 <- habitat_confirmations |>
+  purrr::pluck("step_1_ref_and_loc_info") |>
+  dplyr::filter(!is.na(site_number))|>
+  tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F)
+
+utms <- dat |>
+  filter(stream_crossing_id %in% (utms_hab_prep1 |> distinct(site) |> pull(site))) |>
+  select(stream_crossing_id, utm_zone:utm_northing) |>
+  mutate(alias_local_name = paste0(stream_crossing_id, '_us')) |>
+  sf::st_drop_geometry()
+
+utms_hab <- left_join(
+  utms_hab_prep1 |> select(-utm_zone:-utm_northing),
+  utms,
+  by = 'alias_local_name'
+) |>
+  readr::write_csv('data/inputs_extracted/utms_hab.csv', na = '')
+
+
 # build priority spreadsheet ----------------------------------------------
 
 # spreadsheet to build for input includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
 # thing is that we don't really have the fish info
 
 hab_con <- fpr_import_hab_con(backup = F, row_empty_remove = T)
+
 hab_priority_prep1 <- hab_con %>%
   purrr::pluck("step_1_ref_and_loc_info") %>%
   dplyr::filter(!is.na(alias_local_name)) %>%
@@ -368,7 +491,7 @@ hab_priority_prep <- left_join(
     select(reference_number, comments),
   by = 'reference_number'
 ) %>%
-  filter(!comments %ilike% 'feature_record_only') #we don't need to bin for these but we left them for now
+  dplyr::filter(!stringr::str_detect(comments, 'feature_record_only')) #no need to add these to the priority list
 
 # grab the fish species
 
@@ -376,175 +499,17 @@ hab_priority_prep <- left_join(
 hab_priority_prep %>%
   readr::write_csv('data/habitat_confirmations_priorities_raw.csv', na = '')
 
-# extract rd cost multiplier ----------------------------------------------
-
-# rebuild using bcfishpass object from the tables.R script.
-# see older repos if we need to go back to a system that can run these before we have pscis IDs simplifying for now on
-rd_class_surface <- bcfishpass %>%
-  select(stream_crossing_id, transport_line_structured_name_1:dam_operating_status) %>%
-  filter(stream_crossing_id %in% (
-    pscis_all %>% pull(pscis_crossing_id))
-  ) %>%
-  dplyr::mutate(my_road_class = ften_file_type_description) %>%
-  dplyr::mutate(my_road_class = case_when(is.na(my_road_class) & !is.na(transport_line_type_description) ~
-                                            transport_line_type_description,
-                                          T ~ my_road_class)) %>%
-
-  dplyr::mutate(my_road_class = case_when(is.na(my_road_class) & !is.na(rail_owner_name) ~
-                                            'rail',
-                                          T ~ my_road_class)) %>%
-  dplyr::mutate(my_road_surface = case_when(is.na(transport_line_surface_description) & !is.na(ften_file_type_description) ~
-                                              'loose',
-                                            T ~ transport_line_surface_description)) %>%
-  dplyr::mutate(my_road_surface = case_when(is.na(my_road_surface) & !is.na(rail_owner_name) ~
-                                              'rail',
-                                            T ~ my_road_surface)) %>%
-  mutate(my_road_class = stringr::str_replace_all(my_road_class, 'Forest Service Road', 'fsr'),
-         my_road_class = stringr::str_replace_all(my_road_class, 'Road ', ''),
-         my_road_class = stringr::str_replace_all(my_road_class, 'Special Use Permit, ', 'Permit-Special-'),
-         my_road_class = case_when(
-           stringr::str_detect(my_road_class, 'driveway') ~ 'driveway',
-           T ~ my_road_class),
-         my_road_class = stringr::word(my_road_class, 1),
-         my_road_class = stringr::str_to_lower(my_road_class)) %>%
-  filter(stream_crossing_id %in% (
-    pscis_all %>% pull(pscis_crossing_id))
-  )
-
-
-
-
-conn <- rws_connect("data/bcfishpass.sqlite")
-rws_list_tables(conn)
-rws_write(rd_class_surface, exists = F, delete = T,
-          conn = conn, x_name = "rd_class_surface")
-
-####----tab cost multipliers for road surface-----
-# moving this to a csv to simplify setup. We just alter the csv when we need more categories and want to change the price
-# csv located in 'data/inputs_raw/tab_cost_rd_mult.csv'
-
-# rd_cost_mult <- pscis_rd %>%
-#   select(my_road_class, my_road_surface) %>%
-#   # mutate(road_surface_mult = NA_real_, road_class_mult = NA_real_) %>%
-#   mutate(road_class_mult = case_when(my_road_class == 'local' ~ 4,
-#                                      my_road_class == 'collector' ~ 4,
-#                                      my_road_class == 'arterial' ~ 15,
-#                                      my_road_class == 'highway' ~ 15,
-#                                      my_road_class == 'rail' ~ 15,
-#                                      T ~ 1))  %>%
-#   mutate(road_surface_mult = case_when(my_road_surface == 'loose' |
-#                                          my_road_surface == 'rough' ~
-#                                          1,
-#                                        T ~ 2)) %>%
-#   # mutate(road_type_mult = road_class_mult * road_surface_mult) %>%
-#   mutate(cost_m_1000s_bridge = road_surface_mult * road_class_mult * 20,  #changed from 12.5 due to inflation
-#          cost_embed_cv = road_surface_mult * road_class_mult * 40) %>%
-#   # mutate(cost_1000s_for_10m_bridge = 10 * cost_m_1000s_bridge) %>%
-#   distinct( .keep_all = T) %>%
-#   tidyr::drop_na() %>%
-#   arrange(cost_m_1000s_bridge, my_road_class)
-#
-# rws_write(rd_cost_mult, exists = F, delete = TRUE,
-#           conn = conn, x_name = "rd_cost_mult")
-# rws_list_tables(conn)
-rws_disconnect(conn)
-
-
-## xref_hab_site_corrected----------------------
-habitat_confirmations <- fpr_import_hab_con()
-
-hab_loc <- habitat_confirmations %>%
-  purrr::pluck("step_1_ref_and_loc_info") %>%
-  dplyr::filter(!is.na(site_number))%>%
-  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'fish'), remove = F) %>%
-  select(site:fish) %>%
-  mutate(site = as.numeric(site))
-
-xref_hab_site_corrected <- left_join(
-  hab_loc,
-  xref_pscis_my_crossing_modelled,
-  by = c('site' = 'external_crossing_reference')
-) %>%
-  mutate(stream_crossing_id = as.numeric(stream_crossing_id),
-         stream_crossing_id = case_when(
-           is.na(stream_crossing_id) ~ site,
-           T ~ stream_crossing_id
-         )) %>%
-  mutate(site_corrected = paste(stream_crossing_id, location, fish, sep = '_')) %>%
-  mutate(site_corrected = stringr::str_replace_all(site_corrected, '_NA', '')) %>%
-  tibble::rownames_to_column() %>%
-  readr::write_csv(file = paste0(getwd(), '/data/inputs_extracted/xref_hab_site_corrected.csv'), na = '')
-
-
-# rws_list_tables(conn)
-# rws_drop_table("xref_hab_site_corrected", conn = conn) ##now drop the table so you can replace it
-# rws_write(hab_site_corrected, exists = F, delete = TRUE,
-#           conn = conn, x_name = "xref_hab_site_corrected")
-
-## xref_phase2_corrected------------------------------------
-# once we have our data loaded this gives us a xref dataframe to pull in pscis ids and join to our  spreadsheet imports
-pscis_all <- bind_rows(pscis_list)
-
-xref_phase2_corrected <- left_join(
-  pscis_all,
-  xref_pscis_my_crossing_modelled,
-  by = c('my_crossing_reference' = 'external_crossing_reference')
-) |>
-  mutate(pscis_crossing_id = case_when(
-    is.na(pscis_crossing_id) ~ stream_crossing_id,
-    T ~ as.integer(pscis_crossing_id)
-  )) %>%
-  dplyr::filter(str_detect(source, 'phase2'))  |>
-  readr::write_csv(file = '/data/inputs_extracted/xref_phase2_corrected.csv', na = '')
-
-# rws_list_tables(conn)
-# rws_drop_table("xref_phase2_corrected", conn = conn) ##now drop the table so you can replace it
-# rws_write(xref_pscis_my_crossing_phase2, exists = F, delete = TRUE,
-#           conn = conn, x_name = "xref_phase2_corrected")
-# rws_list_tables(conn)
-# rws_disconnect(conn)
-
-
-# UTMs Phase 2--------------------------------------------------------------------
-# get just the us sites that aren't ef sites
-
-get_this <- bcdata::bcdc_tidy_resources('pscis-assessments') %>%
-  filter(bcdata_available == T)  |>
-  pull(package_id)
-
-dat <- bcdata::bcdc_get_data(get_this) |>
-  janitor::clean_names()
-
-
-habitat_confirmations <- fpr::fpr_import_hab_con()
-
-utms_hab_prep1 <- habitat_confirmations |>
-  purrr::pluck("step_1_ref_and_loc_info") |>
-  dplyr::filter(!is.na(site_number))|>
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F)
-
-utms <- dat |>
-  filter(stream_crossing_id %in% (utms_hab_prep1 |> distinct(site) |> pull(site))) |>
-  select(stream_crossing_id, utm_zone:utm_northing) |>
-  mutate(alias_local_name = paste0(stream_crossing_id, '_us')) |>
-  sf::st_drop_geometry()
-
-utms_hab <- left_join(
-  utms_hab_prep1 |> select(-utm_zone:-utm_northing),
-  utms,
-  by = 'alias_local_name'
-) |>
-  readr::write_csv('data/inputs_extracted/utms_hab.csv', na = '')
-
-
 # Fish species and hab gain estimates for phase 2 sites ------------------------
 
 habitat_con_pri <- read_csv('data/habitat_confirmations_priorities.csv')
 
 hab_priority_fish_hg <- left_join(
-  habitat_con_pri |> select(reference_number, alias_local_name, site, location, ef),
-  bcfishpass |> select(stream_crossing_id, observedspp_upstr, st_rearing_km),
+  habitat_con_pri |>
+    select(reference_number, alias_local_name, site, location, ef),
+
+  bcfishpass |>
+    select(stream_crossing_id, observedspp_upstr, st_rearing_km),
+
   by = c('site' = 'stream_crossing_id')
 ) |>
   mutate(observedspp_upstr = gsub("[{}]", "", observedspp_upstr)) |>
