@@ -502,7 +502,7 @@ form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
          date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
          date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC"))
 # turn on line below and add pipe aboveto visualize and confirm the times are correct
-# looks like site 8478 imports raw as it should so is converted incorrectly. not sure why and not related
+# looks like site 8478 imports raw represented in PDT so is converted incorrectly. not sure why and not related
 # to method of time conversion at all I (al) don't think though.
 # select(local_name, date_time_start, date_time_start_raw)
 
@@ -537,7 +537,7 @@ hab_priority_prep <- form_fiss_site_raw |>
   crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
   length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
   hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
-  priority = NA_character_,
+  priority = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = priority)),
   upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
   species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
   gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
