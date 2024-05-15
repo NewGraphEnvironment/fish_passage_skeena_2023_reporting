@@ -414,6 +414,7 @@ pscis_all <- bind_rows(pscis_list)
 xref_phase2_corrected <- left_join(
   pscis_all,
 
+  # this is made in scripts/tables.R
   xref_pscis_my_crossing_modelled,
 
   by = c('my_crossing_reference' = 'external_crossing_reference')
@@ -427,113 +428,109 @@ xref_phase2_corrected <- left_join(
 
 
 # UTMs Phase 2--------------------------------------------------------------------
-# get just the us sites that aren't ef sites.
+# get just the us sites that aren't ef sites. we are not running this since it is not necessary
 
-get_this <- bcdata::bcdc_tidy_resources('pscis-assessments') %>%
-  filter(bcdata_available == T)  |>
-  pull(package_id)
+# get_this <- bcdata::bcdc_tidy_resources('pscis-assessments') %>%
+#   filter(bcdata_available == T)  |>
+#   pull(package_id)
+#
+# dat <- bcdata::bcdc_get_data(get_this) |>
+#   janitor::clean_names()
+#
+#
+# habitat_confirmations <- fpr::fpr_import_hab_con(row_empty_remove = T)
+#
+# utms_hab_prep1 <- habitat_confirmations |>
+#   purrr::pluck("step_1_ref_and_loc_info") |>
+#   dplyr::filter(!is.na(site_number))|>
+#   tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F)
+#
+# utms <- dat |>
+#   filter(stream_crossing_id %in% (utms_hab_prep1 |> distinct(site) |> pull(site))) |>
+#   select(stream_crossing_id, utm_zone:utm_northing) |>
+#   mutate(alias_local_name = paste0(stream_crossing_id, '_us')) |>
+#   sf::st_drop_geometry()
+#
+# utms_hab <- left_join(
+#   utms_hab_prep1 |>
+#     select(-utm_zone:-utm_northing),
+#
+#   utms,
+#
+#   by = 'alias_local_name'
+# ) |>
+#   readr::write_csv('data/inputs_extracted/utms_hab.csv', na = '')
 
-dat <- bcdata::bcdc_get_data(get_this) |>
-  janitor::clean_names()
 
-
-habitat_confirmations <- fpr::fpr_import_hab_con(row_empty_remove = T)
-
-utms_hab_prep1 <- habitat_confirmations |>
-  purrr::pluck("step_1_ref_and_loc_info") |>
-  dplyr::filter(!is.na(site_number))|>
-  tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F)
-
-utms <- dat |>
-  filter(stream_crossing_id %in% (utms_hab_prep1 |> distinct(site) |> pull(site))) |>
-  select(stream_crossing_id, utm_zone:utm_northing) |>
-  mutate(alias_local_name = paste0(stream_crossing_id, '_us')) |>
-  sf::st_drop_geometry()
-
-utms_hab <- left_join(
-  utms_hab_prep1 |> select(-utm_zone:-utm_northing),
-  utms,
-  by = 'alias_local_name'
-) |>
-  readr::write_csv('data/inputs_extracted/utms_hab.csv', na = '')
-
-
-# build priority spreadsheet ----------------------------------------------
+# ------------ make priority spreadsheet ----------------------------------------------
 
 # spreadsheet to build for input includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
 # thing is that we don't really have the fish info
 
 hab_con <- fpr_import_hab_con(backup = F, row_empty_remove = T)
 
-hab_priority_prep1 <- hab_con %>%
-  purrr::pluck("step_1_ref_and_loc_info") %>%
-  dplyr::filter(!is.na(alias_local_name)) %>%
-  mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
-  select(reference_number:alias_local_name, survey_date) %>%
-  tidyr::separate(alias_local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) %>%
-  mutate(time_start = NA_character_,
-         # can grab times from form_fiss_site_tidy csv
-         surveyors = NA_character_,
-         length_surveyed = NA_character_,
-         hab_value = NA_character_, #get from pscis sheets later.  Too much of a pain to join now due to multiple ids
-         priority = NA_character_,
-         upstream_habitat_length_m = NA_character_,
-         species_codes = NA_character_ #get from bcfishpass later
-  )
 
-# grab the comments
-hab_priority_prep <- left_join(
+# grab the bcfishpass data - could also get with fpr_db_query
+conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
+bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) |> sf::st_drop_geometry()
+pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
+readwritesqlite::rws_disconnect(conn)
 
-  hab_priority_prep1,
+# grab the field form data
+dir_gis <- 'sern_skeena_2023'
 
-  hab_con %>%
-    purrr::pluck("step_4_stream_site_data") %>%
-    select(reference_number, comments),
-  by = 'reference_number'
-) %>%
-  dplyr::filter(!stringr::str_detect(comments, 'feature_record_only')) #no need to add these to the priority list
+## Import the raw form_fiss_2023.gpkg and update the site_id with the pscis values
+form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = paste0("~/Projects/gis/", dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg'),
+  update_utm = TRUE,
+  update_site_id = FALSE,
+  write_back_to_path = FALSE,
+  write_to_csv = FALSE,
+  write_to_rdata = FALSE,
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing"
+  ) |>
+  # keep sites that end with us or us# only
+  # dplyr::filter(stringr::str_detect(local_name, 'us\\d?$')) |>
+  tidyr::separate(local_name, c("site", "location"), sep = "_", remove = FALSE) |>
+  sf::st_drop_geometry()
 
-# grab the fish species
 
-# burn to csv to use as your template.  For safety use a different name then rename manually
+# Function to replace empty character and numeric values with NA
+replace_empty_with_na <- function(x) {
+  if(is.character(x) && length(x) == 0) return(NA_character_)
+  if(is.numeric(x) && length(x) == 0) return(NA_real_)
+  return(x)
+}
+
+hab_priority_prep <- form_fiss_site_raw |>
+  select(stream_name = gazetted_names,
+         local_name,
+         date_time_start) |>
+  # purrr::pluck("step_1_ref_and_loc_info") %>%
+  # dplyr::filter(!is.na(alias_local_name)) %>%
+  # mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
+  # select(reference_number:alias_local_name, survey_date)
+  tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
+  dplyr::rowwise() |>
+  # lets make the columns with functions
+  mutate(
+  crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = mergin_user)),
+  length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
+  hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
+  priority = NA_character_,
+  upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
+  species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+  gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
+  comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments))) |>
+  mutate(across(everything(), ~replace_empty_with_na(.))) |>
+  dplyr::arrange(local_name, crew_members, date_time_start)
+
+
+# burn to csv to use as your template.  For extra safety use a different name then rename manually and delete
 hab_priority_prep %>%
   readr::write_csv('data/habitat_confirmations_priorities_raw.csv', na = '')
-
-# Fish species and hab gain estimates for phase 2 sites ------------------------
-
-habitat_con_pri <- read_csv('data/habitat_confirmations_priorities.csv')
-
-hab_priority_fish_hg <- left_join(
-  habitat_con_pri |>
-    select(reference_number, alias_local_name, site, location, ef),
-
-  bcfishpass |>
-    select(stream_crossing_id, observedspp_upstr, st_rearing_km),
-
-  by = c('site' = 'stream_crossing_id')
-) |>
-  mutate(observedspp_upstr = gsub("[{}]", "", observedspp_upstr)) |>
-  mutate(observedspp_upstr = case_when(
-    alias_local_name %like% '_ds' |
-      # ends in a number
-      alias_local_name %like% '\\d$' ~ NA_character_,
-    T ~ observedspp_upstr),
-    st_rearing_km = case_when(
-      alias_local_name %like% 'ds' |
-        # ends in a number
-        alias_local_name %like% '\\d$' ~ NA_real_,
-      T ~ st_rearing_km)) |>
-  rename(species_codes = observedspp_upstr) |>
-  mutate(
-    upstream_habitat_length_m = st_rearing_km * 1000,
-    species_codes = stringr::str_replace_all(species_codes, c('CCT,|SST,|SP,'), ''),
-    species_codes = case_when(
-      site == 198090 ~ NA_character_,
-      T ~ species_codes
-    )
-  ) |>
-  readr::write_csv('data/inputs_extracted/hab_priority_fish_hg.csv', na = '')
-
 
 
 
