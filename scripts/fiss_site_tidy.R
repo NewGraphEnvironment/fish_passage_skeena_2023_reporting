@@ -65,6 +65,8 @@ form_fiss_site_cleaned <- form_fiss_site_raw %>%
     utm_northing = round(sf::st_coordinates(.)[,2]),
     utm_zone = utm) %>%
   # get a site_id and a location that we can use to make photo directories and tag photos respectively
+  # with fpr_photo_rename - however don't think `location` is used and we could prob just build `site_id` from `local_name`
+  # without needing to add columns to our form.....
   tidyr::separate(local_name, into = c('site_id', 'location'), remove = F, extra = "merge") %>%
   #need to rename the photo columns
   dplyr::rename(photo_extra1 = photo_extra_1,
