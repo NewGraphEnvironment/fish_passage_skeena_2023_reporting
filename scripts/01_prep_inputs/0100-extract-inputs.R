@@ -467,13 +467,13 @@ xref_phase2_corrected <- left_join(
 # spreadsheet to build for input includes site lengths, surveyors initials, time, priority for remediation, updated fish species (if changed from my_fish_sp())
 # thing is that we don't really have the fish info
 
-hab_con <- fpr_import_hab_con(backup = F, row_empty_remove = T)
+hab_con <- fpr::fpr_import_hab_con(backup = F, row_empty_remove = T)
 
 
 # grab the bcfishpass data - could also get with fpr_db_query
 conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) |> sf::st_drop_geometry()
-pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
+xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
 readwritesqlite::rws_disconnect(conn)
 
 # grab the field form data
@@ -487,14 +487,27 @@ form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   write_back_to_path = FALSE,
   write_to_csv = FALSE,
   write_to_rdata = FALSE,
-  return_object = TRUE,
-  col_easting = "utm_easting",
-  col_northing = "utm_northing"
+  return_object = TRUE
+  # col_easting = "utm_easting",
+  # col_northing = "utm_northing"
   ) |>
   # keep sites that end with us or us# only
   # dplyr::filter(stringr::str_detect(local_name, 'us\\d?$')) |>
-  tidyr::separate(local_name, c("site", "location"), sep = "_", remove = FALSE) |>
-  sf::st_drop_geometry()
+  tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
+  sf::st_drop_geometry() |>
+  mutate(site = as.numeric(site))
+
+# we need to swap in the PSCIS IDs for the `site` IDs that are modelled_crossing_ids
+form_fiss_site_raw <- left_join(
+  form_fiss_site_raw,
+  xref_pscis_my_crossing_modelled,
+  by = c('site' = 'external_crossing_reference')
+) |>
+  mutate(site = case_when(
+    !is.na(stream_crossing_id) ~ stream_crossing_id,
+    T ~ site
+  )) |>
+  tidyr::unite(local_name, site, location, ef, sep = "_", na.rm = TRUE)
 
 
 # Function to replace empty character and numeric values with NA
@@ -508,15 +521,11 @@ hab_priority_prep <- form_fiss_site_raw |>
   select(stream_name = gazetted_names,
          local_name,
          date_time_start) |>
-  # purrr::pluck("step_1_ref_and_loc_info") %>%
-  # dplyr::filter(!is.na(alias_local_name)) %>%
-  # mutate(survey_date = janitor::excel_numeric_to_date(as.numeric(survey_date))) %>%
-  # select(reference_number:alias_local_name, survey_date)
   tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
   dplyr::rowwise() |>
   # lets make the columns with functions
   mutate(
-  crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = mergin_user)),
+  crew_members = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = crew_members)),
   length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
   hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
   priority = NA_character_,
