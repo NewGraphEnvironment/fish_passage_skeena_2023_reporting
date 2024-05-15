@@ -495,7 +495,16 @@ form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   # dplyr::filter(stringr::str_detect(local_name, 'us\\d?$')) |>
   tidyr::separate(local_name, c("site", "location", "ef"), sep = "_", remove = FALSE) |>
   sf::st_drop_geometry() |>
-  mutate(site = as.numeric(site))
+  mutate(site = as.numeric(site)) |>
+  # make a new column for the time as is with different name then mutate to PST
+  # we don't need the new column but will leave here for now so we can visualize and confirm the time is correct
+  mutate(date_time_start_raw = date_time_start,
+         date_time_start = lubridate::force_tz(date_time_start_raw, tzone = "America/Vancouver"),
+         date_time_start = lubridate::with_tz(date_time_start, tzone = "UTC"))
+# turn on line below and add pipe aboveto visualize and confirm the times are correct
+# looks like site 8478 imports raw as it should so is converted incorrectly. not sure why and not related
+# to method of time conversion at all I (al) don't think though.
+# select(local_name, date_time_start, date_time_start_raw)
 
 # we need to swap in the PSCIS IDs for the `site` IDs that are modelled_crossing_ids
 form_fiss_site_raw <- left_join(
