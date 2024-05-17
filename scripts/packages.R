@@ -1,8 +1,14 @@
-# install.packages('pak')
+# if required install pak
+if (!requireNamespace("pak", quietly = TRUE)) {
+  install.packages("pak")
+}
+
 
 pkgs_cran <- c(
   #'plotKML', #this takes forever to load - and doesn't work due to rgdal depends so going to leave it out for now
-  'raster', #load this dog before dplyr
+  'rmarkdown',
+  'raster', #load this dog before dplyr and bcdata to avoid conflicts (filter and select)
+  'bcdata',
   'tidyverse',
   'readwritesqlite',
   'sf',
@@ -14,7 +20,6 @@ pkgs_cran <- c(
   'RPostgres',
   'DBI',
   'magick',
-  'bcdata',
   'jpeg',
   'datapasta',
   'knitr',
@@ -32,15 +37,20 @@ pkgs_cran <- c(
   'leafpop',
   'exifr',
   'pagedown',
-  'devtools'
+  'devtools',
+  "geojsonio",
+  "fs"
 )
 
 pkgs_gh <- c(
-  "newgraphenvironment/fpr",
   "poissonconsulting/fwapgr",
+  "poissonconsulting/poisutils",
+  "newgraphenvironment/fpr",
+  "newgraphenvironment/rfp",
   'poissonconsulting/poisspatial',
   "poissonconsulting/fishbc",
-  "haozhu233/kableExtra"
+  "haozhu233/kableExtra",
+  "gadenbuie/shrtcts"
 )
 
 pkgs_all <- c(pkgs_cran,
