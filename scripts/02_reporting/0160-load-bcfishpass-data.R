@@ -1,7 +1,13 @@
 # load the sqlite database with bcfishpass info-----------------------------------------------------------------------------------------------------
 
+# this is the name of the funding project we used to submit our phase 1 data to the province.  we use it to filter the raw
+# pscis data for our entire study area to obtain just the data we submitted. We use it to filter xref_pscis_my_crossing_modelled
+# but not sure that filtering is actually necessary - we could test and remove if it is not
+my_funding_project_number = "skeena_2023_Phase1"
+
+
 # name the watershed groups in our study area
-wsg <- c('MORR', 'ZYMO', 'KISP', 'KLUM')
+wsg <- c('BULK', 'MORR', 'ZYMO', 'KISP', 'KLUM')
 
 # this should be called bcfishpass.crossings_vw or something that better reflects what it is
 bcfishpass <- fpr_db_query(
@@ -23,7 +29,7 @@ bcfishpass_spawn_rear_model <- fpr_db_query(
 
 # get all the pscis data for the watershed from the database which is updated weekly on our server
 # could consider nameing more effectively in the future
-pscis_assessment_svw <- fpr_db_query(
+pscis_assessment_svw <- fpr::fpr_db_query(
   glue::glue(
     "SELECT p.*, wsg.watershed_group_code
    FROM whse_fish.pscis_assessment_svw p
@@ -34,6 +40,13 @@ pscis_assessment_svw <- fpr_db_query(
   );"
   )
 )
+
+xref_pscis_my_crossing_modelled <- pscis_assessment_svw |>
+  dplyr::filter(funding_project_number == my_funding_project_number) |>
+  dplyr::select(external_crossing_reference, stream_crossing_id) |>
+  dplyr::mutate(external_crossing_reference = as.numeric(external_crossing_reference)) |>
+  dplyr::arrange(external_crossing_reference) |>
+  sf::st_drop_geometry()
 
 
 # Initiliaze the database-----------------------------------------------------------------------------------------------------
@@ -46,14 +59,20 @@ pscis_assessment_svw <- fpr_db_query(
 conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 readwritesqlite::rws_list_tables(conn)
 
+# we need to drop the tables if they exist so we can replace them
+readwritesqlite::rws_drop_table("bcfishpass", conn = conn)
 readwritesqlite::rws_write(bcfishpass, exists = F, delete = TRUE,
           conn = conn, x_name = "bcfishpass")
+readwritesqlite::rws_write(bcfishpass_spawn_rear_model, exists = F, delete = TRUE,
+                           conn = conn, x_name = "bcfishpass_spawn_rear_model")
+readwritesqlite::rws_drop_table("pscis_assessment_svw", conn = conn)
 readwritesqlite::rws_write(pscis_assessment_svw, exists = F, delete = TRUE,
           conn = conn, x_name = "pscis_assessment_svw")
-readwritesqlite::rws_write(bcfishpass_spawn_rear_model, exists = F, delete = TRUE,
-          conn = conn, x_name = "bcfishpass_spawn_rear_model")
+readwritesqlite::rws_write(xref_pscis_my_crossing_modelled, exists = F, delete = TRUE,
+                           conn = conn, x_name = "xref_pscis_my_crossing_modelled")
 
-# building the comments no longer works so we have `fpr::fpr_xref_crossings` in the meantime
+# building the comments no longer works so we have `fpr::fpr_xref_crossings` - https://github.com/smnorris/bcfishpass/issues/492 -in the meantime
+# !better way to rename table is ?readwritesqlite::rws_rename_table
 # bcfishpass_column_comments_archive <- readwritesqlite::rws_read_table("bcfishpass_column_comments", conn = conn)
 # rws_write(bcfishpass_column_comments_archive, exists = F, delete = TRUE,
 #           conn = conn, x_name = paste0("bcfishpass_column_comments_archive_", format(Sys.time(), "%Y-%m-%d-%H%m")))
