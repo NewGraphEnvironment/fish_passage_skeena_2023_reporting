@@ -5,19 +5,16 @@ preview_chapter('0100-intro.Rmd')
 ##go to the index.Rmd and change gitbook_on <- TRUE
 #################################################################################################
 
-# rmarkdown::render_site(output_format = 'bookdown::gitbook',
-#                        encoding = 'UTF-8')
-
-# if you need to update after renaming photos to keep and add to map, or if you added new photos....
+# move over the photos from shared drive to repo and update metadata so that the photos are included in the report interactive map
+rmarkdown::render('scripts/02_reporting/photos_import.Rmd', output_dir = "scripts/02_reporting/docs")
 source('scripts/02_reporting/0180-photos-extract-metadata.R')
 
 {
-
+  source('scripts/functions.R')
   news_to_appendix()
-
   # These files are included in the gitbook version already so we move them out of the build
-  files_to_move <- list.files(pattern = ".Rmd$") %>%
-    stringr::str_subset(., '2300', negate = F) #move the attachments out
+  files_to_move <- list.files(pattern = ".Rmd$") |>
+    stringr::str_subset('2300', negate = F) #move the attachments out
   files_destination <- paste0('hold/', files_to_move)
 
   ##move the files
@@ -29,8 +26,6 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
   ##move the files from the hold file back to the main file
   mapply(file.rename, from = files_destination, to = files_to_move)
 }
-
-
 
 
 #################################################################################################
