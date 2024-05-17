@@ -1,15 +1,10 @@
 # Import our data and builds the tables we need for our reporting
 
-source("scripts/functions.R")
 
+source('scripts/functions.R')
 # define the repo name since it is used in tab_map in this script within this environment (vs the bookdown rendering environment)
 # not sure those links in those tables work anyway though... need to confirm
 repo_name <- 'fish_passage_skeena_2023_reporting'
-
-# this is the name of the funding project we used to submit our data to the province.  we use it to filter the raw
-# pscis data for our entire study area to get just the data we submitted. We use it to filter xref_pscis_my_crossing_modelled
-# but not sure that is necessary - we should test and remove if it is not
-my_funding_project_number = "skeena_2023_Phase1"
 
 
 # script over the photos from onedrive to our local repo
@@ -34,26 +29,21 @@ bcfishpass_phase2 <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) 
            (pscis_phase2 |>
               pull(pscis_crossing_id))) |>
   dplyr::filter(!is.na(stream_crossing_id))
-bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) |>
-  mutate(ch_cm_co_pk_sk_network_km = round(ch_cm_co_pk_sk_network_km,2))
+bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn)
+  # mutate(ch_cm_co_pk_sk_network_km = round(ch_cm_co_pk_sk_network_km,2))
 # pscis_historic_phase1 <- readwritesqlite::rws_read_table("pscis_historic_phase1", conn = conn)
 bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn_rear_model", conn = conn)
 # tab_cost_rd_mult <- readwritesqlite::rws_read_table("rd_cost_mult", conn = conn)
-# rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
+rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
 pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
-
-# wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) |>
-#    mutate(aspect = as.character(aspect))
+xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
+wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) |>
+   mutate(aspect = as.character(aspect))
 
 # photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
 # # fiss_sum <- readwritesqlite::rws_read_table("fiss_sum", conn = conn)
 readwritesqlite::rws_disconnect(conn)
 
-xref_pscis_my_crossing_modelled <- pscis_assessment_svw |>
-  dplyr::filter(funding_project_number == my_funding_project_number) |>
-  dplyr::select(external_crossing_reference, stream_crossing_id) |>
-  dplyr::mutate(external_crossing_reference = as.numeric(external_crossing_reference)) |>
-  dplyr::arrange(external_crossing_reference)
 
 # due to this https://github.com/smnorris/bcfishpass/issues/492 we are doing it this way for now
 # methods to update are in fpr I believe
@@ -182,14 +172,20 @@ tab_summary_comments <- pscis_split |>
   purrr::map(fpr::fpr_table_cv_detailed_comments)
 
 ##had a hickup where R cannot handle the default size of the integers we used for numbers so we had to change site names!!
-tab_photo_url <- list.files(path = 'data/photos/', full.names = T) |>
+tab_photo_url <- left_join(
+
+  list.files(path = 'data/photos/', full.names = T) |>
   basename() |>
   as_tibble() |>
   mutate(value = as.integer(value)) |>  ##need this to sort
   dplyr::arrange(value)  |>
   mutate(photo = paste0('![](data/photos/', value, '/crossing_all.JPG)')) |>
-  dplyr::filter(value %in% pscis_phase1_for_tables$my_crossing_reference)  |> ##we don't want all the photos - just the phase 1 photos for this use case!!!
-  left_join(., xref_pscis_my_crossing_modelled, by = c('value' = 'external_crossing_reference'))  |> ##we need to add the pscis id so that we can sort the same
+  dplyr::filter(value %in% pscis_phase1_for_tables$my_crossing_reference),
+  ##we don't want all the photos - just the phase 1 photos for this use case!!!
+
+  xref_pscis_my_crossing_modelled,
+
+  by = c('value' = 'external_crossing_reference'))  |> ##we need to add the pscis id so that we can sort the same
   arrange(stream_crossing_id) |>
   select(-value) |>
   # pull(photo)
@@ -218,7 +214,7 @@ tabs_phase1_pdf <- mapply(
 
 # tabs_phase1_pdf <- mapply(fpr_print_tab_summary_all_pdf, tab_sum = tab_summary, comments = tab_summary_comments, photos = tab_photo_url)
 
-####-------------- habitat and fish data------------------
+#-------------- habitat and fish data------------------
 habitat_confirmations <- fpr::fpr_import_hab_con(col_filter_na = T, row_empty_remove = T)
 
 
@@ -447,6 +443,8 @@ hab_fish_collect_info <- habitat_confirmations |>
   dplyr::distinct(reference_number, sampling_method, method_number, haul_number_pass_number, .keep_all = T)
 
 # join the indiv fish data to existing site info
+
+# THIS SEEMS WEIRD SINCE WE ARE SELECTING SIZES THAT SHOULD BE INFORMED FROM `scripts/01_prep_inputs/0100-extract-inputs`
 hab_fish_indiv <- dplyr::full_join(
 
   hab_fish_indiv_prep3 |>
@@ -676,26 +674,26 @@ rm(
 
 
 # # table to summarize ef passes done in a site
-# tab_fish_sites <- hab_fish_collect_info |>
-#   select(local_name, haul_number_pass_number, ef_seconds:enclosure) |>
-#   distinct() |>
-#   mutate(area_m2 = round(ef_length_m * ef_width_m,1)) |>
-#   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F)
+tab_fish_sites <- hab_fish_collect_info |>
+  select(local_name, haul_number_pass_number, ef_seconds:enclosure) |>
+  distinct() |>
+  mutate(area_m2 = round(ef_length_m * ef_width_m,1)) |>
+  tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F)
 
 
 
-# hab_fish_dens <- hab_fish_indiv |>
-#   dplyr::filter(sampling_method == 'electrofishing') |> ##added this since we now have mt data as well!!
-#   mutate(area = round(ef_length_m * ef_width_m),0) |>
-#   group_by(local_name, method_number, haul_number_pass_number, ef_length_m, ef_width_m, ef_seconds, area, species_code, life_stage) |>
-#   summarise(fish_total = length(life_stage)) |>
-#   ungroup() |>
-#   mutate(density_100m2 = round(fish_total/area * 100, 1)) |>
-#   tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
-#   mutate(site_id = paste0(site, location),
-#          location = case_when(location == 'us' ~ 'Upstream',
-#                               T ~ 'Downstream'),
-#          life_stage = factor(life_stage, levels = c('fry', 'parr', 'juvenile', 'adult')))
+hab_fish_dens <- hab_fish_indiv |>
+  dplyr::filter(sampling_method == 'electrofishing') |> ##added this since we now have mt data as well!!
+  mutate(area = round(ef_length_m * ef_width_m),0) |>
+  group_by(local_name, method_number, haul_number_pass_number, ef_length_m, ef_width_m, ef_seconds, area, species_code, life_stage) |>
+  summarise(fish_total = length(life_stage)) |>
+  ungroup() |>
+  mutate(density_100m2 = round(fish_total/area * 100, 1)) |>
+  tidyr::separate(local_name, into = c('site', 'location', 'ef'), remove = F) |>
+  mutate(site_id = paste0(site, location),
+         location = case_when(location == 'us' ~ 'Upstream',
+                              T ~ 'Downstream'),
+         life_stage = factor(life_stage, levels = c('fry', 'parr', 'juvenile', 'adult')))
 
 # priorities phase 2--------------------------------------------------------------
 #load priorities
@@ -703,28 +701,30 @@ habitat_confirmations_priorities <- readr::read_csv(
   file = "data/habitat_confirmations_priorities.csv",
   #this is not necessary but we will leave.
   locale = readr::locale(encoding = "UTF-8")) |>
-  dplyr::filter(!stringr::str_detect(alias_local_name, "_ef")) |>
+  dplyr::filter(!stringr::str_detect(local_name, "_ef")) |>
   # tidyr::separate(local_name, into = c('site', 'location'), remove = F) |>
-  dplyr::mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1)) |>
-  dplyr::rename(local_name = alias_local_name) #did this to stay consistent for later
+  dplyr::mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1),
+                hab_value = stringr::str_to_title(hab_value))
 
 
 
 hab_site_priorities_prep <- dplyr::left_join(
 
   habitat_confirmations_priorities |>
-    dplyr::select(reference_number, local_name, priority),
+    dplyr::select(local_name, priority),
 
   hab_site |>
     dplyr::select(reference_number, alias_local_name, site, utm_zone:utm_northing),
 
-  by = 'reference_number'
+  by = c('local_name' = "alias_local_name")
+
 ) |>
   dplyr::filter(!stringr::str_detect(local_name, '_ds') &
            # ends in a number
              !stringr::str_detect(local_name,'\\d$')) |>
-  dplyr::select(-local_name) |>
-  dplyr::filter(!is.na(priority))  ##this is how we did it before.  changed it to get a start on it
+  dplyr::filter(!is.na(priority)) |>  ##this is how we did it before.  changed it to get a start on it
+  # !!!!edit 2024 - due to changes in hab priorities spreadsheet creation we now need to rename our alias_local_name to keep the resto of the scripts the dame
+  dplyr::rename(alias_local_name = local_name)
 
 hab_site_priorities <- left_join(
   hab_site_priorities_prep |>
@@ -738,277 +738,23 @@ hab_site_priorities <- left_join(
 
 
 # bcfishpass modelling table setup for reporting --------------------------
+xref_bcfishpass_names <- fpr_xref_crossings
 
-
-# When we need to update our column names according to the new output from bcfishpass.crossings...
-bcfishpass_names_updated_prep <- names(bcfishpass) |>
-  tibble::as_tibble() |>
-  rename(bcfishpass = value)
-
-# join to the comments
-bcfishpass_names_updated <- left_join(
-  bcfishpass_names_updated_prep,
-  bcfishpass_column_comments,
-  by = c('bcfishpass' = 'column_name')
-)
-
-
-
-#this is how we line up our new column names and put things in order for reporting on the fish habitat modeling
-# we need to update this sometimes.  When we do we update 02_prep_reporting/0160-load-bcfishpass-data.R,
-# get the data from  rename the xref_bcfishpass_names tribble to xref_bcfishpass_names_old  and go through the following procedure
-# xref_bcfishpass_names_old <- xref_bcfishpass_names
-
-
-# ## join the new with the old so you can kable(xref_bcfishpass_names_prep) then run in Rmd chunk and copy paste tribble yo
-# xref_bcfishpass_names_prep <- left_join(
-#   bcfishpass_names_updated,
-#   xref_bcfishpass_names_old, #, -column_comment
-#   by = c('bcfishpass')
-# ) |>
-#     mutate(report = stringr::str_replace_all(bcfishpass, '_', ' ') |>
-#              stringr::str_to_title() |>
-#              stringr::str_replace_all('Km', '(km)') |>
-#              stringr::str_replace_all('Ha', '(ha)') |>
-#              stringr::str_replace_all('Lakereservoir', 'Lake Reservoir') |>
-#              stringr::str_replace_all('Co ', 'CO ') |>
-#              stringr::str_replace_all('Ch', 'CH ') |>
-#              stringr::str_replace_all('St ', 'ST ') |>
-#              stringr::str_replace_all('Sk ', 'SK ') |>
-#              stringr::str_replace_all('Bt ', 'BT ') |>
-#              stringr::str_replace_all('Wct ', 'WCT ') |>
-#              stringr::str_replace_all('Pscis', 'PSCIS') |>
-#              stringr::str_replace_all('Spawningrearing', 'Spawning Rearing') |>
-#              stringr::str_replace_all('Betweenbarriers', 'Between Barriers') |>
-#              stringr::str_replace_all('Belowupstrbarriers', 'Below Barriers')) |>
-#   select(bcfishpass, report, id_join, id_side, column_comment)
-
-xref_bcfishpass_names <- tibble::tribble(
-                                                    ~bcfishpass,                                                        ~report, ~id_join, ~id_side,                                                                                                                                                                                                                                          ~column_comment,
-                                      "aggregated_crossings_id",                                      "Aggregated Crossings Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                            "all_rearing_belowupstrbarriers_km",                              "All Rearing Below Barriers (km)",     NA,       NA,                                                                                                             "Length of stream upstream of point and below any additional upstream barriers, modelled as potential rearing habitat (all CH,CO,SK,ST,WCT)",
-                                               "all_rearing_km",                                             "All Rearing (km)",     NA,       NA,                                                                          "Length of stream upstream of point and below any additional upstream barriers, modelled as potential spawning habitat for all modelled species (currently BT,CH,CO,SK,ST,WCT)",
-                           "all_spawning_belowupstrbarriers_km",                             "All Spawning Below Barriers (km)",     NA,       NA,                                                                                                                       "Length of stream upstream of point modelled as potential rearing habitat for all modelled species (currently BT,CH,CO,SK,ST,WCT)",
-                                              "all_spawning_km",                                            "All Spawning (km)",     NA,       NA,                                                                                                                      "Length of stream upstream of point modelled as potential spawning habitat for all modelled species (currently BT,CH,CO,SK,ST,WCT)",
-                    "all_spawningrearing_belowupstrbarriers_km",                     "All Spawning Rearing Below Barriers (km)",     NA,       NA,                                                                                                                                                                                           "Length of all spawning and rearing habitat upstream of point",
-                                       "all_spawningrearing_km",                                    "All Spawning Rearing (km)",     NA,       NA,                                                                                                                                                                                           "Length of all spawning and rearing habitat upstream of point",
-                              "all_spawningrearing_per_barrier",                             "All Spawning Rearing Per Barrier",       NA,       NA, "If the given barrier and all barriers downstream were remediated, the amount of connected spawning/rearing habitat that would be added, per barrier. (ie the sum of all_spawningrearing_belowupstrbarriers_km for all barriers, divided by n barriers)",
-                                               "barrier_status",                                               "Barrier Status",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                 "barriers_anthropogenic_dnstr",                                 "Barriers Anthropogenic Dnstr",       NA,       NA,                                                                                                                                  "List of the aggregated_crossings_id values of barrier crossings downstream of the given crossing, in order downstream",
-                           "barriers_anthropogenic_dnstr_count",                           "Barriers Anthropogenic Dnstr Count",       NA,       NA,                                                                                                                                                                                      "A count of the barrier crossings downstream of the given crossing",
-                                 "barriers_anthropogenic_upstr",                                 "Barriers Anthropogenic Upstr",       NA,       NA,                                                                                                                                                         "List of the aggregated_crossings_id values of barrier crossings upstream of the given crossing",
-                           "barriers_anthropogenic_upstr_count",                           "Barriers Anthropogenic Upstr Count",       NA,       NA,                                                                                                                                                                                        "A count of the barrier crossings upstream of the given crossing",
-                                            "barriers_bt_dnstr",                                            "Barriers BT Dnstr",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                "barriers_ch_cm_co_pk_sk_dnstr",                               "Barriers CH  Cm CO Pk SK Dnstr",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                            "barriers_st_dnstr",                                            "Barriers ST Dnstr",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                           "barriers_wct_dnstr",                                           "Barriers WCT Dnstr",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                "blue_line_key",                                                "Blue Line Key",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                       "bt_belowupstrbarriers_lakereservoir_ha",                        "BT Below Barriers Lake Reservoir (ha)",       NA,       NA,                                                                                                                  "Bull Trout model, total area lakes and reservoirs potentially accessible upstream of point and below any additional upstream barriers",
-                             "bt_belowupstrbarriers_network_km",                               "BT Below Barriers Network (km)",       NA,       NA,                                                                                                                   "Bull Trout model, total length of stream network potentially accessible upstream of point and below any additional upstream barriers",
-                        "bt_belowupstrbarriers_slopeclass03_km",                          "BT Below Barriers Slopeclass03 (km)",       NA,       NA,                                                                                                                "Bull Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-            "bt_belowupstrbarriers_slopeclass03_waterbodies_km",              "BT Below Barriers Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                    "Bull Trout model, length of stream connectors (in waterbodies) potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-                        "bt_belowupstrbarriers_slopeclass05_km",                          "BT Below Barriers Slopeclass05 (km)",       NA,       NA,                                                                                                                "Bull Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 3-5%",
-                        "bt_belowupstrbarriers_slopeclass08_km",                          "BT Below Barriers Slopeclass08 (km)",       NA,       NA,                                                                                                                "Bull Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 5-8%",
-                        "bt_belowupstrbarriers_slopeclass15_km",                          "BT Below Barriers Slopeclass15 (km)",       NA,       NA,                                                                                                               "Bull Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 8-15%",
-                        "bt_belowupstrbarriers_slopeclass22_km",                          "BT Below Barriers Slopeclass22 (km)",       NA,       NA,                                                                                                              "Bull Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 15-22%",
-                        "bt_belowupstrbarriers_slopeclass30_km",                          "BT Below Barriers Slopeclass30 (km)",       NA,       NA,                                                                                                              "Bull Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 22-30%",
-                              "bt_belowupstrbarriers_stream_km",                                "BT Below Barriers Stream (km)",       NA,       NA,                                                            "Bull Trout model, total length of streams and rivers potentially accessible upstream of point and below any additional upstream barriers (does not include network connectors in lakes etc)",
-                             "bt_belowupstrbarriers_wetland_ha",                               "BT Below Barriers Wetland (ha)",       NA,       NA,                                                                                                                              "Bull Trout model, total area wetlands potentially accessible upstream of point and below any additional upstream barriers",
-                                          "bt_lakereservoir_ha",                                       "BT Lake Reservoir (ha)",       NA,       NA,                                                                                                                                                            "Bull Trout model, total area lakes and reservoirs potentially accessible upstream of point ",
-                                                "bt_network_km",                                              "BT Network (km)",       NA,       NA,                                                                                                                                                              "Bull Trout model, total length of stream network potentially accessible upstream of point",
-                             "bt_rearing_belowupstrbarriers_km",                               "BT Rearing Below Barriers (km)",       NA,       NA,                                                                                                                        "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Bull Trout rearing habitat",
-                                                "bt_rearing_km",                                              "BT Rearing (km)",       NA,       NA,                                                                                                                                                                    "Length of stream upstream of point modelled as potential Bull Trout rearing habitat",
-                                           "bt_slopeclass03_km",                                         "BT Slopeclass03 (km)",       NA,       NA,                                                                                                                                                            "Bull Trout model, length of stream potentially accessible upstream of point with slope 0-3%",
-                               "bt_slopeclass03_waterbodies_km",                             "BT Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                                                                "Bull Trout model, length of stream connectors (in waterbodies) potentially accessible upstream of point with slope 0-3%",
-                                           "bt_slopeclass05_km",                                         "BT Slopeclass05 (km)",       NA,       NA,                                                                                                                                                            "Bull Trout model, length of stream potentially accessible upstream of point with slope 3-5%",
-                                           "bt_slopeclass08_km",                                         "BT Slopeclass08 (km)",       NA,       NA,                                                                                                                                                            "Bull Trout model, length of stream potentially accessible upstream of point with slope 5-8%",
-                                           "bt_slopeclass15_km",                                         "BT Slopeclass15 (km)",       NA,       NA,                                                                                                                                                           "Bull Trout model, length of stream potentially accessible upstream of point with slope 8-15%",
-                                           "bt_slopeclass22_km",                                         "BT Slopeclass22 (km)",       NA,       NA,                                                                                                                                                          "Bull Trout model, length of stream potentially accessible upstream of point with slope 15-22%",
-                                           "bt_slopeclass30_km",                                         "BT Slopeclass30 (km)",       NA,       NA,                                                                                                                                                          "Bull Trout model, length of stream potentially accessible upstream of point with slope 22-30%",
-                            "bt_spawning_belowupstrbarriers_km",                              "BT Spawning Below Barriers (km)",       NA,       NA,                                                                                                                       "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Bull Trout spawning habitat",
-                                               "bt_spawning_km",                                             "BT Spawning (km)",       NA,       NA,                                                                                                                                                                   "Length of stream upstream of point modelled as potential Bull Trout spawning habitat",
-                                                 "bt_stream_km",                                               "BT Stream (km)",       NA,       NA,                                                                                                      "Bull Trout model, total length of streams and rivers potentially accessible upstream of point  (does not include network connectors in lakes etc)",
-                                                "bt_wetland_ha",                                              "BT Wetland (ha)",       NA,       NA,                                                                                                                                                                        "Bull Trout model, total area wetlands potentially accessible upstream of point ",
-           "ch_cm_co_pk_sk_belowupstrbarriers_lakereservoir_ha",           "CH  Cm CO Pk SK Below Barriers Lake Reservoir (ha)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                 "ch_cm_co_pk_sk_belowupstrbarriers_network_km",                  "CH  Cm CO Pk SK Below Barriers Network (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-            "ch_cm_co_pk_sk_belowupstrbarriers_slopeclass03_km",             "CH  Cm CO Pk SK Below Barriers Slopeclass03 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-"ch_cm_co_pk_sk_belowupstrbarriers_slopeclass03_waterbodies_km", "CH  Cm CO Pk SK Below Barriers Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-            "ch_cm_co_pk_sk_belowupstrbarriers_slopeclass05_km",             "CH  Cm CO Pk SK Below Barriers Slopeclass05 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-            "ch_cm_co_pk_sk_belowupstrbarriers_slopeclass08_km",             "CH  Cm CO Pk SK Below Barriers Slopeclass08 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-            "ch_cm_co_pk_sk_belowupstrbarriers_slopeclass15_km",             "CH  Cm CO Pk SK Below Barriers Slopeclass15 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-            "ch_cm_co_pk_sk_belowupstrbarriers_slopeclass22_km",             "CH  Cm CO Pk SK Below Barriers Slopeclass22 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-            "ch_cm_co_pk_sk_belowupstrbarriers_slopeclass30_km",             "CH  Cm CO Pk SK Below Barriers Slopeclass30 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                  "ch_cm_co_pk_sk_belowupstrbarriers_stream_km",                   "CH  Cm CO Pk SK Below Barriers Stream (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                 "ch_cm_co_pk_sk_belowupstrbarriers_wetland_ha",                  "CH  Cm CO Pk SK Below Barriers Wetland (ha)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                              "ch_cm_co_pk_sk_lakereservoir_ha",                          "CH  Cm CO Pk SK Lake Reservoir (ha)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                    "ch_cm_co_pk_sk_network_km",                                 "CH  Cm CO Pk SK Network (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                               "ch_cm_co_pk_sk_slopeclass03_km",                            "CH  Cm CO Pk SK Slopeclass03 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                   "ch_cm_co_pk_sk_slopeclass03_waterbodies_km",                "CH  Cm CO Pk SK Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                               "ch_cm_co_pk_sk_slopeclass05_km",                            "CH  Cm CO Pk SK Slopeclass05 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                               "ch_cm_co_pk_sk_slopeclass08_km",                            "CH  Cm CO Pk SK Slopeclass08 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                               "ch_cm_co_pk_sk_slopeclass15_km",                            "CH  Cm CO Pk SK Slopeclass15 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                               "ch_cm_co_pk_sk_slopeclass22_km",                            "CH  Cm CO Pk SK Slopeclass22 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                               "ch_cm_co_pk_sk_slopeclass30_km",                            "CH  Cm CO Pk SK Slopeclass30 (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                     "ch_cm_co_pk_sk_stream_km",                                  "CH  Cm CO Pk SK Stream (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                    "ch_cm_co_pk_sk_wetland_ha",                                 "CH  Cm CO Pk SK Wetland (ha)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                             "ch_rearing_belowupstrbarriers_km",                              "CH  Rearing Below Barriers (km)",     120L,       2L,                                                                                                                           "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Chinook rearing habitat",
-                                                "ch_rearing_km",                                             "CH  Rearing (km)",     120L,       1L,                                                                                                                                                                       "Length of stream upstream of point modelled as potential Chinook rearing habitat",
-                            "ch_spawning_belowupstrbarriers_km",                             "CH  Spawning Below Barriers (km)",     110L,       2L,                                                                                                                          "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Chinook spawning habitat",
-                                               "ch_spawning_km",                                            "CH  Spawning (km)",     110L,       1L,                                                                                                                                                                      "Length of stream upstream of point modelled as potential Chinook spawning habitat",
-                            "cm_spawning_belowupstrbarriers_km",                              "Cm Spawning Below Barriers (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                               "cm_spawning_km",                                             "Cm Spawning (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                             "co_rearing_belowupstrbarriers_ha",                               "CO Rearing Below Barriers (ha)",     145L,       2L,                                                                                                                              "Area of wetlands upstream of point and below any additional upstream barriers, modelled as potential Coho rearing habitat",
-                             "co_rearing_belowupstrbarriers_km",                               "CO Rearing Below Barriers (km)",     140L,       2L,                                                                                                                              "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Coho rearing habitat",
-                                                "co_rearing_ha",                                              "CO Rearing (ha)",     145L,       1L,                                                                                                                                                                          "Area of wetlands upstream of point modelled as potential Coho rearing habitat",
-                                                "co_rearing_km",                                              "CO Rearing (km)",     140L,       1L,                                                                                                                                                                          "Length of stream upstream of point modelled as potential Coho rearing habitat",
-                            "co_spawning_belowupstrbarriers_km",                              "CO Spawning Below Barriers (km)",     130L,       2L,                                                                                                                             "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Coho spawning habitat",
-                                               "co_spawning_km",                                             "CO Spawning (km)",     130L,       1L,                                                                                                                                                                         "Length of stream upstream of point modelled as potential Coho spawning habitat",
-                                        "crossing_feature_type",                                        "Crossing Feature Type",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                              "crossing_source",                                              "Crossing Source",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                        "crossing_subtype_code",                                        "Crossing Subtype Code",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                           "crossing_type_code",                                           "Crossing Type Code",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                              "crossings_dnstr",                                              "Crossings Dnstr",       NA,       NA,                                                                                                                                          "List of the aggregated_crossings_id values of crossings downstream of the given crossing, in order downstream",
-                                                   "dam_height",                                                   "Dam Height",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                       "dam_id",                                                       "Dam Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                     "dam_name",                                                     "Dam Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                         "dam_operating_status",                                         "Dam Operating Status",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                    "dam_owner",                                                    "Dam Owner",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                      "dam_use",                                                      "Dam Use",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                             "dbm_mof_50k_grid",                                             "Dbm Mof 50k Grid",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                     "downstream_route_measure",                                     "Downstream Route Measure",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                             "ften_client_name",                                             "Ften Client Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                           "ften_client_number",                                           "Ften Client Number",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                   "ften_file_type_description",                                   "Ften File Type Description",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                          "ften_forest_file_id",                                          "Ften Forest File Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                  "ften_life_cycle_status_code",                                  "Ften Life Cycle Status Code",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                             "gnis_stream_name",                                             "Gnis Stream Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                     "gradient",                                                     "Gradient",       NA,       NA,                                                                                                                                                                                                                                  "Stream slope at point",
-                                            "linear_feature_id",                                            "Linear Feature Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                              "localcode_ltree",                                              "Localcode Ltree",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                         "modelled_crossing_id",                                         "Modelled Crossing Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                "modelled_crossing_type_source",                                "Modelled Crossing Type Source",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                            "observedspp_dnstr",                                            "Observedspp Dnstr",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                            "observedspp_upstr",                                            "Observedspp Upstr",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                "ogc_proponent",                                                "Ogc Proponent",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                            "pk_spawning_belowupstrbarriers_km",                              "Pk Spawning Below Barriers (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                               "pk_spawning_km",                                             "Pk Spawning (km)",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                     "pscis_assessment_comment",                                     "PSCIS Assessment Comment",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                        "pscis_assessment_date",                                        "PSCIS Assessment Date",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                            "pscis_final_score",                                            "PSCIS Final Score",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                              "pscis_road_name",                                              "PSCIS Road Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                 "pscis_status",                                                 "PSCIS Status",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                            "pscis_stream_name",                                            "PSCIS Stream Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                   "rail_operator_english_name",                                   "Rail Operator English Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                              "rail_owner_name",                                              "Rail Owner Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                              "rail_track_name",                                              "Rail Track Name",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                             "sk_rearing_belowupstrbarriers_ha",                               "SK Rearing Below Barriers (ha)",     165L,       2L,                                                                                                                              "Area of lakes upstream of point and below any additional upstream barriers, modelled as potential Sockeye rearing habitat",
-                             "sk_rearing_belowupstrbarriers_km",                               "SK Rearing Below Barriers (km)",     160L,       2L,                                                                                                                           "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Sockeye rearing habitat",
-                                                "sk_rearing_ha",                                              "SK Rearing (ha)",     165L,       1L,                                                                                                                                                                          "Area of lakes upstream of point modelled as potential Sockeye rearing habitat",
-                                                "sk_rearing_km",                                              "SK Rearing (km)",     160L,       1L,                                                                                                                                                                       "Length of stream upstream of point modelled as potential Sockeye rearing habitat",
-                            "sk_spawning_belowupstrbarriers_km",                              "SK Spawning Below Barriers (km)",     150L,       2L,                                                                                                                          "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Sockeye spawning habitat",
-                                               "sk_spawning_km",                                             "SK Spawning (km)",     150L,       1L,                                                                                                                                                                      "Length of stream upstream of point modelled as potential Sockeye spawning habitat",
-                       "st_belowupstrbarriers_lakereservoir_ha",                        "ST Below Barriers Lake Reservoir (ha)",      20L,       2L,                                                                                                                   "Steelhead model, total area lakes and reservoirs potentially accessible upstream of point and below any additional upstream barriers",
-                             "st_belowupstrbarriers_network_km",                               "ST Below Barriers Network (km)",      10L,       2L,                                                                                                                    "Steelhead model, total length of stream network potentially accessible upstream of point and below any additional upstream barriers",
-                        "st_belowupstrbarriers_slopeclass03_km",                          "ST Below Barriers Slopeclass03 (km)",      50L,       2L,                                                                                                                 "Steelhead model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-            "st_belowupstrbarriers_slopeclass03_waterbodies_km",              "ST Below Barriers Slopeclass03 Waterbodies (km)",      40L,       2L,                                                                                     "Steelhead model, length of stream connectors (in waterbodies) potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-                        "st_belowupstrbarriers_slopeclass05_km",                          "ST Below Barriers Slopeclass05 (km)",      60L,       2L,                                                                                                                 "Steelhead model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 3-5%",
-                        "st_belowupstrbarriers_slopeclass08_km",                          "ST Below Barriers Slopeclass08 (km)",      70L,       2L,                                                                                                                 "Steelhead model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 5-8%",
-                        "st_belowupstrbarriers_slopeclass15_km",                          "ST Below Barriers Slopeclass15 (km)",       NA,       NA,                                                                                                                "Steelhead model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 8-15%",
-                        "st_belowupstrbarriers_slopeclass22_km",                          "ST Below Barriers Slopeclass22 (km)",       NA,       NA,                                                                                                               "Steelhead model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 15-22%",
-                        "st_belowupstrbarriers_slopeclass30_km",                          "ST Below Barriers Slopeclass30 (km)",       NA,       NA,                                                                                                               "Steelhead model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 22-30%",
-                              "st_belowupstrbarriers_stream_km",                                "ST Below Barriers Stream (km)",       NA,       NA,                                                             "Steelhead model, total length of streams and rivers potentially accessible upstream of point and below any additional upstream barriers (does not include network connectors in lakes etc)",
-                             "st_belowupstrbarriers_wetland_ha",                               "ST Below Barriers Wetland (ha)",      30L,       2L,                                                                                                                               "Steelhead model, total area wetlands potentially accessible upstream of point and below any additional upstream barriers",
-                                          "st_lakereservoir_ha",                                       "ST Lake Reservoir (ha)",      20L,       1L,                                                                                                                                                             "Steelhead model, total area lakes and reservoirs potentially accessible upstream of point ",
-                                                "st_network_km",                                              "ST Network (km)",      10L,       1L,                                                                                                                                                               "Steelhead model, total length of stream network potentially accessible upstream of point",
-                             "st_rearing_belowupstrbarriers_km",                               "ST Rearing Below Barriers (km)",      90L,       2L,                                                                                                                         "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Steelhead rearing habitat",
-                                                "st_rearing_km",                                              "ST Rearing (km)",      90L,       1L,                                                                                                                                                                     "Length of stream upstream of point modelled as potential Steelhead rearing habitat",
-                                           "st_slopeclass03_km",                                         "ST Slopeclass03 (km)",      50L,       1L,                                                                                                                                                             "Steelhead model, length of stream potentially accessible upstream of point with slope 0-3%",
-                               "st_slopeclass03_waterbodies_km",                             "ST Slopeclass03 Waterbodies (km)",      40L,       1L,                                                                                                                                 "Steelhead model, length of stream connectors (in waterbodies) potentially accessible upstream of point with slope 0-3%",
-                                           "st_slopeclass05_km",                                         "ST Slopeclass05 (km)",      60L,       1L,                                                                                                                                                             "Steelhead model, length of stream potentially accessible upstream of point with slope 3-5%",
-                                           "st_slopeclass08_km",                                         "ST Slopeclass08 (km)",      70L,       1L,                                                                                                                                                             "Steelhead model, length of stream potentially accessible upstream of point with slope 5-8%",
-                                           "st_slopeclass15_km",                                         "ST Slopeclass15 (km)",       NA,       NA,                                                                                                                                                            "Steelhead model, length of stream potentially accessible upstream of point with slope 8-15%",
-                                           "st_slopeclass22_km",                                         "ST Slopeclass22 (km)",       NA,       NA,                                                                                                                                                           "Steelhead model, length of stream potentially accessible upstream of point with slope 15-22%",
-                                           "st_slopeclass30_km",                                         "ST Slopeclass30 (km)",       NA,       NA,                                                                                                                                                           "Steelhead model, length of stream potentially accessible upstream of point with slope 22-30%",
-                            "st_spawning_belowupstrbarriers_km",                              "ST Spawning Below Barriers (km)",      80L,       2L,                                                                                                                        "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Steelhead spawning habitat",
-                                               "st_spawning_km",                                             "ST Spawning (km)",      80L,       1L,                                                                                                                                                                    "Length of stream upstream of point modelled as potential Steelhead spawning habitat",
-                                                 "st_stream_km",                                               "ST Stream (km)",       NA,       NA,                                                                                                       "Steelhead model, total length of streams and rivers potentially accessible upstream of point  (does not include network connectors in lakes etc)",
-                                                "st_wetland_ha",                                              "ST Wetland (ha)",      30L,       1L,                                                                                                                                                                         "Steelhead model, total area wetlands potentially accessible upstream of point ",
-                                           "stream_crossing_id",                                           "Stream Crossing Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                             "stream_magnitude",                                             "Stream Magnitude",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                 "stream_order",                                                 "Stream Order",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                    "total_belowupstrbarriers_lakereservoir_ha",                     "Total Below Barriers Lake Reservoir (ha)",       NA,       NA,                                                                                                                                    "Total area lakes and reservoirs potentially accessible upstream of point and below any additional upstream barriers",
-                          "total_belowupstrbarriers_network_km",                            "Total Below Barriers Network (km)",       NA,       NA,                                                                                                                                     "Total length of stream network potentially accessible upstream of point and below any additional upstream barriers",
-                     "total_belowupstrbarriers_slopeclass03_km",                       "Total Below Barriers Slopeclass03 (km)",       NA,       NA,                                                                                                                            "Total length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-         "total_belowupstrbarriers_slopeclass03_waterbodies_km",           "Total Below Barriers Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                                "Total length of stream connectors (in waterbodies) potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-                     "total_belowupstrbarriers_slopeclass05_km",                       "Total Below Barriers Slopeclass05 (km)",       NA,       NA,                                                                                                                            "Total length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 3-5%",
-                     "total_belowupstrbarriers_slopeclass08_km",                       "Total Below Barriers Slopeclass08 (km)",       NA,       NA,                                                                                                                            "Total length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 5-8%",
-                     "total_belowupstrbarriers_slopeclass15_km",                       "Total Below Barriers Slopeclass15 (km)",       NA,       NA,                                                                                                                           "Total length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 8-15%",
-                     "total_belowupstrbarriers_slopeclass22_km",                       "Total Below Barriers Slopeclass22 (km)",       NA,       NA,                                                                                                                          "Total length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 15-22%",
-                     "total_belowupstrbarriers_slopeclass30_km",                       "Total Below Barriers Slopeclass30 (km)",       NA,       NA,                                                                                                                          "Total length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 22-30%",
-                           "total_belowupstrbarriers_stream_km",                             "Total Below Barriers Stream (km)",       NA,       NA,                                                                              "Total length of streams and rivers potentially accessible upstream of point and below any additional upstream barriers (does not include network connectors in lakes etc)",
-                          "total_belowupstrbarriers_wetland_ha",                            "Total Below Barriers Wetland (ha)",       NA,       NA,                                                                                                                                                "Total area wetlands potentially accessible upstream of point and below any additional upstream barriers",
-                                       "total_lakereservoir_ha",                                    "Total Lake Reservoir (ha)",       NA,       NA,                                                                                                                                                                                                     "Total area lakes and reservoirs upstream of point ",
-                                             "total_network_km",                                           "Total Network (km)",       NA,       NA,                                                                                                                                                                                                       "Total length of stream network upstream of point",
-                                        "total_slopeclass03_km",                                      "Total Slopeclass03 (km)",       NA,       NA,                                                                                                                                                                        "Total length of stream potentially accessible upstream of point with slope 0-3%",
-                            "total_slopeclass03_waterbodies_km",                          "Total Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                                                                            "Total length of stream connectors (in waterbodies) potentially accessible upstream of point with slope 0-3%",
-                                        "total_slopeclass05_km",                                      "Total Slopeclass05 (km)",       NA,       NA,                                                                                                                                                                        "Total length of stream potentially accessible upstream of point with slope 3-5%",
-                                        "total_slopeclass08_km",                                      "Total Slopeclass08 (km)",       NA,       NA,                                                                                                                                                                        "Total length of stream potentially accessible upstream of point with slope 5-8%",
-                                        "total_slopeclass15_km",                                      "Total Slopeclass15 (km)",       NA,       NA,                                                                                                                                                                       "Total length of stream potentially accessible upstream of point with slope 8-15%",
-                                        "total_slopeclass22_km",                                      "Total Slopeclass22 (km)",       NA,       NA,                                                                                                                                                                      "Total length of stream potentially accessible upstream of point with slope 15-22%",
-                                        "total_slopeclass30_km",                                      "Total Slopeclass30 (km)",       NA,       NA,                                                                                                                                                                      "Total length of stream potentially accessible upstream of point with slope 22-30%",
-                                              "total_stream_km",                                            "Total Stream (km)",       NA,       NA,                                                                                                                                                "Total length of streams and rivers upstream of point (does not include network connectors in lakes etc)",
-                                             "total_wetland_ha",                                           "Total Wetland (ha)",       NA,       NA,                                                                                                                                                                                                                 "Total area wetlands upstream of point ",
-                             "transport_line_structured_name_1",                             "Transport Line Structured Name 1",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                           "transport_line_surface_description",                           "Transport Line Surface Description",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                              "transport_line_type_description",                              "Transport Line Type Description",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                "user_barrier_anthropogenic_id",                                "User Barrier Anthropogenic Id",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                  "utm_easting",                                                  "Utm Easting",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                 "utm_northing",                                                 "Utm Northing",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                     "utm_zone",                                                     "Utm Zone",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                         "watershed_group_code",                                         "Watershed Group Code",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                                                "watershed_key",                                                "Watershed Key",       NA,       NA,                                                                                                                                                                                                                                                       NA,
-                      "wct_belowupstrbarriers_lakereservoir_ha",                       "WCT Below Barriers Lake Reservoir (ha)",       NA,       NA,                                                                                                   "Westslope Cutthroat Trout model, total area lakes and reservoirs potentially accessible upstream of point and below any additional upstream barriers",
-                            "wct_belowupstrbarriers_network_km",                              "WCT Below Barriers Network (km)",       NA,       NA,                                                                                                    "Westslope Cutthroat Trout model, total length of stream network potentially accessible upstream of point and below any additional upstream barriers",
-                       "wct_belowupstrbarriers_slopeclass03_km",                         "WCT Below Barriers Slopeclass03 (km)",       NA,       NA,                                                                                                 "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-           "wct_belowupstrbarriers_slopeclass03_waterbodies_km",             "WCT Below Barriers Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                     "Westslope Cutthroat Trout model, length of stream connectors (in waterbodies) potentially accessible upstream of point and below any additional upstream barriers, with slope 0-3%",
-                       "wct_belowupstrbarriers_slopeclass05_km",                         "WCT Below Barriers Slopeclass05 (km)",       NA,       NA,                                                                                                 "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 3-5%",
-                       "wct_belowupstrbarriers_slopeclass08_km",                         "WCT Below Barriers Slopeclass08 (km)",       NA,       NA,                                                                                                 "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 5-8%",
-                       "wct_belowupstrbarriers_slopeclass15_km",                         "WCT Below Barriers Slopeclass15 (km)",       NA,       NA,                                                                                                "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 8-15%",
-                       "wct_belowupstrbarriers_slopeclass22_km",                         "WCT Below Barriers Slopeclass22 (km)",       NA,       NA,                                                                                               "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 15-22%",
-                       "wct_belowupstrbarriers_slopeclass30_km",                         "WCT Below Barriers Slopeclass30 (km)",       NA,       NA,                                                                                               "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point and below any additional upstream barriers, with slope 22-30%",
-                             "wct_belowupstrbarriers_stream_km",                               "WCT Below Barriers Stream (km)",       NA,       NA,                                              "Westslope Cuthroat Trout model, total length of streams and rivers potentially accessible upstream of point and below any additional upstream barriers (does not include network connectors in lakes etc)",
-                            "wct_belowupstrbarriers_wetland_ha",                              "WCT Below Barriers Wetland (ha)",       NA,       NA,                                                                                                               "Westslope Cutthroat Trout model, total area wetlands potentially accessible upstream of point and below any additional upstream barriers",
-                               "wct_betweenbarriers_network_km",                            "WCT Between Barriers Network (km)",       NA,       NA,                                                                                                            "Westslope Cutthroat Trout model, total length of potentially accessible stream network between crossing and all in-stream adjacent barriers",
-                                         "wct_lakereservoir_ha",                                      "WCT Lake Reservoir (ha)",       NA,       NA,                                                                                                                                              "Westslope Cuthroat Trout model, total area lakes and reservoirs potentially accessible upstream of point ",
-                                               "wct_network_km",                                             "WCT Network (km)",       NA,       NA,                                                                                                                                                "Westslope Cuthroat Trout model, total length of stream network potentially accessible upstream of point",
-                            "wct_rearing_belowupstrbarriers_km",                              "WCT Rearing Below Barriers (km)",       NA,       NA,                                                                                                               "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Westslope Cutthroat rearing habitat",
-                               "wct_rearing_betweenbarriers_km",                            "WCT Rearing Between Barriers (km)",       NA,       NA,                                                                                                                                  "Westslope Cutthroat Trout model, total length of rearing habitat between crossing and all in-stream adjacent barriers",
-                                               "wct_rearing_km",                                             "WCT Rearing (km)",       NA,       NA,                                                                                                                                                           "Length of stream upstream of point modelled as potential Westslope Cutthroat rearing habitat",
-                                          "wct_slopeclass03_km",                                        "WCT Slopeclass03 (km)",       NA,       NA,                                                                                                                                             "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point with slope 0-3%",
-                              "wct_slopeclass03_waterbodies_km",                            "WCT Slopeclass03 Waterbodies (km)",       NA,       NA,                                                                                                                 "Westslope Cutthroat Trout model, length of stream connectors (in waterbodies) potentially accessible upstream of point with slope 0-3%",
-                                          "wct_slopeclass05_km",                                        "WCT Slopeclass05 (km)",       NA,       NA,                                                                                                                                             "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point with slope 3-5%",
-                                          "wct_slopeclass08_km",                                        "WCT Slopeclass08 (km)",       NA,       NA,                                                                                                                                             "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point with slope 5-8%",
-                                          "wct_slopeclass15_km",                                        "WCT Slopeclass15 (km)",       NA,       NA,                                                                                                                                            "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point with slope 8-15%",
-                                          "wct_slopeclass22_km",                                        "WCT Slopeclass22 (km)",       NA,       NA,                                                                                                                                           "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point with slope 15-22%",
-                                          "wct_slopeclass30_km",                                        "WCT Slopeclass30 (km)",       NA,       NA,                                                                                                                                           "Westslope Cutthroat Trout model, length of stream potentially accessible upstream of point with slope 22-30%",
-                           "wct_spawning_belowupstrbarriers_km",                             "WCT Spawning Below Barriers (km)",       NA,       NA,                                                                                                              "Length of stream upstream of point and below any additional upstream barriers, modelled as potential Westslope Cutthroat spawning habitat",
-                              "wct_spawning_betweenbarriers_km",                           "WCT Spawning Between Barriers (km)",       NA,       NA,                                                                                                                                 "Westslope Cutthroat Trout model, total length of spawning habitat between crossing and all in-stream adjacent barriers",
-                                              "wct_spawning_km",                                            "WCT Spawning (km)",       NA,       NA,                                                                                                                                                          "Length of stream upstream of point modelled as potential Westslope Cutthroat spawning habitat",
-                       "wct_spawningrearing_betweenbarriers_km",                   "WCT Spawning Rearing Between Barriers (km)",       NA,       NA,                                                                                                                     "Westslope Cutthroat Trout model, total length of spawning and rearing habitat between crossing and all in-stream adjacent barriers",
-                                                "wct_stream_km",                                              "WCT Stream (km)",       NA,       NA,                                                                                        "Westslope Cuthroat Trout model, total length of streams and rivers potentially accessible upstream of point  (does not include network connectors in lakes etc)",
-                                               "wct_wetland_ha",                                             "WCT Wetland (ha)",       NA,       NA,                                                                                                                                                          "Westslope Cuthroat Trout model, total area wetlands potentially accessible upstream of point ",
-                                                 "wscode_ltree",                                                 "Wscode Ltree",       NA,       NA,                                                                                                                                                                                                                                                       NA
-
-  )
-
-####-----------overview table------------
+#-----------overview table------------
 
 tab_overview_prep1 <- pscis_phase2 |>
-  select(pscis_crossing_id, stream_name, road_name, road_tenure, easting, northing, habitat_value)
+  select(pscis_crossing_id,
+         stream_name,
+         road_name,
+         road_tenure,
+         easting,
+         northing
+         # habitat_value #updzte 2024 - now grabbing from priorities
+         )
 
 tab_overview_prep2 <- habitat_confirmations_priorities |>
   dplyr::filter(location == 'us') |>
-  select(site, species_codes, upstream_habitat_length_m, priority, comments) |>
+  select(site, species_codes, upstream_habitat_length_m, hab_value, priority, comments) |>
   mutate(upstream_habitat_length_km = round(upstream_habitat_length_m/1000,1))
 
 tab_overview <- left_join(
@@ -1021,15 +767,13 @@ tab_overview <- left_join(
          Stream = stream_name,
          Road = road_name,
          Tenure = road_tenure,
-         `UTM (11U)` = utm,
+         #!!!!! watch out for this column
+         `UTM (9U)` = utm,
          `Fish Species` = species_codes,
          `Habitat Gain (km)` = upstream_habitat_length_km,
-         `Habitat Value` = habitat_value,
+         `Habitat Value` = hab_value,
          Priority = priority,
          Comments = comments )
-# mutate(test = paste0('[', Site, ']', '(Appendix 1 - Site Assessment Data and Photos)'))##hmm.. thought this worked
-# |>
-#   replace(., is.na(.), "-")
 
 
 rm(tab_overview_prep1, tab_overview_prep2)
@@ -1039,7 +783,7 @@ rm(tab_overview_prep1, tab_overview_prep2)
 tab_hab_summary <- left_join(
   hab_site |>
     #dplyr::filter out minnow trap sites because we did not do habitat surveys on these
-    dplyr::filter(!alias_local_name %like% 'mt') |>
+    dplyr::filter(!stringr::str_detect(alias_local_name, 'mt')) |>
     select(alias_local_name,
            site,
            location,
@@ -1058,12 +802,8 @@ tab_hab_summary <- left_join(
 
   by = c('alias_local_name' = 'local_name') #c('site', 'location')
 ) |>
-  # mutate(location = case_when(
-  #   location %ilike% 'us' ~ 'Upstream',
-  #   T ~ 'Downstream'
-  # )) |>
   mutate(location = case_when(
-    location %ilike% 'us' ~ stringr::str_replace_all(location, 'us', 'Upstream'),
+    stringr::str_detect(location, 'us') ~ stringr::str_replace_all(location, 'us', 'Upstream'),
     T ~ stringr::str_replace_all(location, 'ds', 'Downstream')
     )) |>
   arrange(site, location) |>
@@ -1196,15 +936,18 @@ tab_cost_est_phase1 <- tab_cost_est_phase1_prep |>
     `Habitat Upstream (km)` = st_network_km,
     `Cost Benefit (m / $K)` = cost_gross,
     `Cost Benefit (m2 / $K)` = cost_area_gross) |>
-  dplyr::filter(!source %like% 'phase2') |>
+  dplyr::filter(!stringr::str_detect(source, 'phase2')) |>
   select(-source)
 
 ## phase2 --------------------
 tab_cost_est_prep4 <- left_join(
   tab_cost_est_prep3,
-  select(
-    dplyr::filter(habitat_confirmations_priorities, location == 'us'),
-    site, upstream_habitat_length_m),
+  habitat_confirmations_priorities |>
+    dplyr::filter(location == 'us') |>
+    select(
+    site,
+    hab_value,
+    upstream_habitat_length_m),
   by = c('pscis_crossing_id' = 'site')
 ) |>
   mutate(cost_net = round(upstream_habitat_length_m * 1000/cost_est_1000s, 1),
@@ -1212,24 +955,29 @@ tab_cost_est_prep4 <- left_join(
 
 tab_cost_est_prep5 <- left_join(
   tab_cost_est_prep4,
-  select(hab_site |> dplyr::filter(
-    !alias_local_name %like% 'ds' &
-      !alias_local_name %like% 'ef' &
-      !alias_local_name %like% '\\d$'),
-    site,
-    avg_channel_width_m),
+
+  hab_site |>
+    dplyr::filter(
+      !stringr::str_detect(alias_local_name,'ds') &
+        !stringr::str_detect(alias_local_name, 'ef') &
+        !stringr::str_detect(alias_local_name, '\\d$')) |>
+    select(site,
+           avg_channel_width_m),
   by = c('pscis_crossing_id' = 'site')
-)
+) |>
+  # update 2024 - swapped priorities hab value
+  select(-habitat_value)
 
 ##add the priority info
 tab_cost_est_phase2 <- tab_cost_est_prep5 |>
-  dplyr::filter(source %like% 'phase2') |>
+  dplyr::filter(stringr::str_detect(source, 'phase2')) |>
   dplyr::filter(barrier_result != 'Unknown' & barrier_result != 'Passable') |>
   select(pscis_crossing_id,
          stream_name,
          road_name,
          barrier_result,
-         habitat_value,
+         # update 2024 - swapped priorities value
+         habitat_value = hab_value,
          avg_channel_width_m,
          crossing_fix_code,
          cost_est_1000s,
@@ -1264,11 +1012,15 @@ rm(tab_cost_est_prep, tab_cost_est_prep2,
 hab_loc_prep <- left_join(
   hab_loc |>
     tidyr::separate(alias_local_name, into = c('site', 'location', 'ef'), remove = F) |>
-    dplyr::filter(!alias_local_name %ilike% 'ef' &
+    dplyr::filter(!stringr::str_detect(alias_local_name,'ef') &
              location == 'us') |>
     mutate(site = as.integer(site)),
-  select(dplyr::filter(habitat_confirmations_priorities, location == 'us'),
-         site, priority, comments),
+
+  habitat_confirmations_priorities |>
+    dplyr::filter(location == 'us'),
+  select(site,
+         priority,
+         comments),
   by = 'site'
 )
 
@@ -1277,8 +1029,11 @@ hab_loc_prep <- left_join(
 ###please note that the photos are only in those files ecause they are referenced in other parts
 #of the document
 tab_hab_map <- left_join(
-  tab_cost_est_phase2 |> dplyr::filter(source %like% 'phase2'),
-  hab_loc_prep |> select(site, priority, utm_easting, utm_northing, comments),
+  tab_cost_est_phase2 |>
+    dplyr::filter(stringr::str_detect(source,'phase2')),
+
+  hab_loc_prep |>
+    select(site, priority, utm_easting, utm_northing, comments),
   by = c('pscis_crossing_id' = 'site')
 )  |>
   sf::st_as_sf(coords = c("utm_easting", "utm_northing"),
@@ -1302,10 +1057,11 @@ tab_hab_map <- left_join(
 # #--------------need to review if this is necessary
 tab_map_prep <- left_join(
   pscis_all |>
-    sf::st_as_sf(coords = c("easting", "northing"),
-                 crs = 26909, remove = F) |> ##don't forget to put it in the right crs buds
-    sf::st_transform(crs = 4326), ##convert to match the bcfishpass format,
-  phase1_priorities |> select(-utm_zone:utm_northing, -my_crossing_reference, priority_phase1, -habitat_value, -barrier_result), # |> st_drop_geometry()
+    fpr::fpr_sp_assign_sf_from_utm() |>
+    sf::st_transform(crs = 4326), ##convert to match the mapping format
+
+  phase1_priorities |>
+    select(-utm_zone:utm_northing, -my_crossing_reference, priority_phase1, -habitat_value, -barrier_result), # |> st_drop_geometry()
   by = 'pscis_crossing_id'
 )
 
@@ -1318,10 +1074,6 @@ tab_map <- tab_map_prep |>
                              'target="_blank">Culvert Photos</a>')) |>
   mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) |>
   dplyr::distinct(site_id, .keep_all = T) #just for now
-
-
-
-
 
 
 
