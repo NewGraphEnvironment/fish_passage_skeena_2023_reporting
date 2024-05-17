@@ -4,7 +4,7 @@
 
 <br>
 
-```{r map-interactive, eval=gitbook_on, fig.cap='Map of fish passage and habitat confirmation results', eval=FALSE}
+```{r map-interactive, eval=gitbook_on, fig.cap='Map of fish passage and habitat confirmation results', eval=TRUE}
 ##make colors for the priorities
 pal <- 
    colorFactor(palette = c("red", "yellow", "grey", "black"), 
@@ -33,7 +33,7 @@ map <- leaflet(height=500, width=780) %>%
   addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>% 
   addPolygons(data = wshd_study_areas, color = "#F29A6E", weight = 1, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 0,
-              fillColor = "#F29A6E", label = 'Bulkley River') %>%
+              fillColor = "#F29A6E", label = wshd_study_areas$watershed_group_name) %>%
   addPolygons(data = wshds, color = "#0859C6", weight = 1, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 0.25,
               fillColor = "#00DBFF",
