@@ -11,11 +11,12 @@ params:
   file_out: '0120-photos.html'
 ---
 
-```{r setup, echo=TRUE, include = TRUE}
+```{r setup, echo = TRUE, include = TRUE}
 knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, dpi=60, out.width = "100%", eval = FALSE)
 options(scipen=999)
 options(knitr.kable.NA = '--') #'--'
 options(knitr.kable.NAN = '--')
+
 ```
 
 # Notes about this particular script
@@ -77,15 +78,15 @@ We do a bit of QA on our data.
 
 ```{r qa1, eval = TRUE}
 # check for duplicate sites
-form_pscis %>%
-  dplyr::filter(!is.na(site_id)) %>%
-  group_by(site_id) %>%
-  dplyr::filter(n()>1) %>%
+form_pscis |>
+  dplyr::filter(!is.na(site_id)) |>
+  group_by(site_id) |>
+  dplyr::filter(n()>1) |>
   nrow()
 
 # check for empty sites
-form_pscis %>%
-  dplyr::filter(is.na(site_id)) %>%
+form_pscis |>
+  dplyr::filter(is.na(site_id)) |>
   nrow()
 ```
 
@@ -94,9 +95,9 @@ form_pscis %>%
 Then we create the directories for the photos. We use the `fpr::fpr_photo_folders` function to create the directories passing it a vector of site_ids. We use the `purrr::map` function to iterate over the vector of site_ids.
 
 ```{r dir-create2}
-form_pscis %>%
-  pull(site_id) %>%
-  as.character() %>%
+form_pscis |>
+  pull(site_id) |>
+  as.character() |>
   purrr::map(fpr::fpr_photo_folders, path = dir_photos_shared)
 ```
 
@@ -354,14 +355,14 @@ output_issue_create <- gh::gh(
 
 ```{r amalg}
 # get a list of sites to burn
-sites_l <- fpr::fpr_import_pscis_all() %>%
-  bind_rows() %>%
-  distinct(site_id) %>%
-  arrange(site_id) %>%
-  pull(site_id)
+sites_l <- fpr::fpr_import_pscis_all() |> 
+  dplyr::bind_rows() |>
+  dplyr::distinct(site_id) |>
+  dplyr::arrange(site_id) |>
+  dplyr::pull(site_id)
 
 # burn the amal photos to onedrive
-sites_l %>%
+sites_l |>
   purrr::map(fpr::fpr_photo_amalg_cv, dir_photos = dir_photos_shared)
 ```
 
@@ -377,19 +378,19 @@ print("directories in shared storage location but have no site IDs in pscis inpu
 setdiff(
   list.dirs(dir_photos_shared, full.names = F, recursive = F),
 
-  pscis_all %>%
-    distinct(site_id) %>%
-    arrange(site_id) %>%
-    # head() %>% #test
+  pscis_all |>
+    distinct(site_id) |>
+    arrange(site_id) |>
+    # head() |> #test
     pull(site_id)
 )
 
 print("Have site IDs in pscis input spreadsheets but not in shared storage location:")
 setdiff(
-    pscis_all %>%
-    distinct(site_id) %>%
-    arrange(site_id) %>%
-    # head() %>% #test
+    pscis_all |>
+    distinct(site_id) |>
+    arrange(site_id) |>
+    # head() |> #test
     pull(site_id),
     
     list.dirs(dir_photos_shared, full.names = F, recursive = F)
@@ -572,10 +573,10 @@ xref_pscis_my_crossing_modelled <- rfp::rfp_bcd_get_data(
 Which are the `external_crossing_reference` (a.k.a `my_crossing_reference`) IDs that we need and which are the newly assigned PSCIS IDs?
 
 ```{r p2-id1}
-ids_needed <- d %>%
-  dplyr::filter(!is.na(my_crossing_reference)) %>%
-  dplyr::select(my_crossing_reference) %>%
-  dplyr::distinct() %>%
+ids_needed <- d |>
+  dplyr::filter(!is.na(my_crossing_reference)) |>
+  dplyr::select(my_crossing_reference) |>
+  dplyr::distinct() |>
   dplyr::arrange(my_crossing_reference) |> 
   dplyr::pull(my_crossing_reference)
 
@@ -623,7 +624,7 @@ pscis_new_sites <- dplyr::left_join(
   d,
   xref_pscis_my_crossing_modelled,
   by = c('pscis_crossing_id' = 'stream_crossing_id')
-) %>%
+) |>
   dplyr::filter(!is.na(external_crossing_reference)) |> 
   dplyr::select(external_crossing_reference, pscis_crossing_id)
 
