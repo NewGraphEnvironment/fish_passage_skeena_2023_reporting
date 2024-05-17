@@ -479,7 +479,7 @@ readwritesqlite::rws_disconnect(conn)
 # grab the field form data
 dir_gis <- 'sern_skeena_2023'
 
-## Import the raw form_fiss_2023.gpkg and update the site_id with the pscis values
+## Import the raw form_fiss_2023.gpkg and update the local_name with the pscis values
 form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   path_gpkg = paste0("~/Projects/gis/", dir_gis, '/data_field/2023/form_fiss_site_2023.gpkg'),
   update_utm = TRUE,
@@ -487,9 +487,9 @@ form_fiss_site_raw <- fpr::fpr_sp_gpkg_backup(
   write_back_to_path = FALSE,
   write_to_csv = FALSE,
   write_to_rdata = FALSE,
-  return_object = TRUE
-  # col_easting = "utm_easting",
-  # col_northing = "utm_northing"
+  return_object = TRUE,
+  col_easting = "utm_easting",
+  col_northing = "utm_northing"
   ) |>
   # keep sites that end with us or us# only
   # dplyr::filter(stringr::str_detect(local_name, 'us\\d?$')) |>
@@ -538,17 +538,31 @@ hab_priority_prep <- form_fiss_site_raw |>
   length_surveyed = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name,col_pull = site_length)),
   hab_value = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = habitat_value_rating)),
   priority = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = priority)),
-  upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
-  species_codes = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+  # first we grab hand bombed estimate from form so that number stands if it is present
+  upstream_habitat_length_m = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = us_habitat_m)),
+  species_codes = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = species_known)),
   gps_waypoint_number = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = gps_waypoint_number)),
-  comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments))) |>
-  mutate(across(everything(), ~replace_empty_with_na(.))) |>
+  comments = list(fpr::fpr_my_bcfishpass(dat = form_fiss_site_raw, site = local_name, col_filter = local_name, col_pull = comments)),
+  upstream_habitat_length_m_bcfishpass = list(fpr::fpr_my_bcfishpass(site = site, col_pull = st_rearing_km, round_dig = 4)),
+  upstream_habitat_length_m_bcfishpass = 1000 * upstream_habitat_length_m_bcfishpass,
+  species_codes_bcfishpass = list(fpr::fpr_my_bcfishpass(site = site, col_pull = observedspp_upstr)),
+  # if the hand bombed estimate is present we use that
+  upstream_habitat_length_m = case_when(
+    !is.na(upstream_habitat_length_m) ~ upstream_habitat_length_m,
+    T ~ upstream_habitat_length_m_bcfishpass
+  ),
+  species_codes = case_when(
+    !is.na(species_codes) ~ species_codes,
+    T ~ species_codes_bcfishpass
+  ),
+  upstream_habitat_length_m = round(upstream_habitat_length_m, 0),
+  across(everything(), ~replace_empty_with_na(.))) |>
   dplyr::arrange(local_name, crew_members, date_time_start)
 
 
-# burn to csv to use as your template.  For extra safety use a different name then rename manually and delete
+# burn to csv.  This has us doing all updates in Q or programatically. may be viable... we will see
 hab_priority_prep %>%
-  readr::write_csv('data/habitat_confirmations_priorities_raw.csv', na = '')
+  readr::write_csv('data/habitat_confirmations_priorities.csv', na = '')
 
 
 

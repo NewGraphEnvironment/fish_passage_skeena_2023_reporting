@@ -1,6 +1,7 @@
-
-
 #  `r if(gitbook_on){knitr::asis_output("**Attachment 2 - Habitat Assessment Data**")} else knitr::asis_output("**Attachment 3 - Habitat Assessment Data**")` {-}
 
-Raw habitat assessment data included in digital format at `r paste0(params$repo_url, "/raw/master/data/habitat_confirmations.xls"`
+Raw habitat assessment data is included in digital format at `r paste0(params$repo_url, "/blob/main/data/habitat_confirmations.xls")`. The file can be downloaded with the download button top right of the page at the URL above or by clicking `r paste0(params$repo_url, "/raw/main/data/habitat_confirmations.xls")`
+
+
+
 
