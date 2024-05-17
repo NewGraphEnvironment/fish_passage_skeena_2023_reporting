@@ -27,6 +27,8 @@ source('scripts/02_reporting/0180-photos-extract-metadata.R')
   mapply(file.rename, from = files_destination, to = files_to_move)
 }
 
+# if our build fails we can put the appendix back in the main directory with
+mapply(file.rename, from = files_to_move, to = files_destination)
 
 #################################################################################################
 ##go to the index.Rmd and change gitbook_on <- FALSE
