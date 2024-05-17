@@ -1,0 +1,60 @@
+---
+title: "photos import"
+date: "Created: 2024-05-17 | Updated: `r format(Sys.Date(), '%Y-%m-%d')`"
+output: 
+  html_document:
+    code_folding: "hide"
+params:
+  repo_owner: "NewGraphEnvironment"
+  repo_name: "fish_passage_skeena_2023_reporting"
+  file_in: 'scripts/02_reporting/photos_import.Rmd'
+  file_out: 'photos_import.html'
+  dir_server_photos_stub: "~/Library/CloudStorage/OneDrive-Personal/Projects/2023_data/skeena/photos/"
+  dir_repo_photos_stub: "/data/photos/"
+---
+
+```{r setup, eval= TRUE}
+knitr::opts_chunk$set(echo=TRUE, message=FALSE, warning=FALSE, dpi=60, out.width = "100%", eval = FALSE)
+options(scipen=999)
+options(knitr.kable.NA = '--') #'--'
+options(knitr.kable.NAN = '--')
+
+```
+
+```{r see-wd, eval=TRUE}
+here::here()
+```
+
+This is a simple script to bulk import all photos from a shared server to the local repo directory. Idea here is that 
+all collaborators on raw project (who have access to the shared server) can add photos to the shared server alter
+photos on the shared server (ie. organize, rename) and then update the repo. 
+
+<br>
+
+Naming conventions to allow `git` to track photos are included in the project `.gitignore` (ex. `_k_` included or photo
+is named `crossing_all.JPG`).
+
+<br>
+
+This script keeps things very simple by first deleting all the photos locally, and then copying all the photos from the shared server to the local repo. A slightly more selective approach will be added to https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/tree/main/scripts/02_reporting (at timeof writing this was in the
+`scripts/tables_2023.R` script of that repo but it will be moved to align with this new convention.)
+
+```{r copy, eval=TRUE}
+
+
+# delete the mother photos directory
+fs::dir_delete(
+  paste0(here::here(), params$dir_repo_photos_stub)
+  )
+# create the new mother photos directory
+fs::dir_create(
+  paste0(here::here(), params$dir_repo_photos_stub)
+  )
+
+# copy over all the photos from the shared server to the local repo
+fs::dir_copy(
+  path = params$dir_server_photos_stub,
+  new_path = paste0(here::here(),params$dir_repo_photos_stub),
+  overwrite = TRUE)
+```
+
