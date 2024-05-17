@@ -7,7 +7,7 @@ bookdown::gitbook:
         <li><a href="./">Fish Passage Planning Skeena 2023</a></li>
       after: |
         <li><a href="https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting" target="blank">Scripts and Data</a></li>
-    download: ["../hold/fish_passage_skeena_2023.pdf", "fish_passage_skeena_2023.html"]
+    download: ["https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/blob/main/hold/fish_passage_skeena_2023.pdf", "fish_passage_skeena_2023.html"]
     fontsettings:
       theme: night
       family: sans
