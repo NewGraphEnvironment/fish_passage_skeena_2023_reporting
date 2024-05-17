@@ -460,3 +460,23 @@ get_elev <- function(dat){
                                    Z = 'elev') %>%
     mutate(elev = round(elev, 0))
 }
+
+ldfo_sad_plot_line <- function(dat, region, col_y, col_facet, col_group, col_group_exclude = NULL, value_group_exclude = NULL, theme = ggdark::dark_theme_bw()) {
+  dat <- dat %>%
+    dplyr::filter(waterbody == region) %>%
+    dplyr::filter(!is.na(!!sym(col_y)))
+
+  if (!is.null(col_group_exclude)) {
+    dat <- dat |>
+      dplyr::filter(!!sym(col_group_exclude) != value_group_exclude)
+  }
+
+  dat %>%
+    arrange(!!sym(col_facet), !!sym(col_group)) %>%
+    ggplot(aes(x = !!sym(col_group), y = !!sym(col_y), group = !!sym(col_facet))) +
+    geom_line() +
+    geom_point() +
+    facet_wrap(as.formula(paste0("~", col_facet)), scales = "free") +
+    labs(x = "Year", y = col_y) +
+    theme
+}
