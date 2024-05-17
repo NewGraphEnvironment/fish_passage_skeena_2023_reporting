@@ -9,7 +9,7 @@ author: |
  |
  |
  | Prepared by
- | Al Irvine, B.Sc., R.P.Bio, Mateo Wintersheidt, B.Sc, and Lucy Schick, B.Sc.
+ | Al Irvine, B.Sc., R.P.Bio and Lucy Schick, B.Sc.
  | New Graph Environment Ltd.
  | on behalf of
  | Society for Ecosytem Restoration in Northern British Columbia
@@ -81,15 +81,19 @@ font_set <- 9
 ```
 
 
-```{r}
+```{r source}
 source('scripts/packages.R')
-# source('scripts/tables.R')
-# source('scripts/moti_climate.R')
-# source('scripts/functions.R')
+source('scripts/tables.R')
+source('scripts/moti_climate.R')
+source('scripts/functions.R')
+
+
 ```
 
 
-```{r include=FALSE}
+
+
+```{r bib, include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
