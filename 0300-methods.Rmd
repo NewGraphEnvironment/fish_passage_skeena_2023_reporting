@@ -77,12 +77,14 @@ bcfishpass_spawn_rear_model %>%
 <br>
 
 ```{r tab-fish-spawning-rearing-references}
-# bcfishpass_spawn_rear_model_references <- readr::read_csv(file = 'data/width_modelling/model_spawning_rearing_habitat.csv')
-bcfishpass_spawn_rear_model_references <- readr::read_csv(file = 'data/inputs_raw/model_spawning_rearing_habitat.csv') 
-  # select(species_code, contains('ref'), -contains(c('multiplier','mad')))
   
-bcfishpass_spawn_rear_model_references %>% 
-  mutate(Species = fishbc::fbc_common_name(species_code)) %>% 
+bcfishpass_spawn_rear_model %>% 
+  # remove arctic grayling and kokannee for this study area
+  dplyr::filter(species_code %in% c("BT", "CH", "CO", "ST")) %>%
+  mutate(Species = fishbc::fbc_common_name(species_code),
+         # for spawn_gradient_max and rear_gradient_max multiply by 100 and round to 1 digit)
+         spawn_gradient_max = round(spawn_gradient_max * 100 ,1),
+         rear_gradient_max = round(rear_gradient_max * 100 ,1)) |> 
   select(Species, 
          `Spawning Gradient  Max (%)`= spawn_gradient_max,
          `Spawning Width Min (m)` = spawn_channel_width_min,
@@ -95,8 +97,8 @@ bcfishpass_spawn_rear_model_references %>%
          # `Rearing MAD Min (m3/s)` = rear_mad_min,
          # `Rearing MAD Max (m3/s)` = rear_mad_max) %>% 
   t() %>% 
-  as_tibble(rownames = "row_names") %>% 
-  janitor::row_to_names(row_number = 1) %>% 
+  as_tibble(rownames = "row_names") |> 
+  janitor::row_to_names(row_number = 1) |>  
   rename(Variable = Species) %>% 
   fpr::fpr_kable(caption_text = 'References for stream gradient and channel width thresholds used to model potentially highest value fish habitat. Preliminary and subject to revisions.', scroll = F)
 ```
@@ -241,7 +243,7 @@ In collaboration with the Ministry of Transportation and Infrastructure (MoTi), 
 
 ```{r tab-moti-params}
 xref_moti_climate_names %>% 
-  slice(7:nrow(xref_moti_climate)) %>% 
+  slice(7:nrow(xref_moti_climate_names)) %>% 
   select(spdsht, report) %>% 
   rename(Parameter = spdsht, Description = report) %>% 
   fpr::fpr_kable(caption_text = 'Climate change data collected at MoTi culvert sites', scroll = gitbook_on)
