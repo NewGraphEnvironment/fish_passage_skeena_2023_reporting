@@ -40,7 +40,7 @@ xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_m
 wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) |>
    mutate(aspect = as.character(aspect))
 
-# photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
+photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
 # # fiss_sum <- readwritesqlite::rws_read_table("fiss_sum", conn = conn)
 readwritesqlite::rws_disconnect(conn)
 
