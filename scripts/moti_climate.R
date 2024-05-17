@@ -1,30 +1,53 @@
 # extract moti climate change data from mergin field form and make table to insert into reporting
 
-source('scripts/packages.R')
-source('scripts/tables.R')
+xref_moti_climate_names <- tibble::tribble(
+                                                                 ~spdsht,                                                                                                               ~report, ~description, ~id_join, ~id_side,
+                                                     "pscis_crossing_id",                                                                                                   "pscis_crossing_id",          "–",      "–",      "–",
+                                                 "my_crossing_reference",                                                                                               "my_crossing_reference",          "–",      "–",      "–",
+                                                          "crew_members",                                                                                   "Crew Members Seperate with Spaces",          "–",      "–",      "–",
+                                                 "moti_chris_culvert_id",                                                                                               "moti_chris_culvert_id",          "–",      "–",      "–",
+                                                           "stream_name",                                                                                                         "stream_name",          "–",      "–",      "–",
+                                                             "road_name",                                                                                                           "road_name",          "–",      "–",      "–",
+                                                        "erosion_issues",                                                                                      "Erosion (scale 1 low - 5 high)",          "–",      "9",      "1",
+                                                "embankment_fill_issues",                                                                  "Embankment fill issues 1 (low) 2 (medium) 3 (high)",          "–",      "2",      "1",
+                                                       "blockage_issues",                                                                      "Blockage Issues 1 (0-30%) 2 (>30-75%) 3 (>75%)",          "–",      "3",      "1",
+                                                        "condition_rank",                                                                    "Condition Rank = embankment + blockage + erosion",          "–",      "4",      "1",
+                                                       "condition_notes",                                                                "Describe details and rational for condition rankings",          "–",      "–",      "–",
+                              "likelihood_flood_event_affecting_culvert",                                                     "Likelihood Flood Event Affecting Culvert (scale 1 low - 5 high)",          "–",      "8",      "1",
+                             "consequence_flood_event_affecting_culvert",                                                    "Consequence Flood Event Affecting Culvert (scale 1 low - 5 high)",          "–",      "5",      "1",
+                                             "climate_change_flood_risk",                           "Climate Change Flood Risk (likelihood x consequence) 1-6 (low) 6-12 (medium) 10-25 (high)",          "–",      "6",      "1",
+                                                    "vulnerability_rank",                                                                  "Vulnerability Rank = Condition Rank + Climate Rank",          "–",      "7",      "1",
+                                                         "climate_notes",                                                             "Describe details and rational for climate risk rankings",          "–",      "–",      "–",
+                                                        "traffic_volume",                                                                         "Traffic Volume 1 (low) 5 (medium) 10 (high)",          "–",      "9",      "2",
+                                                      "community_access", "Community Access - Scale - 1 (high - multiple road access) 5 (medium - some road access) 10 (low - one road access)",          "–",      "2",      "2",
+                                                                  "cost",                                                                                       "Cost (scale: 1 high - 10 low)",          "–",      "3",      "2",
+                                                      "constructability",                                                                      "Constructibility (scale: 1 difficult -10 easy)",          "–",      "4",      "2",
+                                                          "fish_bearing",                                                             "Fish Bearing 10 (Yes) 0 (No) - see maps for fish points",          "–",      "5",      "2",
+                                                 "environmental_impacts",                                                                       "Environmental Impacts (scale: 1 high -10 low)",          "–",      "8",      "2",
+                                                         "priority_rank",  "Priority Rank = traffic volume + community access + cost + constructability + fish bearing + environmental impacts",          "–",      "6",      "2",
+                                                          "overall_rank",                                                                   "Overall Rank = Vulnerability Rank + Priority Rank",          "–",      "7",      "2",
+                                                        "priority_notes",                                                                 "Describe details and rational for priority rankings",          "–",      "–",      "–"
+                             )
 
-# read csv that has column names we want
-xref_moti_climate <- read_csv(file = 'data/inputs_raw/xref_moti_climate.csv')
+
+
+form_pscis_moti <- fpr::fpr_sp_gpkg_backup(
+  path_gpkg = paste0("~/Projects/gis/sern_skeena_2023/data_field/2023/form_pscis_2023.gpkg"),
+  write_to_csv = FALSE,
+  write_to_rdata = FALSE,
+  return_object = TRUE
+) |>
+  sf::st_drop_geometry()
+
 
 # read in data from mergin form, contains all skeena data as well so need to filter out bulk sites
-moti_site_data <- read_csv(file = 'data/dff/form_pscis_moti_20230511.csv') %>%
-  rename(moti_chris_culvert_id = chris_culvert_id) %>%
-  # add the condition and erosion columns
-  select(any_of(xref_moti_climate %>% pull(spdsht)), contains('erosion'), contains('embankment')) %>%
-  # two phase 2 sites (pinenut and sterritt) had my crossing ref ids input incorrectly into the pscis id column in the form csv
-  mutate(my_crossing_reference = case_when(pscis_crossing_id == 8302257 ~ 8302257, T ~ my_crossing_reference),
-         my_crossing_reference = case_when(pscis_crossing_id == 8300128 ~ 8300128, T ~ my_crossing_reference)) %>%
-  # sandstone creek site had incorrect my crossing ref
-  mutate(pscis_crossing_id = case_when(my_crossing_reference == 4600913 ~ 8530, T ~ pscis_crossing_id)) %>%
+moti_site_data <- form_pscis_moti %>%
+  select(any_of(xref_moti_climate_names %>% pull(spdsht)), contains('erosion'), contains('embankment')) %>%
   # pull out sites that match pscis ids or my crossing references from skeena repo object
-  # this seems a bit strange.. first section said keep if the pscis id is there or there is not a my_crossing_ref... why? works to remove Cullen but maybe coudl just remove cullen explicitly?
   filter(pscis_crossing_id %in% (pscis_all %>% pull(pscis_crossing_id))|
         !is.na(my_crossing_reference) &
         my_crossing_reference %in% (pscis_all %>% pull(my_crossing_reference))) %>%
-  # condition and erosion columns were renamed condition_issues and erosion_issues
-  mutate(erosion_issues = case_when(!is.na(erosion) ~ erosion, T ~ erosion_issues),
-         embankment_fill_issues = case_when(!is.na(embankment_issues) ~ embankment_issues, T ~ embankment_fill_issues)) %>%
-  select(-erosion, -embankment_issues, -contains('photo')) %>%
+  select(-contains('photo')) %>%
   arrange(my_crossing_reference)
 
 
@@ -45,16 +68,6 @@ moti_data_cleaned <- moti_site_data %>%
   filter(!is.na(priority_rank)) #%>%
   #filter(str_detect(crew_members, "newgraph_airvine|MateoW")) #%>%
 
-names(moti_data_cleaned)
-xref_moti_climate %>% pull(report)
-
-# test to see the order is right - set_names seems risky perhaps... maybe its fine
-try <- tibble(
-  spdsht = names(moti_data_cleaned),
-  report = xref_moti_climate %>% pull(report)
-)
-
-# all good
 
 # add the xref pscis id
 tab_moti_prep <- left_join(
@@ -73,34 +86,24 @@ tab_moti_prep <- left_join(
   mutate(vulnerability_rank = condition_rank + climate_change_flood_risk) %>%
   mutate(overall_rank = vulnerability_rank + priority_rank)
 
-# burn to a csv to make changes in a reasonably quick manner.  Copy file and use it to read in
-tab_moti_prep %>%
-write_csv('data/inputs_extracted/tab_moti_prep_20230605.csv')
-
-# read it back in cleaned up
-tab_moti_prep <- read_csv(file = 'data/inputs_raw/moti_climate_tidied_hand.csv')
+# # burn to a csv to make changes in a reasonably quick manner.  Copy file and use it to read in
+# tab_moti_prep %>%
+# write_csv('data/inputs_extracted/tab_moti_prep_20230605.csv')
+#
+# # read it back in cleaned up
+# tab_moti_prep <- read_csv(file = 'data/inputs_raw/moti_climate_tidied_hand.csv')
 
 # make table for phase 1 sites to insert into report
 tab_moti_phase1 <- tab_moti_prep %>%
   filter(my_crossing_reference %in% (pscis_phase1 %>% pull(my_crossing_reference))) %>%
-  purrr::set_names(nm = xref_moti_climate %>% pull(report))%>%
-  # filter out sites that aren't from moti
-  filter(!is.na(moti_chris_culvert_id)) %>%
-  mutate(stream_name = str_replace_all(stream_name, "Trib ", "Tributary "),
-         stream_name = case_when(pscis_crossing_id == 198186 ~ "Tributary to Kispiox River", T ~ stream_name),
-         stream_name = case_when(pscis_crossing_id == 198201 ~ "Tributary to Tea Creek", T ~ stream_name),
-         stream_name = case_when(pscis_crossing_id == 198215 ~ "Dale Creek", T ~ stream_name)
-         )
+  purrr::set_names(nm = xref_moti_climate_names %>% pull(report))
+  # filter out sites that aren't from moti - NOPE lets leave them all
+  # filter(!is.na(moti_chris_culvert_id))
 
 
 # make table for phase 2 sites to insert into report
 tab_moti_phase2 <- tab_moti_prep %>%
-  filter(pscis_crossing_id %in% (pscis_phase2 %>% pull(pscis_crossing_id))) %>%
-         #|pscis_crossing_id == 198200) %>% # this is a phase 2 site on tea creek, but we used the pscis id of culvert on the highway in phase 2 spreadsheet
-  mutate(stream_name = case_when(str_detect(stream_name, "Trib to Kitwanga") ~ "Tea Creek", T ~ stream_name)) %>%
-  # Tea Creek highway structure has a different moti id
-  mutate(moti_chris_culvert_id = case_when(pscis_crossing_id == 198220 ~ 4092, T ~ moti_chris_culvert_id)) %>%
-  mutate(stream_name = case_when(pscis_crossing_id == 198220 ~ "Tea Creek", T ~ stream_name)) %>%
-  # filter out sites that aren't from moti
-  filter(!is.na(moti_chris_culvert_id))
+  filter(pscis_crossing_id %in% (pscis_phase2 %>% pull(pscis_crossing_id)))
+  # filter out sites that aren't from moti - lets leave in and note in results!
+  # filter(!is.na(moti_chris_culvert_id))
 
