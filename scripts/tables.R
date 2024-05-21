@@ -24,12 +24,8 @@ pscis_all_prep <- pscis_list |>
 #this is our new db made from load-bcfishpass-data.R and 0290
 conn <- readwritesqlite::rws_connect("data/bcfishpass.sqlite")
 readwritesqlite::rws_list_tables(conn)
-bcfishpass_phase2 <- readwritesqlite::rws_read_table("bcfishpass", conn = conn) |>
-  dplyr::filter(stream_crossing_id %in%
-           (pscis_phase2 |>
-              pull(pscis_crossing_id))) |>
-  dplyr::filter(!is.na(stream_crossing_id))
 bcfishpass <- readwritesqlite::rws_read_table("bcfishpass", conn = conn)
+  # sf::st_drop_geometry()
   # mutate(ch_cm_co_pk_sk_network_km = round(ch_cm_co_pk_sk_network_km,2))
 # pscis_historic_phase1 <- readwritesqlite::rws_read_table("pscis_historic_phase1", conn = conn)
 bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn_rear_model", conn = conn)
@@ -45,11 +41,22 @@ photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
 readwritesqlite::rws_disconnect(conn)
 
 
+bcfishpass_phase2 <- bcfishpass |>
+  dplyr::filter(stream_crossing_id %in%
+                  (pscis_phase2 |>
+                     pull(pscis_crossing_id))) |>
+  dplyr::filter(!is.na(stream_crossing_id))
+
 # due to this https://github.com/smnorris/bcfishpass/issues/492 we are doing it this way for now
 # methods to update are in fpr I believe
-bcfishpass_column_comments <- fpr::fpr_xref_crossings
+# not sure why this is the same as bcfishpass_column_comments
+# investigate then delete--------------------------
+# bcfishpass_column_comments <- fpr::fpr_xref_crossings
 
 tab_cost_rd_mult <- readr::read_csv('data/inputs_raw/tab_cost_rd_mult.csv')
+
+# bcfishpass modelling table setup for reporting
+xref_bcfishpass_names <- fpr::fpr_xref_crossings
 
 # this doesn't work till our data loads to pscis
 pscis_all <- left_join(
@@ -66,7 +73,7 @@ pscis_all <- left_join(
   #   T ~ pscis_crossing_id
   # )) |>
   # select(-stream_crossing_id) |>
-  arrange(pscis_crossing_id)
+  dplyr::arrange(pscis_crossing_id)
 
 # make spatial object of pscis data
 pscis_all_sf <- pscis_all |>
@@ -737,8 +744,7 @@ hab_site_priorities <- left_join(
   select(-location)
 
 
-# bcfishpass modelling table setup for reporting --------------------------
-xref_bcfishpass_names <- fpr_xref_crossings
+
 
 #-----------overview table------------
 
