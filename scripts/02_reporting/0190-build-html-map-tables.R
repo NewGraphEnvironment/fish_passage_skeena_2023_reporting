@@ -4,21 +4,22 @@ source('scripts/packages.R')
 
 
 unlink('docs/sum/bcfp', recursive = T) #erase the file and start over every time
-dir.create('docs/sum/bcfp')
+dir.create('docs/sum/bcfp', recursive = T)
 
 
 
 # bcfishpass html to link from map ----------------------------------------
 bcfishpass %>%
+  sf::st_drop_geometry() |>
   # need to determine which sites have no bcfishpass info and exclude those so the purrr::map does not bail on us
-  filter(stream_crossing_id %in% (pscis_all %>% pull(pscis_crossing_id))) %>%
-  pull(stream_crossing_id) %>%
-  purrr::map(fpr::fpr_table_bcfp_html)
+  dplyr::filter(stream_crossing_id %in% (pscis_all %>% pull(pscis_crossing_id))) %>%
+  pull(stream_crossing_id) |>
+  purrr::map(fpr::fpr_table_bcfp_html, scroll = FALSE)
 
 
 
 unlink('docs/sum/cv', recursive = T) #erase the file and start over every time
-dir.create('docs/sum/cv')
+dir.create('docs/sum/cv', recursive = T)
 
 # build all the cv tables for interactive map - be sure to run options(knitr.kable.XXX = '--') in the setup chunk of index.Rmd first
 pscis_all %>%
