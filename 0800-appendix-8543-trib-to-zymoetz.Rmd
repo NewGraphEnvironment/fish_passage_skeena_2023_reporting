@@ -108,13 +108,13 @@ hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
 
 ## Stream Characteristics Downstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'ds')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8543-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8543-d01))."))` The stream was dry at the time of the survey, and the slope gradually flattened out the further downstream. `r fpr_my_habitat_paragraph(loc = 'ds')` There are historic dolly varden and rainbow trout observations just downstream of the crossing in the FISS database. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds')` value for salmonid rearing and spawning. 
+`r fpr_my_survey_dist(loc = 'ds')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8543-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8543-d01))."))` The stream was dry at the time of the survey, and the slope gradually flattened out the further downstream. `r fpr_my_habitat_paragraph(loc = 'ds')` There are historic dolly varden and rainbow trout observations just downstream of the crossing in the FISS database. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
 
 <br>
 
 ## Stream Characteristics Upstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8543-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8543-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream was mostly dewatered but with isolated pools to 60 cm deep spaced every 30 to 40 m. The stream channel was entrenched in the valley with large amounts of mobile angular cobbled substrate throughout. Fish were observed in multiple isolated pools up to 300m upstream of the crossing, and there is a historic dolly varden observation just upstream of the crossing in the FISS database. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us')` for salmonid rearing and spawning. There is a FISS obstacle noted as a cascade just upstream of crossing `r as.character(my_site)` but no permanent natural barriers were observed.
+`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8543-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8543-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream was mostly dewatered but with isolated pools to 60 cm deep spaced every 30 to 40 m. The stream channel was entrenched in the valley with large amounts of mobile angular cobbled substrate throughout. Fish were observed in multiple isolated pools up to 300m upstream of the crossing, and there is a historic dolly varden observation just upstream of the crossing in the FISS database. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning. There is a FISS obstacle noted as a cascade just upstream of crossing `r as.character(my_site)` but no permanent natural barriers were observed.
 
 <br>
 
