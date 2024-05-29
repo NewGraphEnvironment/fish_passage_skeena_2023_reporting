@@ -24,28 +24,24 @@ my_site2 <- 8529
 
 ## Site Location {.unnumbered}
 
-PSCIS crossing `r as.character(my_site)` is located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km
-upstream of Coal Creek on a `r fpr::fpr_my_pscis_info()`. The site is located on `r fpr_my_pscis_info(col_pull = road_name)` and is within the Wet'suwet'en and Gitxsan hereditary territories.
+PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()` is located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km upstream of Coal Creek on `r fpr_my_pscis_info(col_pull = road_name)`.
 
 <br>
 
 ## Background {.unnumbered}
 
-At crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a
-`r fpr::fpr_my_bcfishpass() %>% english::ordinal()` order stream with an
-upstream watershed area of approximately
-`r fpr::fpr_my_wshd()`km^2^. The elevation of the watershed ranges from
-a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
-`r fpr::fpr_my_wshd(col = 'elev_min')`m near the crossing (Table
-\@ref(tab:tab-wshd-8525)).
+At crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a `r fpr::fpr_my_bcfishpass() %>% english::ordinal()` 
+order stream with an upstream watershed area of approximately `r fpr::fpr_my_wshd()`km^2^. The
+elevation of the watershed ranges from a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to 
+`r fpr::fpr_my_wshd(col ='elev_min')`m near the crossing (Table \@ref(tab:tab-wshd-8525)).
 
 <br>
 
-Due to the crossing's proximity to Coal Creek, which is a known coho stream, fish presence was investigated. In 2022, minnow traps were set at crossing `r as.character(my_site)` and fish were captured. During the 2023 survey, surveyors conducted a habitat assessment and electrofishing with results included in this report. 
-
-<br>
-
-Crews also visited crossing `r as.character(my_site2)` which was documented as wooden box culvert but is now a bridge and is located approximately 1.7km upstream of crossing `r as.character(my_site)`. 
+The crossing was  assessed with a fish passage re-assessment in 2022 and ranked as a moderate priority for follow up
+in @irvine_wintersheidt2023SkeenaWatershed due to relatively low mapped gradients, the crossing's proximity to Coal Creek, 
+and decent flows. In 2022, minnow traps were set at crossing `r as.character(my_site)` to scope for coho presence with
+only dolly varden were captured. During the 2023 survey, surveyors conducted a habitat confirmation assessment and 
+electrofishing with results included in this memo. 
 
 <br>
 
@@ -74,16 +70,10 @@ fpr::fpr_table_bcfp(scroll = gitbook_on)
 
 ## Climate Change Risk Assessment
 
-Preliminary climate change risk assessment data for the site is presented in Tables \@ref(tab:tab-moti-8525) - \@ref(tab:tab-moti-8525-comments).
+Preliminary climate change risk assessment data for the site is presented in Table \@ref(tab:tab-moti-8525).
 
 ```{r tab-moti-8525, eval = T}
 fpr_table_moti()
-```
-
-<br>
-
-```{r tab-moti-8525-comments, eval = T}
-fpr_table_moti_comments()
 ```
 
 ## Stream Characteristics at Crossing `r as.character(my_site)` {.unnumbered}
@@ -91,7 +81,7 @@ fpr_table_moti_comments()
 At the time of the survey in 2023, PSCIS crossing `r as.character(my_site)` was
 un-embedded, non-backwatered and ranked as a
 `r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
-[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8525)). There was a small blockage at the inlet and 0.5m outlet drop. Water temperature was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8525)). There was a small blockage at the inlet and a 0.5m outlet drop. Water temperature was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
 pH was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'p_h')` and
 conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivity_m_s_cm')`uS/cm.
 
@@ -101,11 +91,6 @@ conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivit
 
 ```{r tab-culvert-8525, eval = T}
 fpr::fpr_table_cv_summary_memo()
-
-```
-
-```{r tab-culvert-8529, eval = T}
-fpr::fpr_table_cv_summary_memo(dat = pscis_reassessments, site = my_site2, site_photo_id = my_site2)
 
 ```
 
@@ -119,9 +104,11 @@ hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
 
 ## Stream Characteristics Downstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'ds')`. The stream had low flows with numerous areas dewatered, but was generally flowing throughout the area surveyed, and the water was relatively turbid
-`r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8525-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8525-d01))."))` Pool depths were limited to approximately 20cm and there were very few deep pools. There was abundant gravel throughout the area surveyed and the stream had a good flow for this time of year given it was a very dry year.
-`r fpr_my_habitat_paragraph(loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
+`r fpr_my_survey_dist(loc = 'ds')`. The stream had low flows with intermittent dewatering, but had good flow relative to
+other streams in the area and given it was a very dry year. Flows in the stream were noted as relatively turbid
+`r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8525-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8525-d01))."))` There were very few deep pools present bud abundant gravel present throughout the area surveyed.
+`r fpr_my_habitat_paragraph(loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` 
+value for salmonid rearing and spawning. 
 
 <br>
 
@@ -131,14 +118,17 @@ hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
 
 <br>
 
-Approximately 1.7km upstream of crossing `r as.character(my_site)` is PSCIS crossing `r as.character(my_site2)` which was previously documented as a wooden box culvert but is now a bridge. The stream was surveyed upstream from crossing `r as.character(my_site2)` for approximately 100m. The stream had good flow for a small system on a dry year. There was abundant gravels and undercut banks throughout `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8529-01) - \\@ref(fig:photo-8529-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8529-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us2')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
+Approximately 1.7km upstream of crossing `r as.character(my_site)`, PSCIS crossing `r as.character(my_site2)`-  which 
+was previously documented as a wooden box culvert - was reassessed. The crossing had recently been replaced with 
+a bridge. The stream was surveyed upstream from crossing `r as.character(my_site2)` for approximately 100m. The stream 
+was noted as having good flow for a small system on a dry year. `r fpr_my_habitat_paragraph(loc = 'us2')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8529-01) - \\@ref(fig:photo-8529-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8529-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us2')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
 
 <br>
 
 
 ## Fish Sampling {.unnumbered}
 
-In 2022, minnow traps were set at `r as.character(my_site)` and dolly varden were captured both above and below the crossing, with results found [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/blob/main/data/habitat_confirmations.xls)
+As noted, in 2022, minnow traps were set at `r as.character(my_site)` to scope for coho presence.  Dolly varden were captured both above and below the crossing, with fish sampling data [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/blob/main/data/habitat_confirmations.xls)
 
 <br>
 
