@@ -24,7 +24,8 @@ my_site2 <- 8529
 
 ## Site Location {.unnumbered}
 
-PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()` is located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km upstream of Coal Creek on `r fpr_my_pscis_info(col_pull = road_name)`.
+PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()`  on `r fpr_my_pscis_info(col_pull = road_name)` 
+approximately 7.5km west of the downstream end of McDonnell Lake. The road at the crossing location is the responsibility of the Ministry of Forests.
 
 <br>
 
@@ -33,15 +34,19 @@ PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()` is lo
 At crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a `r fpr::fpr_my_bcfishpass() %>% english::ordinal()` 
 order stream with an upstream watershed area of approximately `r fpr::fpr_my_wshd()`km^2^. The
 elevation of the watershed ranges from a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to 
-`r fpr::fpr_my_wshd(col ='elev_min')`m near the crossing (Table \@ref(tab:tab-wshd-8525)).
+`r fpr::fpr_my_wshd(col ='elev_site')`m near the crossing (Table \@ref(tab:tab-wshd-8525)).  The stream flows in a 
+south-west direction into Coal Creek approximately `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km 
+downstream of `r fpr_my_pscis_info(col_pull = road_name)`.
 
 <br>
 
-The crossing was  assessed with a fish passage re-assessment in 2022 and ranked as a moderate priority for follow up
+The crossing was originally assessed with a fish passage assessment by @viveiros2011FishPassage in 2010.  The site
+was re-assessed in 2022 and ranked as a moderate priority for follow up
 in @irvine_wintersheidt2023SkeenaWatershed due to relatively low mapped gradients, the crossing's proximity to Coal Creek, 
-and decent flows. In 2022, minnow traps were set at crossing `r as.character(my_site)` to scope for coho presence with
-only dolly varden were captured. During the 2023 survey, surveyors conducted a habitat confirmation assessment and 
-electrofishing with results included in this memo. 
+and relatively good flow volumes. Upstream of the crossing, `r fpr::fpr_my_fish_sp()` have been documented in the past 
+[@norris2024smnorrisbcfishobs; @moe2024KnownBC]. In 2022, minnow traps were set at crossing `r as.character(my_site)` to 
+scope for coho presence with only dolly varden captured. Revisited in 2023, surveyors conducted a habitat confirmation 
+assessment and electrofishing with results included in this memo. 
 
 <br>
 
@@ -58,7 +63,7 @@ fpr::fpr_table_wshd_sum(site_id = my_site) %>%
 A summary of habitat modelling outputs is presented in Table
 \@ref(tab:tab-culvert-bcfp-8525). A map of the watershed is provided in
 map attachment
-[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "kisp", archive_date = "2022-09-06")`).
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "zymo", archive_date = "2022-09-06")`).
 
 <br>
 
@@ -66,13 +71,11 @@ map attachment
 fpr::fpr_table_bcfp(scroll = gitbook_on) 
 ```
 
-<br>
 
+```{r tab-moti-8525, eval = FALSE}
 ## Climate Change Risk Assessment
 
-Preliminary climate change risk assessment data for the site is presented in Table \@ref(tab:tab-moti-8525).
-
-```{r tab-moti-8525, eval = T}
+# Preliminary climate change risk assessment data for the site is presented in Table \@ref(tab:tab-moti-8525).
 fpr_table_moti()
 ```
 
@@ -91,7 +94,6 @@ conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivit
 
 ```{r tab-culvert-8525, eval = T}
 fpr::fpr_table_cv_summary_memo()
-
 ```
 
 
@@ -104,9 +106,9 @@ hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
 
 ## Stream Characteristics Downstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'ds')`. The stream had low flows with intermittent dewatering, but had good flow relative to
-other streams in the area and given it was a very dry year. Flows in the stream were noted as relatively turbid
-`r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8525-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8525-d01))."))` There were very few deep pools present bud abundant gravel present throughout the area surveyed.
+`r fpr_my_survey_dist(loc = 'ds')`. The stream was noted to have intermittent dewatering, but good flow relative to
+other streams in the area given it was a very dry year. Water was noted as relatively turbid
+`r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8525-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8525-d01))."))` There were few deep pools and abundant small gravels present throughout the area surveyed.
 `r fpr_my_habitat_paragraph(loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` 
 value for salmonid rearing and spawning. 
 
@@ -114,14 +116,15 @@ value for salmonid rearing and spawning.
 
 ## Stream Characteristics Upstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8525-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8525-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')` There were isolated pools every 30 to 50m that were up to 55cm in depth, and abundant gravel throughout. The habitat was a wetland type fern and alder dominated gully with mature spruce riparian. No barriers were observed. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning.
+`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8525-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8525-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')` 
+There were isolated pools every 30 to 50m that were up to 55cm in depth, and abundant gravel throughout. The habitat was 
+wetland in character dominated by fern, alder and mature spruce. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning.
 
 <br>
 
-Approximately 1.7km upstream of crossing `r as.character(my_site)`, PSCIS crossing `r as.character(my_site2)`-  which 
-was previously documented as a wooden box culvert - was reassessed. The crossing had recently been replaced with 
-a bridge. The stream was surveyed upstream from crossing `r as.character(my_site2)` for approximately 100m. The stream 
-was noted as having good flow for a small system on a dry year. `r fpr_my_habitat_paragraph(loc = 'us2')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8529-01) - \\@ref(fig:photo-8529-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8529-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us2')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
+Approximately 1.7km upstream of crossing `r as.character(my_site)`, PSCIS crossing `r as.character(my_site2)`-   
+was previously documented as a wooden box culvert.  This site was reassessed in 2023 and habitat adjacent to the structure
+assessed.  The wooden box culvert had recently been replaced with a bridge. The stream was surveyed upstream from crossing `r as.character(my_site2)` for approximately 100m and was noted as having good flow for a small system on a dry year. `r fpr_my_habitat_paragraph(loc = 'us2')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8529-01) - \\@ref(fig:photo-8529-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8529-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us2')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
 
 <br>
 
@@ -133,26 +136,27 @@ As noted, in 2022, minnow traps were set at `r as.character(my_site)` to scope f
 <br>
 
 During the 2023 survey, electrofishing was conducted at three sites above and three sites below crossing `r as.character(my_site)`,  with results summarised in Tables \@ref(tab:tab-fish-site-8525) - \@ref(tab:tab-fish-dens-8525) and Figure
-\@ref(fig:plot-fish-box-8525). A total of `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_us')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` dolly varden were captured upstream, and `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_ds')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` fish were captured downstream, including dolly varden and rainbow trout `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-8525-03) - \\@ref(fig:photo-8525-04)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-8525-d02))."))` All fish captured with a fork length greater than 60mm were tagged with Passive Integrated Transponders (PIT tags) with data stored [here](`r paste0(params$repo_url, "blob/main/data/2023/habitat_confirmations.xls")`).
+\@ref(fig:plot-fish-box-8525). A total of `r tab_fish_summary %>% dplyr::filter(site_id == paste0(my_site, '_us')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% dplyr::filter(site_id == 'Total') %>% pull(count_fish)` dolly varden were captured upstream, and `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_ds')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` fish were captured downstream, including dolly varden and rainbow trout `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-8525-03) - \\@ref(fig:photo-8525-04)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-8525-d02))."))` All fish captured with a fork length greater than 60mm were tagged with Passive Integrated Transponders (PIT tags) with data stored [here](`r paste0(params$repo_url, "blob/main/data/2023/habitat_confirmations.xls")`).
 
 <br>
 
 ## Structure Remediation and Cost Estimate {.unnumbered}
 
 Should restoration/maintenance activities proceed, replacement of PSCIS
-crossing `r as.character(my_site)` with a bridge
+crossing `r as.character(my_site)` with a streambed simulation (embedded culvert) recommended
 (`r fpr::fpr_my_pscis_info(col_pull = recommended_diameter_or_span_meters)`m
-span) is recommended. The cost of the work is estimated at
-\$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')` for a cost
-benefit of `r fpr::fpr_my_cost_estimate(col_pull = cost_net)` linear
-m/\$1000 and `r fpr::fpr_my_cost_estimate(col_pull = cost_area_net)`
-m^2^/\$1000 with the relatively high costs of the work predicted primarily related to the large amount of road fill present at the site and the subsequent significant excavation required to install the large replacement structure.
+span). Although preliminary - a rough cost of the work is estimated at
+\$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
 
 <br>
 
 ## Conclusion {.unnumbered}
 
-Crossing `r as.character(my_site)` is in close proximity to Coal Creek which is a known coho stream. Although the electrofishing survey did not capture any coho, dolly varden were capture upstream and rainbow trout and dolly varden were captured downstream of the crossing, confirming this is a fish bearing stream. Surveyors also assessed crossing `r as.character(my_site2)` which was previously documented as a wooden box culvert but is now a bridge, and is located approximately 1.7km upstream of crossing `r as.character(my_site)`. 
+Electrofishing surveys in 2023 captured dolly varden upstream of the FSR and rainbow trout and dolly varden downstream. 
+Although no coho were captured during assessments in 2022 or 2023, these species may have popualated
+the system in the past as it is connected to Coal Creek ~800m downstream, where historic presence of coho has been confirmed [@norris2024smnorrisbcfishobs; ; @moe2024KnownBC]. Electrofishing results from the site indicate the stream is a productive for cutthrout trout providing
+flows suitable for rearing and spawning.  The site was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` 
+priority for replacement containing `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()` value for salmonid rearing and spawning.
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
@@ -231,7 +235,7 @@ knitr::include_graphics(my_photo2)
 <br>
 
 ```{r photo-8529-01-prep, eval=T}
-my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us2_typical_2')
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us2_typical_2', site= my_site2)
 
 my_caption1 = paste0('Typical habitat upstream of PSCIS crossing ', my_site2, '.')
 
