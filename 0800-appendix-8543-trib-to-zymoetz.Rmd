@@ -23,9 +23,7 @@ my_site <- 8543
 
 ## Site Location {.unnumbered}
 
-PSCIS crossing `r as.character(my_site)` is located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km
-upstream of McDonell Lake, on a
-`r fpr::fpr_my_pscis_info()`. The site is located on `r fpr_my_pscis_info(col_pull = road_name)` and is within the Wet'suwet'en and Gitxsan hereditary territories.
+PSCIS crossing `r as.character(my_site)` is located on `r fpr::fpr_my_pscis_info()` approximately `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km upstream of McDonell Lake, on `r fpr_my_pscis_info(col_pull = road_name)`.
 
 <br>
 
@@ -36,7 +34,7 @@ At crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a
 upstream watershed area of approximately
 `r fpr::fpr_my_wshd()`km^2^. The elevation of the watershed ranges from
 a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
-`r fpr::fpr_my_wshd(col = 'elev_min')`m near the crossing (Table
+`r fpr::fpr_my_wshd(col = 'elev_site')`m at the crossing (Table
 \@ref(tab:tab-wshd-8543)).
 
 <br>
@@ -54,7 +52,7 @@ fpr::fpr_table_wshd_sum(site_id = my_site) %>%
 A summary of habitat modelling outputs is presented in Table
 \@ref(tab:tab-culvert-bcfp-8543). A map of the watershed is provided in
 map attachment
-[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "kisp", archive_date = "2022-09-06")`).
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "zymo", archive_date = "2022-09-06")`).
 
 <br>
 
@@ -62,28 +60,24 @@ map attachment
 fpr::fpr_table_bcfp(scroll = gitbook_on) 
 ```
 
-<br>
 
+```{r tab-moti-8543, eval = F}
 ## Climate Change Risk Assessment
 
-Preliminary climate change risk assessment data for the site is presented in Tables \@ref(tab:tab-moti-8543) - \@ref(tab:tab-moti-8543-comments).
-
-```{r tab-moti-8543, eval = T}
+# Preliminary climate change risk assessment data for the site is presented in Tables \@ref(tab:tab-moti-8543) - \@ref(tab:tab-moti-8543-comments).
 fpr_table_moti()
 ```
 
-<br>
-
-```{r tab-moti-8543-comments, eval = T}
+```{r tab-moti-8543-comments, eval = F}
 fpr_table_moti_comments()
 ```
 
 ## Stream Characteristics at Crossing {.unnumbered}
 
-At the time of the survey in 2023, PSCIS crossing `r as.character(my_site)` was
-un-embedded, non-backwatered and ranked as a
-`r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
-[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8543)). The culvert was in bad condition with holes in the bottom and had an outlet drop of 0.5m. 
+At the time of the survey in 2023, PSCIS crossing `r as.character(my_site)` was un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to 
+the provincial protocol [@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8543)). The culvert was in por condition 
+with holes in the bottom and  an outlet drop of 0.5m. 
 
 <!-- Water temperature was -->
 <!-- `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C, -->
