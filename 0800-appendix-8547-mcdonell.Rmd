@@ -121,13 +121,13 @@ hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
 
 <br>
 
-Approximately 1.2km downstream of crossing `r as.character(my_site)` is PSCIS crossing `r as.character(my_site2)`, which was also assessed due to there being a historic FISS sockeye spawning location just upstream of the crossing. The crossing was rated as a barrier but was in fact a ford. The stream was surveyed upstream from crossing `r as.character(my_site2)` for 100m. There were abundant gravels, few deep pools, and multiple shallow pools up to 20-25cm deep `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'ds2')` Surveyors observed numerous fry and parr and noted the stream had good flow considering the time of year and dryness of the year. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds2')` value for salmonid rearing and spawning. 
+Approximately 1.2km downstream of crossing `r as.character(my_site)` is PSCIS crossing `r as.character(my_site2)`, which was also assessed due to there being a historic FISS sockeye spawning location just upstream of the crossing. The crossing was rated as a barrier but was in fact a ford. The stream was surveyed upstream from crossing `r as.character(my_site2)` for 100m. There were abundant gravels, few deep pools, and multiple shallow pools up to 20-25cm deep `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'ds2')` Surveyors observed numerous fry and parr and noted the stream had good flow considering the time of year and dryness of the year. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
 
 <br>
 
 ## Stream Characteristics Upstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream channel was small and moderately steep, with modest flow. There were very few areas with gravels suitable for spawning and not many deep pools. `r fpr_my_habitat_paragraph(loc = 'us')` No barriers were observed. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us')` for salmonid rearing and spawning.
+`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream channel was small and moderately steep, with modest flow. There were very few areas with gravels suitable for spawning and not many deep pools. No barriers were observed. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning.
 
 <br>
 
@@ -153,7 +153,7 @@ m^2^/\$1000 with the relatively high costs of the work predicted primarily relat
 
 ## Conclusion {.unnumbered}
 
-Crossing `r as.character(my_site)` is ranked as a `r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` and has a significant outlet drop. Downstream of crossing `r as.character(my_site)` the habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds')` and upstream was rated as `r fpr::fpr_my_priority_info(loc = 'us')`for salmonid rearing and spawning. Approximately 1.2km downstream is crossing `r as.character(my_site2)`, a ford which has a historic sockeye spawning location just upstream.
+Crossing `r as.character(my_site)` is ranked as a `r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` and has a significant outlet drop. Downstream of crossing `r as.character(my_site)` the habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds')` and upstream was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning. Approximately 1.2km downstream is crossing `r as.character(my_site2)`, a ford which has a historic sockeye spawning location just upstream.
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
