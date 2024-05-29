@@ -28,18 +28,18 @@ params:
   repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/'
   report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting'
 nocite: |
-  @busch_etal2013LandscapeLevelModel, 
+  @busch_etal2011LandscapeLevelModel 
   @woll_etal2017SalmonEcological,
   @kirsch_etal2014Fishinventory,
   @cooney_holzer2006AppendixInterior,
   @roberge_etal2002LifeHistory,
-  @sloat_etal2017Streamnetworka,
+  @sloat_etal2017Streamnetwork,
   @woll_etal2017SalmonEcological,
   @porter_etal2008DevelopingFish,
-  @rosenfeld_etal2000Habitatfactorsa
+  @rosenfeld_etal2000Habitatfactors
 
 documentclass: book
-bibliography: [book.bib, references.bib, packages.bib, NewGraphEnvironment.bib]
+bibliography: "`r rbbt::bbt_write_bib('references.bib', overwrite = TRUE)`"
 biblio-style: apalike
 link-citations: no
 github-repo: rstudio/bookdown-demo
