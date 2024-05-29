@@ -1,6 +1,6 @@
 # Methods
 
-Workflows for the project have been classified into planning, fish passage assessments, habitat confirmation assessments, reporting and mapping. All components leveraged `R`, `SQL` or `Python` programming languages to facilitate workflow tracking, collaboration, transparency and continually improving research. Project workflows utilized local and remote `postgreSQL` databases as well as a "snapshot" of select datasets contained within a local `sqlite` database. A data and script repository to facilitate this reporting is located on [Github](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting).  
+Workflows for the project have been classified into planning, fish passage assessments, habitat confirmation assessments, reporting and mapping. All components leveraged `R`, `SQL` or `Python` programming languages to facilitate workflow tracking, collaboration, transparency and continually improving research. Project workflows utilized local and remote `postgreSQL` databases as well as a "snapshot" of select datasets contained within a local `sqlite` database. A data and script repository to facilitate this reporting is located on [Github](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting).  
 
 
 ```{r eval=F}
@@ -13,7 +13,7 @@ source('scripts/tables.R')
 ## Planning
 
  
-To identify priorities for crossing structure rehabilitation, background literature, fisheries information, PSCIS, and `bcfishpass` [@norris2021smnorrisbcfishpass] outputs were reviewed.  `bcfishpass` is an updated open-source code repository comprised of tools ported over from the `Fish Habitat Model` [@fish_habitat_model] developed by the BC Ministry of Environment along with a number of significant upgrades and new features. Scripts within `bcfishpass` also pull and analyze data using other open-source tools such as `bcdata` [@norris2021smnorrisbcdata], `bcfishobs` [@norris2021smnorrisbcfishobs], and `fwapg` [@norris2021smnorrisfwapg] which serve numerous functions related to open-data access as well as the analysis of the BC Freshwater Atlas, roads, fish and fish habitat in British Columbia.
+To identify priorities for crossing structure rehabilitation, background literature, fisheries information, PSCIS, and `bcfishpass` [@norris2021smnorrisbcfishpass] outputs were reviewed.  `bcfishpass` is an updated open-source code repository comprised of tools ported over from the `Fish Habitat Model` [@fish_habitat_model] developed by the BC Ministry of Environment along with a number of significant upgrades and new features. Scripts within `bcfishpass` also pull and analyze data using other open-source tools such as `bcdata` [@norris2024smnorrisbcdata], `bcfishobs` [@norris2024smnorrisbcfishobs], and `fwapg` [@norris2024smnorrisfwapg] which serve numerous functions related to open-data access as well as the analysis of the BC Freshwater Atlas, roads, fish and fish habitat in British Columbia.
 
 
  
@@ -270,7 +270,7 @@ Fish sampling was conducted on a subset of sites when biological data was consid
 
 ## Reporting
 
-Reporting was generated with `bookdown` [@bookdown2016] from `Rmarkdown` [@R-rmarkdown] with primarily `R` [@rcoreteam2022languageenvironment] and `SQL` scripts. The `R` package `fpr` contains many specialized custom functions related to the work [@irvine2022NewGraphEnvironmentfpr].  In addition to numerous spatial layers sourced through the BC Data Catalogue then stored and queried in a local `postgresql` and `sqlite` databases [data inputs](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/tree/main/data) for this project include: 
+Reporting was generated with `bookdown` [@yihui2024rstudiobookdown] from `Rmarkdown` [@allaire_etal2023rmarkdownDynamic] with primarily `R` [@rcoreteam2022languageenvironment] and `SQL` scripts. The `R` package `fpr` contains many specialized custom functions related to the work [@irvine2022NewGraphEnvironmentfpr].  In addition to numerous spatial layers sourced through the BC Data Catalogue then stored and queried in a local `postgresql` and `sqlite` databases [data inputs](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/tree/main/data) for this project include: 
 
  + Populated [Fish Data Submission Spreadsheet Template - V 2.0, January 20, 2020 ](https://www2.gov.bc.ca/gov/content/environment/plants-animals-ecosystems/fish/fish-and-fish-habitat-data-information/fish-data-submission/submit-fish-data#submitfish) 
 
@@ -280,19 +280,19 @@ Reporting was generated with `bookdown` [@bookdown2016] from `Rmarkdown` [@R-rma
  + [`bcfishpass`](https://github.com/smnorris/bcfishpass) outputs.
 
 
- + [Custom CSV file](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/blob/main/data/habitat_confirmations_priorities.csv) detailing Phase 2 site:
+ + [Custom CSV file](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/blob/main/data/habitat_confirmations_priorities.csv) detailing Phase 2 site:
      - priority level for proceeding to design for replacement
      - length of survey upstream and downstream
      - a conservative estimate of the linear length of mainstem habitat potentially available upstream of the crossing 
      - fish species confirmed as present upstream of the crossing
 
- + [GPS tracks](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/blob/main/data/habitat_confirmation_tracks.gpx) from field surveys.  
+ + [GPS tracks](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/blob/main/data/habitat_confirmation_tracks.gpx) from field surveys.  
 
- + [Photos](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/tree/main/data/photos) and photo metadata
+ + [Photos](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/tree/main/data/photos) and photo metadata
 
 <br>
 
-Version changes are tracked [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/blob/main/NEWS.md) and issues/planned enhancements tracked [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/issues). 
+Version changes are tracked [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/blob/main/NEWS.md) and issues/planned enhancements tracked [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues). 
 
 
 ## Mapping

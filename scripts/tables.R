@@ -34,7 +34,11 @@ rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", con
 pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
 xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
 wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) |>
-   mutate(aspect = as.character(aspect))
+  # remove any negative values
+  mutate(across(contains('elev'), ~ replace(., . < 0, NA))) |>
+  # but... we don't really need elev_min anyway b/c we have elevation site
+  select(-elev_min) |>
+  mutate(aspect = as.character(aspect))
 
 photo_metadata <- readwritesqlite::rws_read_table("photo_metadata", conn = conn)
 # # fiss_sum <- readwritesqlite::rws_read_table("fiss_sum", conn = conn)
