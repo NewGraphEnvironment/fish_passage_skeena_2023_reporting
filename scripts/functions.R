@@ -438,7 +438,7 @@ lfpr_create_hydrograph <- function(
 news_to_appendix <- function(
     md_name = "NEWS.md",
     rmd_name = "2090-report-change-log.Rmd",
-    appendix_title = "# Report Change Log") {
+    appendix_title = "# Change Log") {
 
   # Read and modify the contents of the markdown file
   news_md <- readLines(md_name)
