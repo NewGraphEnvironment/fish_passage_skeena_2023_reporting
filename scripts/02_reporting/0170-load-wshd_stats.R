@@ -103,22 +103,24 @@ wshds_fwapgr <- fpr::fpr_sp_watershed(bcfishpass_phase2_clean)
 wshds <- wshds_fwapgr
 
 
+# calculate stats for each watershed
+wshds_raw <- fpr::fpr_sp_wshd_stats(dat = wshds) %>%
+  mutate(area_km = round(area_ha/100, 1)) %>%
+  mutate(across(contains('elev'), round, 0)) %>%
+  arrange(stream_crossing_id)
+
 ## add in the elevation of the site
 wshds <- left_join(
-  wshds |> mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
+  wshds_raw |> mutate(stream_crossing_id = as.numeric(stream_crossing_id)),
 
   pscis_all_sf |> distinct(pscis_crossing_id, .keep_all = T) %>%
     st_drop_geometry() %>%
     select(pscis_crossing_id, elev_site = elev),
 
-  by = c('stream_crossing_id' = 'pscis_crossing_id'))
+  by = c('stream_crossing_id' = 'pscis_crossing_id')) |>
+  # put elev_site before elev_min
+  dplyr::relocate(elev_site, .before = elev_min)
 
-
-# calculate stats for each watershed
-wshds <- fpr::fpr_sp_wshd_stats(dat = wshds) %>%
-  mutate(area_km = round(area_ha/100, 1)) %>%
-  mutate(across(contains('elev'), round, 0)) %>%
-  arrange(stream_crossing_id)
 
 
 ##add to the geopackage
