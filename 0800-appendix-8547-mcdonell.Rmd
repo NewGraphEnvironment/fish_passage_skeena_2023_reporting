@@ -24,9 +24,9 @@ my_site2 <- 24600461
 
 ## Site Location {.unnumbered}
 
-PSCIS crossing `r as.character(my_site)` is located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km
-upstream of McDonell Lake, on the
-`r fpr::fpr_my_pscis_info()`. The site is located on `r fpr_my_pscis_info(col_pull = road_name)` and is within the Wet'suwet'en and Gitxsan hereditary territories.
+PSCIS crossing `r as.character(my_site)` on `r fpr::fpr_my_pscis_info()` is located on the south side of the Zymoetz River
+approximately `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km upstream of McDonell Lake, on the 
+`r fpr_my_pscis_info(col_pull = road_name)`. The road at the crossing location is the responsibility of the Ministry of Forests.
 
 <br>
 
@@ -37,18 +37,20 @@ At crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a
 upstream watershed area of approximately
 `r fpr::fpr_my_wshd()`km^2^. The elevation of the watershed ranges from
 a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
-`r fpr::fpr_my_wshd(col = 'elev_min')`m near the crossing (Table
-\@ref(tab:tab-wshd-8547)).
+`r fpr::fpr_my_wshd(col = 'elev_site')`m at the crossing (Table
+\@ref(tab:tab-wshd-8547)).  The stream drains a small lake area estimated at 8.8ha in a south-east direction entering
+McDonell Lake approximately 1km west of the lake inlet.
+
 
 <br>
 
-There has been restoration work completed at crossing `r as.character(my_site)` lead by the Office of the Wet'suwet'en and Gitxsan Huwilp Government.
-
-<br>
-
-Approximately 1.2km downstream of crossing `r as.character(my_site)` is PSCIS crossing `r as.character(my_site2)`, which was also assessed due to there being a historic FISS sockeye spawning location just upstream. 
-
-<br>
+The crossing was originally assessed with a fish passage assessment by @viveiros2011FishPassage in 2010 with fish
+sampling and replacement with an open bottomed structure recommended.  The site was visited by our field crews in 2022
+and prioritized for follow up with ahabitat confirmation in 2024 because of relatively good flow volumes were observed
+along with a significant outlet drop. Upstream of the crossing, no past fish information was available
+[@norris2024smnorrisbcfishobs; @moe2024KnownBC] however a sockeye spawning location was noted as present within the
+stream approximately 150m upstream from McDonell Lake and ~1200m downstream of the FSR. A modelled crossing was noted as
+present within `bcfishpass` modelling outputs near the historic sockeye observation.
 
 ```{r tab-wshd-8547, eval = T}
 fpr::fpr_table_wshd_sum(site_id = my_site) %>% 
@@ -63,7 +65,7 @@ fpr::fpr_table_wshd_sum(site_id = my_site) %>%
 A summary of habitat modelling outputs is presented in Table
 \@ref(tab:tab-culvert-bcfp-8547). A map of the watershed is provided in
 map attachment
-[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "kisp", archive_date = "2022-09-06")`).
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "zymo", archive_date = "2022-09-06")`).
 
 <br>
 
@@ -71,28 +73,13 @@ map attachment
 fpr::fpr_table_bcfp(scroll = gitbook_on) 
 ```
 
-<br>
-
-<!-- ## Climate Change Risk Assessment -->
-
-<!-- Preliminary climate change risk assessment data for the site is presented in Tables \@ref(tab:tab-moti-8547) - \@ref(tab:tab-moti-8547-comments). -->
-
-<!-- ```{r tab-moti-8547, eval = T} -->
-<!-- fpr_table_moti() -->
-<!-- ``` -->
-
-<!-- <br> -->
-
-<!-- ```{r tab-moti-8547-comments, eval = T} -->
-<!-- fpr_table_moti_comments() -->
-<!-- ``` -->
 
 ## Stream Characteristics at Crossing {.unnumbered}
 
 At the time of the survey in 2023, PSCIS crossing `r as.character(my_site)` was
-un-embedded, non-backwatered and ranked as a
+un-embedded, non-backwatered, had an oulet drop of 0.7m and ranked as a
 `r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
-[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8547)). There were two round culverts, but one was installed too high above the stream channel and was not functional `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d01))."))`. The functioning culvert had an oulet drop of 0.7m. Water temperature was
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8547)) `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d01))."))`. Water temperature was
 `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
 pH was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'p_h')` and
 conductivity was
@@ -121,19 +108,27 @@ hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
 
 <br>
 
-Approximately 1.2km downstream of crossing `r as.character(my_site)` is PSCIS crossing `r as.character(my_site2)`, which was also assessed due to there being a historic FISS sockeye spawning location just upstream of the crossing. The crossing was rated as a barrier but was in fact a ford. The stream was surveyed upstream from crossing `r as.character(my_site2)` for 100m. There were abundant gravels, few deep pools, and multiple shallow pools up to 20-25cm deep `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'ds2')` Surveyors observed numerous fry and parr and noted the stream had good flow considering the time of year and dryness of the year. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
+Approximately 1.2km downstream of the FSR, the location of PSCIS crossing `r as.character(my_site2)` was also assessed. The
+crossing had been removed. The stream was surveyed upstream the mapped location of crossing `r as.character(my_site2)` for 100m. 
+`r fpr_my_habitat_paragraph(loc = 'ds2')` There were abundant gravels, few deep pools, and multiple shallow pools up to 20-25cm deep `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))`  
+Surveyors observed numerous fry and parr and noted the stream had good flow considering the time of year and low flows 
+observed elsewhere in the watershed. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds2') %>% stringr::str_to_lower()` 
+value for salmonid rearing and spawning. 
 
 <br>
 
 ## Stream Characteristics Upstream {.unnumbered}
 
-`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream channel was small and moderately steep, with modest flow. There were very few areas with gravels suitable for spawning and not many deep pools. No barriers were observed. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning.
+`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8547-04)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8547-d02))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream channel was small and moderately steep, 
+with modest flow. There were very few areas with gravels suitable for spawning and not many deep pools. Other than the 
+culvert no natural or anthroprogenic barriers were observed. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` 
+for salmonid rearing and spawning.
 
 <br>
 
 ## Fish Sampling {.unnumbered}
 
- Electrofishing was conducted at three sites above and three sites below crossing `r as.character(my_site)`,  with results summarised in Tables \@ref(tab:tab-fish-site-8547) - \@ref(tab:tab-fish-dens-8547) and Figure
+ Electrofishing was conducted at three sites above and three sites below the FSR crossing,  with results summarised in Tables \@ref(tab:tab-fish-site-8547) - \@ref(tab:tab-fish-dens-8547) and Figure
 \@ref(fig:plot-fish-box-8547). A total of `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_us')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` fish were captured upstream and `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_ds')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` fish were captured downstream, all of which were cutthroat trout `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-8547-05) - \\@ref(fig:photo-8547-06)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-8547-d03))."))` All fish captured with a fork length greater than 60mm were tagged with Passive Integrated Transponders (PIT tags) with data stored [here](`r paste0(params$repo_url, "blob/main/data/2023/habitat_confirmations.xls")`).
 
 <br>
@@ -141,19 +136,24 @@ Approximately 1.2km downstream of crossing `r as.character(my_site)` is PSCIS cr
 ## Structure Remediation and Cost Estimate {.unnumbered}
 
 Should restoration/maintenance activities proceed, replacement of PSCIS
-crossing `r as.character(my_site)` with a bridge
+crossing `r as.character(my_site)` with an embedded culvert (streambed simulation) 
 (`r fpr::fpr_my_pscis_info(col_pull = recommended_diameter_or_span_meters)`m
 span) is recommended. The cost of the work is estimated at
-\$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')` for a cost
-benefit of `r fpr::fpr_my_cost_estimate(col_pull = cost_net)` linear
-m/\$1000 and `r fpr::fpr_my_cost_estimate(col_pull = cost_area_net)`
-m^2^/\$1000 with the relatively high costs of the work predicted primarily related to the large amount of road fill present at the site and the subsequent significant excavation required to install the large replacement structure.
+\$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
 
 <br>
 
 ## Conclusion {.unnumbered}
 
-Crossing `r as.character(my_site)` is ranked as a `r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` and has a significant outlet drop. Downstream of crossing `r as.character(my_site)` the habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds')` and upstream was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning. Approximately 1.2km downstream is crossing `r as.character(my_site2)`, a ford which has a historic sockeye spawning location just upstream.
+Electrofishing surveys in 2023 captured cutthrout trout upstream and downstream of the FSR with densities of fish
+captured indicating the stream is productive and provides habitat suitable for rearing and spawning. The small lake at the 
+headwaters of the stream likely moderates water temperature and flows in the system providing a suitable environment for
+salmonids. Habitat upstream of the crossing was rated as `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()` value 
+for salmonid rearing and spawning with the site was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` 
+priority for replacement.  As the stream is relatively small, it may be possible to replace the crossing with a 
+streambed simulation culvert (embedded 3m pipe) to provide fish passage and maintain the natural stream channel while
+providing a cost effective solution.
+
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
