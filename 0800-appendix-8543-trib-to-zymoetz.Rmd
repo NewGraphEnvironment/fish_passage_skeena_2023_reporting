@@ -1,0 +1,169 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+```{r setup-8543, eval = F}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+source('scripts/packages.R')
+source('scripts/tables.R')
+source('scripts/functions.R')
+```
+
+```{r  load-data-8543}
+my_site <- 8543
+
+```
+
+`r fpr::fpr_appendix_title()`
+
+## Site Location {.unnumbered}
+
+PSCIS crossing `r as.character(my_site)` on `r fpr::fpr_my_pscis_info()` is located approximately `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km upstream of the McDonell Lake, on the most eastern side of the lake. The site is located at kilometer 23 of `r fpr_my_pscis_info(col_pull = road_name)`, which at the crossing location is the responsibility of the Wetzinkwa Community Forest Corporation.
+
+<br>
+
+## Background {.unnumbered}
+
+At crossing `r as.character(my_site)`, `r fpr::fpr_my_pscis_info()` is a
+`r fpr::fpr_my_bcfishpass() %>% english::ordinal()` order stream with an
+upstream watershed area of approximately
+`r fpr::fpr_my_wshd()`km^2^. The elevation of the watershed ranges from
+a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
+`r fpr::fpr_my_wshd(col = 'elev_site')`m at the crossing (Table
+\@ref(tab:tab-wshd-8543)).
+
+<br>
+
+The crossing was originally assessed with a fish passage assessment by Timber Sales Manager Skeena in 2010 with a recommendation for fish sampling and replacement with an open bottomed structure. Upstream of the crossing, `r fpr::fpr_my_fish_sp()` have been documented in the past [@norris2024smnorrisbcfishobs; @moe2024KnownBC].
+
+<br>
+
+
+```{r tab-wshd-8543, eval = T}
+fpr::fpr_table_wshd_sum(site_id = my_site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of derived upstream watershed statistics for PSCIS crossing ', my_site, '.'),
+           footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above',
+           scroll = F)
+
+```
+
+<br>
+
+A summary of habitat modelling outputs is presented in Table
+\@ref(tab:tab-culvert-bcfp-8543). A map of the watershed is provided in
+map attachment
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "zymo", archive_date = "2022-09-06")`).
+
+<br>
+
+```{r tab-culvert-bcfp-8543, eval = T}
+fpr::fpr_table_bcfp(scroll = gitbook_on) 
+```
+
+
+## Stream Characteristics at Crossing {.unnumbered}
+
+At the time of the survey in 2023, PSCIS crossing `r as.character(my_site)` was un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to 
+the provincial protocol [@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-8543)). The culvert was in poor condition 
+with holes in the bottom and had a 0.5m outlet drop.
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+```{r tab-culvert-8543, eval = T}
+fpr::fpr_table_cv_summary_memo()
+
+```
+
+```{r eval=F}
+##this is useful to get some comments for the report
+hab_site %>% filter(site == my_site & location == 'ds') %>% pull(comments)
+hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
+
+```
+
+## Stream Characteristics Downstream {.unnumbered}
+
+`r fpr_my_survey_dist(loc = 'ds')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8543-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8543-d01))."))` The stream was dry at the time of the survey. `r fpr_my_habitat_paragraph(loc = 'ds')` There are historic dolly varden and rainbow trout observations just downstream of the crossing in the FISS database. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
+
+<br>
+
+## Stream Characteristics Upstream {.unnumbered}
+
+`r fpr_my_survey_dist(loc = 'us')`  `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8543-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8543-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us')` The stream had intermittent dewatering with isolated pools to 60 cm deep spaced every 30 to 40 m. The stream channel was entrenched in the valley with large amounts of mobile angular cobbled substrate throughout. Fish were observed in multiple isolated pools up to 300m upstream of the crossing, and there is a historic dolly varden observation just upstream of the crossing in the FISS database. The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning. There is a FISS obstacle noted as a cascade just upstream of crossing `r as.character(my_site)` but no permanent natural barriers were observed during the survey.
+
+<br>
+
+## Structure Remediation and Cost Estimate {.unnumbered}
+
+Should restoration/maintenance activities proceed, replacement of PSCIS
+crossing `r as.character(my_site)` with an embedded culvert (streambed simulation)
+(`r fpr::fpr_my_pscis_info(col_pull = recommended_diameter_or_span_meters)`m
+span) is recommended. Although preliminary - a rough cost of the work is estimated at
+\$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`.
+
+
+<br>
+
+## Conclusion {.unnumbered}
+
+The culvert at crossing `r as.character(my_site)` was in bad condition with holes in the bottom and had a significant 0.5m outlet drop. The crossing ranked as a `r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to fish passage. There are historic fish observations both upstream and downstream of the crossing in the FISS database and surveyors observed fish upstream of the crossing during the assessment, suggesting this stream provides habitat suitable for rearing and spawning. Therefore, we recommendation electrofishing above and below the crossing to provide insight into fish community composition and density to help further inform prioritization. 
+
+Although there is a FISS obstacle noted as a cascade just upstream of crossing `r as.character(my_site)`, no permanent natural barriers were observed during the survey.
+
+
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+<br>
+
+```{r tab-habitat-summary-8543}
+tab_hab_summary %>% 
+  filter(Site  == my_site) %>% 
+  # select(-Site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of habitat details for PSCIS crossing ', my_site, '.'),
+                 scroll = F) 
+
+```
+
+<br>
+
+```{r photo-8543-01-prep, eval=T}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'ds_typical_2')
+
+my_caption1 = paste0('Typical habitat downstream of PSCIS crossing ', my_site, '.')
+
+```
+
+```{r photo-8543-01, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-8543-02-prep, eval=T}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us_typical_1')
+
+my_caption2 = paste0('Typical habitat upstream of PSCIS crossing ', my_site, '.')
+
+
+```
+
+```{r photo-8543-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-8543-d01, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
