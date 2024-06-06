@@ -52,6 +52,8 @@ bcfishpass_spawn_rear_model <- readwritesqlite::rws_read_table("bcfishpass_spawn
 rd_class_surface_prep <- readwritesqlite::rws_read_table("rd_class_surface", conn = conn)
 pscis_assessment_svw <- readwritesqlite::rws_read_table("pscis_assessment_svw", conn = conn)
 xref_pscis_my_crossing_modelled <- readwritesqlite::rws_read_table("xref_pscis_my_crossing_modelled", conn = conn)
+form_pscis_raw <- readwritesqlite::rws_read_table("form_pscis_raw", conn = conn) |>
+  sf::st_drop_geometry()
 wshds <- readwritesqlite::rws_read_table("wshds", conn = conn) |>
   # remove any negative values
   mutate(across(contains('elev'), ~ replace(., . < 0, NA))) |>

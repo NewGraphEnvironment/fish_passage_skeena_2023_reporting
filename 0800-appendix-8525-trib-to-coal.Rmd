@@ -24,7 +24,7 @@ my_site2 <- 8529
 
 ## Site Location {.unnumbered}
 
-PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()`  on `r fpr_my_pscis_info(col_pull = road_name)` 
+PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()` is located on `r fpr_my_pscis_info(col_pull = road_name)` 
 approximately 7.5km west of the downstream end of McDonnell Lake. The road at the crossing location is the responsibility of the Ministry of Forests.
 
 <br>
