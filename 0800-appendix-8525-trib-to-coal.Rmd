@@ -24,7 +24,7 @@ my_site2 <- 8529
 
 ## Site Location {.unnumbered}
 
-PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()`  on `r fpr_my_pscis_info(col_pull = road_name)` 
+PSCIS crossing `r as.character(my_site)` on a `r fpr::fpr_my_pscis_info()` is located on `r fpr_my_pscis_info(col_pull = road_name)` 
 approximately 7.5km west of the downstream end of McDonnell Lake. The road at the crossing location is the responsibility of the Ministry of Forests.
 
 <br>
@@ -122,8 +122,7 @@ wetland in character dominated by fern, alder and mature spruce. The habitat was
 
 <br>
 
-Approximately 1.7km upstream of crossing `r as.character(my_site)`, PSCIS crossing `r as.character(my_site2)`-   
-was previously documented as a wooden box culvert.  This site was reassessed in 2023 and habitat adjacent to the structure
+Approximately 1.7km upstream of crossing `r as.character(my_site)`, PSCIS crossing `r as.character(my_site2)` was previously documented as a wooden box culvert.  This site was reassessed in 2023 and the habitat adjacent to the structure
 assessed.  The wooden box culvert had recently been replaced with a bridge. The stream was surveyed upstream from crossing `r as.character(my_site2)` for approximately 100m and was noted as having good flow for a small system on a dry year. `r fpr_my_habitat_paragraph(loc = 'us2')` `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-8529-01) - \\@ref(fig:photo-8529-02)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-8529-d01))."))` `r fpr_my_habitat_paragraph(loc = 'us2')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us2') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
 
 <br>
@@ -154,7 +153,7 @@ span). Although preliminary - a rough cost of the work is estimated at
 
 Electrofishing surveys in 2023 captured dolly varden upstream of the FSR and rainbow trout and dolly varden downstream. 
 Although no coho were captured during assessments in 2022 or 2023, these species may have popualated
-the system in the past as it is connected to Coal Creek ~800m downstream, where historic presence of coho has been confirmed [@norris2024smnorrisbcfishobs; ; @moe2024KnownBC]. Electrofishing results from the site indicate the stream is a productive for cutthrout trout providing
+the system in the past as it is connected to Coal Creek ~800m downstream, where historic presence of coho has been confirmed [@norris2024smnorrisbcfishobs; ; @moe2024KnownBC]. Electrofishing results from the site indicate the stream is a productive for dolly varden providing
 flows suitable for rearing and spawning.  The site was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` 
 priority for replacement containing `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()` value for salmonid rearing and spawning.
 
@@ -175,14 +174,14 @@ tab_hab_summary %>%
 <br>
 
 ```{r tab-fish-site-8525, eval=T}
-fpr_table_fish_site(dat = tab_fish_sites_sum, sit = my_site)
+fpr_table_fish_site()
 
 ```
 
 <br>
 
 ```{r tab-fish-dens-8525, eval=T}
-fpr_table_fish_density(dat = fish_abund, sit = my_site)
+fpr_table_fish_density()
 
 ```
 
@@ -191,7 +190,7 @@ fpr_table_fish_density(dat = fish_abund, sit = my_site)
 ```{r plot-fish-box-8525, fig.cap= my_caption, eval=T}
 my_caption <- paste0('Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing ', my_site, '.')
 
-fpr_plot_fish_box(dat = fish_abund, sit = my_site) 
+fpr_plot_fish_box() 
 
 ```
 
@@ -235,7 +234,7 @@ knitr::include_graphics(my_photo2)
 <br>
 
 ```{r photo-8529-01-prep, eval=T}
-my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us2_typical_2', site= my_site2)
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us2_typical_2')
 
 my_caption1 = paste0('Typical habitat upstream of PSCIS crossing ', my_site2, '.')
 
@@ -249,9 +248,9 @@ knitr::include_graphics(my_photo1)
 <br>
 
 ```{r photo-8529-02-prep}
-my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_us2_typical_1')
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = '_us2_pool')
 
-my_caption2 = paste0('Typical habitat upstream of PSCIS crossing ', my_site2, '.')
+my_caption2 = paste0('Typical pool habitat at PSCIS crossing ', my_site2, '.')
 ```
 
 ```{r photo-8529-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}

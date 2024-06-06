@@ -27,6 +27,8 @@ output:
 params:
   repo_url: 'https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/'
   report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting'
+  update_packages: FALSE
+  update_form_pscis: TRUE
 nocite: |
   @busch_etal2011LandscapeLevelModel 
   @woll_etal2017SalmonEcological,
@@ -84,7 +86,7 @@ font_set <- 9
 ```{r source}
 source('scripts/packages.R')
 source('scripts/tables.R')
-source('scripts/moti_climate.R')
+# source('scripts/moti_climate.R')
 source('scripts/functions.R')
 
 

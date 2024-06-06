@@ -57,8 +57,13 @@ pkgs_all <- c(pkgs_cran,
               pkgs_gh)
 
 # install or upgrade all the packages with pak
-lapply(pkgs_all,
-       pak::pkg_install, ask = FALSE)
+if(params$update_packages){
+  for (pkg in pkgs_gh) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      pak::pkg_install(pkg)
+    }
+  }
+}
 
 # load all the packages
 pkgs_ld <- c(pkgs_cran,

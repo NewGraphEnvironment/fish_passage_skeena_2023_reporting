@@ -1,0 +1,300 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+  markdown: 
+    wrap: 72
+---
+
+```{r setup-198022, eval = F}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE)
+source('scripts/packages.R')
+source('scripts/tables.R')
+source('scripts/functions.R')
+```
+
+```{r  load-data-198022}
+my_site <- 198022
+my_site2 <- 197949
+my_site3 <- 2023092701
+
+```
+
+`r fpr::fpr_appendix_title()`
+
+## Site Location {.unnumbered}
+
+PSCIS crossing `r as.character(my_site)` and `r as.character(my_site2)` are located `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km and `r round(fpr::fpr_my_bcfishpass(site = my_site2, col_pull = downstream_route_measure)*0.001, 1)`km upstream of Tagit Creek, respectively, on `r fpr::fpr_my_pscis_info()` which flows in a southeast direction. Crossing `r as.character(my_site)` is located on `r fpr_my_pscis_info(col_pull = road_name)` and at this location is the responsibility of West Fraser Mills Ltd. Crossing `r as.character(my_site2)` is located on a `r fpr_my_pscis_info(site = my_site2, col_pull = road_name)` of `r fpr_my_pscis_info(col_pull = road_name)` and at this location is the responsibility of the Ministry of Forest. The crossings are located in a very remote area approximately 1h15 drive from Houston, BC.
+
+
+<br>
+
+## Background {.unnumbered}
+
+At both crossing `r as.character(my_site)` and `r as.character(my_site2)`, `r fpr::fpr_my_pscis_info()` is a
+`r fpr::fpr_my_bcfishpass() %>% english::ordinal()` order stream with an
+upstream watershed area of approximately
+`r fpr::fpr_my_wshd()`km^2^. The elevation ranges from
+a maximum of `r fpr::fpr_my_wshd(col = 'elev_max')`m to
+`r fpr::fpr_my_wshd(col = 'elev_site')`m near the crossing (Table
+\@ref(tab:tab-wshd-198022-197949)).
+
+In 2021, crossing's `r as.character(my_site)` and `r as.character(my_site2)` were assessed with a fish passage assessment by @irvine2021BulkleyRiver, who observed nice gravels and fish upstream of crossing `r as.character(my_site2)` and suspected a beaver dam upstream of `r as.character(my_site)` due to slow moving water. Upstream of the crossing `r as.character(my_site)`, `r fpr::fpr_my_fish_sp()` have been documented in the past 
+[@norris2024smnorrisbcfishobs; @moe2024KnownBC]. In 2023, both sites were prioritized for follow up with a habitat confirmation and fish sampling to investigate conclusions from the 2021 assessment, with results included in this report. 
+
+<br>
+
+```{r tab-wshd-198022-197949, eval = T}
+dplyr::bind_rows(fpr::fpr_table_wshd_sum(site_id = my_site), fpr::fpr_table_wshd_sum(site_id = my_site2)) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of derived upstream watershed statistics for PSCIS crossing ', my_site, ' and ', my_site2, '.'),
+                 footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above',
+                 scroll = F)
+
+```
+
+<br>
+
+A summary of habitat modelling outputs is presented in Tables \@ref(tab:tab-culvert-bcfp-198022) and
+\@ref(tab:tab-culvert-bcfp-197949). A map of the watershed is provided in
+map attachment
+[`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "zymo", archive_date = "2022-09-06")`).
+
+<br>
+
+```{r tab-culvert-bcfp-198022, eval = T}
+fpr::fpr_table_bcfp(scroll = gitbook_on) 
+```
+
+```{r tab-culvert-bcfp-197949, eval = T}
+fpr::fpr_table_bcfp(site = my_site2, scroll = gitbook_on) 
+```
+
+<br>
+
+
+## Stream Characteristics at Crossing `r as.character(my_site)` {.unnumbered}
+
+During the 2023 survey, PSCIS crossing `r as.character(my_site)` was
+un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-198022)). There were signs beaver activity and a large amount of road fill (2m) above the culvert, making for an expensive replacement. The habitat value was rated as `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()`. Water temperature was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'temperature_c')`$^\circ$C,
+pH was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'p_h')` and
+conductivity was `r fpr::fpr_my_habitat_info(loc = "ds", col_pull = 'conductivity_m_s_cm')`uS/cm, which was substantially higher than at crossing `r as.character(my_site2)` upstream. The crossing was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` priority for replacement.
+
+Approximately 175m east on `r fpr_my_pscis_info(dat = pscis_phase1, col_filter = my_crossing_reference, site = my_site3, col_pull = road_name)`, crossing `r as.character(my_site3)` was also assessed. The crossing was on a small, un-mapped Freshwater Atlas stream that flowed into Tagit Creek. There was wetland habitat upstream and downstream and some blockage at the culvert inlet due to a beaver dam which created a small inlet drop. The culvert was is poor condition with rust and holes but was rated as a low priority for follow up due to its remote location.
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+```{r tab-culvert-198022, eval = T}
+fpr::fpr_table_cv_summary_memo()
+
+```
+
+## Stream Characteristics at Crossing `r as.character(my_site2)` {.unnumbered}
+
+During the 2023 survey, PSCIS crossing `r as.character(my_site2)` was
+un-embedded, non-backwatered and ranked as a
+`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = barrier_result) %>% stringr::str_to_lower()` to upstream fish passage according to the provincial protocol
+[@moe2011Fieldassessment] (Table \@ref(tab:tab-culvert-197949)). The culvert had a 0.5m outlet drop, low flows, and fish were observed in the outlet pool. Similar to the downstream crossing, this crossing had 1.2m of road fill above the culvert, making for an expensive replacement. The habitat value was rated as `r fpr::fpr_my_priority_info(sit = my_site2) %>% stringr::str_to_lower()`. Water temperature was `r fpr::fpr_my_habitat_info(sit = my_site2,loc = "us", col_pull = 'temperature_c')`$^\circ$C,
+pH was `r fpr::fpr_my_habitat_info(sit = my_site2, loc = "us", col_pull = 'p_h')` and
+conductivity was `r fpr::fpr_my_habitat_info(sit = my_site2, loc = "us", col_pull = 'conductivity_m_s_cm')`uS/cm. The crossing was rated as a `r fpr::fpr_my_priority_info(sit = my_site2, col_pull = priority) %>% stringr::str_to_lower()` priority for replacement.
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("\\pagebreak")}`
+
+<br>
+
+```{r tab-culvert-197949, eval = T}
+fpr::fpr_table_cv_summary_memo(site = my_site2, site_photo_id = my_site2)
+
+```
+
+
+```{r eval=F}
+##this is useful to get some comments for the report
+hab_site %>% filter(site == my_site & location == 'ds') %>% pull(comments)
+hab_site %>% filter(site == my_site & location == 'us') %>% pull(comments)
+
+```
+
+## Stream Characteristics Downstream of Crossing `r as.character(my_site)` {.unnumbered}
+
+<!-- 198022_ds says abundant gravels but the ef sites say limited gravels so not too sure what to go with here -->
+`r fpr_my_survey_dist(loc = 'ds')`, to the confluence with Tagit Creek. The first 100m of stream contained sporadic pools but then dewatered. The stream flowed through a steep confined valley to Tagit Creek and at the confluence there was a large log jam `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198022-01)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198022-d01 - \\@ref(fig:photo-198022-d02))."))` `r fpr_my_habitat_paragraph(loc = 'ds')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'ds') %>% stringr::str_to_lower()` value for salmonid rearing and spawning. 
+
+<br>
+
+## Stream Characteristics Upstream of Crossing `r as.character(my_site)` and Downstream of Crossing `r as.character(my_site2)` {.unnumbered}
+
+The stream was surveyed from the upper crossing `r as.character(my_site2)` downstream to the lower crossing `r as.character(my_site)`, approximately 500m `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-198022-03)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198022-d02))."))` At the top end of the site there were occasional shallow pools due to steeper gradients. Surveyors observed several fish in the outlet pool of the upper crossing. Approximately 75m downstream of crossing `r as.character(my_site2)`, the stream dewatered but contained abundant gravels. The remainder of the stream down to crossing `r as.character(my_site)` was a wetland type area, dominated by willow and sedge, with the main channel being difficult to find. `r fpr_my_habitat_paragraph(loc = 'us')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning.
+
+ 
+<br>
+
+## Stream Characteristics Upstream of Crossing `r as.character(my_site2)` {.unnumbered}
+
+`r fpr_my_survey_dist(sit = my_site2, loc = 'us')`. The channel was small with low flows and occasional dewatered patches `r if(gitbook_on){knitr::asis_output("(Figure \\@ref(fig:photo-197949-01)).")}else(knitr::asis_output("(Figure \\@ref(fig:photo-198022-d02))."))` There were very few deep pools but fish were observed as far as 500m upstream of the crossing. `r fpr_my_habitat_paragraph(sit = my_site2, loc = 'us')` The habitat was rated as `r fpr::fpr_my_priority_info(loc = 'us') %>% stringr::str_to_lower()` for salmonid rearing and spawning.
+
+<br>
+
+
+## Fish Sampling {.unnumbered}
+
+In 2023, electrofishing was conducted above and below crossing `r as.character(my_site)` with the upstream site located just below crossing `r as.character(my_site2)`. The results are summarised in Tables \@ref(tab:tab-fish-site-198022) - \@ref(tab:tab-fish-dens-198022) and Figure
+\@ref(fig:plot-fish-box-198022). A total of `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_us')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` cutthroat were captured upstream, and `r tab_fish_summary %>% filter(site_id == paste0(my_site, '_ds')) %>% group_by(site_id) %>% janitor::adorn_totals() %>% filter(site_id == 'Total') %>% pull(count_fish)` dolly varden was captured downstream `r if(gitbook_on){knitr::asis_output("(Figures \\@ref(fig:photo-198022-04) - \\@ref(fig:photo-198022-05)).")}else(knitr::asis_output("(Figures \\@ref(fig:photo-198022-d03))."))` All fish captured with a fork length greater than 60mm were tagged with Passive Integrated Transponders (PIT tags) with data stored [here](`r paste0(params$repo_url, "blob/main/data/2023/habitat_confirmations.xls")`).
+
+<br>
+
+## Structure Remediation and Cost Estimate {.unnumbered}
+
+Should restoration/maintenance activities proceed, it is recommended that both crossings be each replaced with a bridge (`r fpr::fpr_my_pscis_info(site = my_site2, col_pull = recommended_diameter_or_span_meters)`m span). The preliminary cost estimate for each bridge is \$`r format(fpr::fpr_my_cost_estimate(), big.mark = ',')`, with the relatively high work costs related to the large amount of road fill present at the sites and the subsequent significant excavation required to install the large replacement structure.
+
+<br>
+
+## Conclusion {.unnumbered}
+
+PSCIS crossings `r as.character(my_site)` and `r as.character(my_site2)` are located in a remote area of the Morice watershed and both have a large amount of road fill above the culvert, making for expensive replacements. Nevertheless, electrofishing in 2023 confirmed the stream provides valuable habitat to cutthroat trout, suggesting the stream may be important for spawning and rearing salmonids. The habitat value was rated as `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()` for both crossings, with `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` priority for replacement. 
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+<br>
+
+```{r tab-habitat-summary-198022}
+tab_hab_summary %>% 
+  filter(Site %in% c(my_site, my_site2)) %>% 
+  # select(-Site) %>% 
+  fpr::fpr_kable(caption_text = paste0('Summary of habitat details for PSCIS crossing', my_site, 'and ', my_site2, '.'),
+                 scroll = F) 
+
+```
+
+<br>
+
+```{r tab-fish-site-198022, eval=T}
+fpr_table_fish_site()
+
+```
+
+<br>
+
+```{r tab-fish-dens-198022, eval=T}
+fpr_table_fish_density()
+
+```
+
+`r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
+
+```{r plot-fish-box-198022, fig.cap= my_caption, eval=T}
+my_caption <- paste0('Densites of fish (fish/100m2) captured upstream and downstream of PSCIS crossing ', my_site, '.')
+
+fpr_plot_fish_box() 
+
+```
+
+<br>
+
+```{r photo-198022-01-prep, eval=T}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'ds_typical_2_')
+
+my_caption1 = paste0('Typical habitat downstream of PSCIS crossing ', my_site, '.')
+
+
+```
+
+```{r photo-198022-01, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-198022-02-prep, eval=T}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = 'ds_confluence')
+
+my_caption2 = paste0('Log jam at the confluence with Tagit Creek.')
+
+
+```
+
+```{r photo-198022-02, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-198022-d01, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
+<br>
+
+```{r photo-198022-03-prep, eval=T}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'us_typical_2')
+
+my_caption1 = paste0('Typical habitat upstream of PSCIS crossing ', my_site, ' and downstream of crossing ', my_site2, '.')
+
+
+```
+
+```{r photo-198022-03, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-197949-01-prep}
+my_photo2 = fpr::fpr_photo_pull_by_str(site = my_site2, str_to_pull = 'us_typical_1')
+
+my_caption2 = paste0('Typical habitat upstream of PSCIS crossing ', my_site2, '.')
+```
+
+```{r photo-197949-01, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-198022-d02, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
+<br>
+
+```{r photo-198022-04-prep}
+my_photo1 = fpr::fpr_photo_pull_by_str(str_to_pull = 'fish1')
+
+my_caption1 = paste0('Cutthroat trout captured upstream of crossing ', my_site, '.')
+```
+
+```{r photo-198022-04, fig.cap= my_caption1, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo1)
+```
+
+<br>
+
+```{r photo-198022-05-prep}
+my_photo2 = fpr::fpr_photo_pull_by_str(str_to_pull = 'ef1_dv')
+
+my_caption2 = paste0('Dolly varden captured downstream of crossing ', my_site, '.')
+
+```
+
+```{r photo-198022-05, fig.cap= my_caption2, out.width = photo_width, eval=gitbook_on}
+knitr::include_graphics(my_photo2)
+```
+
+```{r photo-198022-d03, fig.cap = my_caption, fig.show="hold", out.width= c("49.5%","1%","49.5%"), eval=identical(gitbook_on, FALSE)}
+
+my_caption <- paste0('Left: ', my_caption1, ' Right: ', my_caption2)
+
+knitr::include_graphics(my_photo1)
+knitr::include_graphics("fig/pixel.png")
+knitr::include_graphics(my_photo2)
+```
+
