@@ -23,7 +23,7 @@ my_site2 <- 198942
 
 ## Site Location {.unnumbered}
 
-Crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on `r fpr::fpr_my_pscis_info()`, approximately `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km and `r round(fpr::fpr_my_bcfishpass(site = my_site2, col_pull = downstream_route_measure)*0.001, 1)`km upstream of Houston Tommy Creek, respectively. The tributary flows southeast to Houston Tommy Creek, which then flows roughly 9km west to the Morice River. The sites are approximately 30km southwest of Houston, BC.
+Crossings `r as.character(my_site)` and `r as.character(my_site2)` are located on a `r fpr::fpr_my_pscis_info()`, approximately `r round(fpr::fpr_my_bcfishpass(col_pull = downstream_route_measure)*0.001, 1)`km and `r round(fpr::fpr_my_bcfishpass(site = my_site2, col_pull = downstream_route_measure)*0.001, 1)`km upstream of Houston Tommy Creek, respectively. The tributary flows southeast to Houston Tommy Creek, which then flows roughly 9km west to the Morice River. The sites are approximately 30km southwest of Houston, BC.
 
 Crossing `r as.character(my_site2)` is located on `r fpr_my_pscis_info(site = my_site2, col_pull = road_name)` and crossing `r as.character(my_site)` on a spur of `r fpr_my_pscis_info(site = my_site2, col_pull = road_name)`, which are both the responsibility of `r fpr_my_pscis_info(site = my_site2, col_pull = road_tenure)`.
 
@@ -58,7 +58,7 @@ dplyr::bind_rows(fpr::fpr_table_wshd_sum(site_id = my_site), fpr::fpr_table_wshd
 
 <br>
 
-A summary of habitat modelling outputs is presented in Tables
+Habitat modelling outputs from `bcfishpass` indicated there is over 3km of potential rearing habitat for coho and steelhead above crossing `r as.character(my_site2)`, and 200m of potential chinook habitat. A summary of habitat modelling outputs are presented in Tables
 \@ref(tab:tab-culvert-bcfp-198934) - \@ref(tab:tab-culvert-bcfp-198942). A map of the watershed is provided in
 map attachment
 [`r fpr::fpr_my_bcfishpass(col_pull = dbm_mof_50k_grid)`](`r fpr::fpr_my_mapsheet(wshd = "zymo", archive_date = "2022-09-06")`).
@@ -148,7 +148,7 @@ Should restoration/maintenance activities proceed, it is recommended to replace 
 
 ## Conclusion {.unnumbered}
 
-PSCIS crossings `r as.character(my_site)` and `r as.character(my_site)` are promising sites to follow-up with fish sampling due to their favourable habitat conditions, observed fish presence, and the potential barriers posed by outlet drops on both culverts. Conducting fish sampling at these sites will provide valuable data to guide future prioritization and replacement efforts. However, it's worth noting that crossing `r as.character(my_site)` has 8m of road fill above the culvert, which could significantly increase the cost of replacement.
+As mentioned earlier, `bcfishpass` modelling indicates there is over 3km of potential coho and steelhead rearing habitat upstream of crossing `r as.character(my_site2)` and after assessment the habitat was rated `r fpr::fpr_my_priority_info(sit = my_site2) %>% stringr::str_to_lower()` value. These crossings are promising sites to follow-up with fish sampling due to their favourable habitat conditions, observed fish presence, and the potential barriers posed by outlet drops on both culverts. Conducting fish sampling at these sites will provide valuable data to guide future prioritization and replacement efforts. However, it's worth noting that crossing `r as.character(my_site)` has 8m of road fill above the culvert, which could significantly increase the cost of replacement.
 
 
 `r if(gitbook_on){knitr::asis_output("<br>")} else knitr::asis_output("\\pagebreak")`
