@@ -175,7 +175,7 @@ tab_moti_phase2 %>%
 
 ## Phase 1
 
-Field assessments were conducted between `r format(min(pscis_phase1$date), format="%B %d %Y")` and `r format(max(pscis_phase1$date), format="%B %d %Y")` by Allan Irvine, R.P.Bio. and Mateo Winterscheidt, B.Sc., Tieasha Pierre, Vern Joseph, Dallas Nikal, Alexandria Nikal, Jesse Olson and Colin Morrison. A total of `r n_distinct(pscis_phase1$my_crossing_reference)` Phase 1 assessments at sites not yet inventoried into the PSCIS system included `r pscis_phase1 %>% filter(barrier_result == 'Passable') %>% nrow()` crossings considered "passable", `r pscis_phase1 %>% filter(barrier_result == 'Potential') %>% nrow() %>% english::as.english()` crossings considered "potential" barriers and `r pscis_phase1 %>% filter(barrier_result == 'Barrier') %>% nrow()` crossings considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments]. Additionally, although all were considered fully passable, `r pscis_phase1 %>% filter(barrier_result == 'Unknown') %>% nrow() %>% english::as.english()` crossings assessed were fords and ranked as "unknown" according to the provincial protocol. A summary of crossings assessed, a cost estimate for remediation and a priority ranking for follow up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output("[Attachment 2](https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/appendix---phase-1-fish-passage-assessment-data-and-photos.html")`.
+Field assessments were conducted between `r format(min(pscis_phase1$date), format="%B %d %Y")` and `r format(max(pscis_phase1$date), format="%B %d %Y")` by Allan Irvine, R.P.Bio. and Mateo Winterscheidt, B.Sc., Tieasha Pierre, Vern Joseph, Dallas Nikal, Alexandria Nikal, Jesse Olson and Colin Morrison. A total of `r n_distinct(pscis_phase1$my_crossing_reference)` Phase 1 assessments were completed at sites not yet inventoried into the PSCIS system, which included `r pscis_phase1 %>% filter(barrier_result == 'Passable') %>% nrow()` crossings considered "passable", `r pscis_phase1 %>% filter(barrier_result == 'Potential') %>% nrow() %>% english::as.english()` crossings considered "potential" barriers and `r pscis_phase1 %>% filter(barrier_result == 'Barrier') %>% nrow()` crossings considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments]. Additionally, although all were considered fully passable, `r pscis_phase1 %>% filter(barrier_result == 'Unknown') %>% nrow() %>% english::as.english()` crossings assessed were fords and ranked as "unknown" according to the provincial protocol. A summary of crossings assessed, a cost estimate for remediation and a priority ranking for follow up for Phase 1 sites is presented in Table \@ref(tab:cost-est-phase-1). Detailed data with photos are presented in `r if(gitbook_on){knitr::asis_output("[Appendix - Phase 1 Fish Passage Assessment Data and Photos]")} else knitr::asis_output("[Attachment 2](https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/appendix---phase-1-fish-passage-assessment-data-and-photos.html")`.
 
 
 <br>
@@ -370,3 +370,18 @@ At the time of reporting, the Ministry of Transportation and Infrastructure, in 
 ## Phase 4 - Remediations
 
 Remediations have been completed for replacement of PSCIS crossing 58159 on McDowell Creek [@irvine2021BulkleyRiver] with a clear-span bridge and removal of the collapsed bridge (PSCIS crossing 197912) on Robert Hatch Creek.   
+
+
+## Monitoring
+
+During the 2023 survey, sites were that are being considered for replacement were revisited for baseline monitoring. Below is a list of the sites with links to the monitoring results. 
+
+*** Skeena 2021 and BUlkley 2020 report PR's needs to be merged to see 2023 results/links***
+
+
+- 123377 - Thompson Creek -  Electrofishing was conducted to assess potential impacts of the culvert on fisheries values in the stream with results found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/thompson-creek---198066-123377-123375---appendix.html). Drone (and ortho?) footage was also collected and can be found [here](). 
+- 124500 - Helps Creek. Electrofishing was conducted to assess potential impacts of the culvert on fisheries values in the stream with results found [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/appendix-124500-helps-creek.html). Drone (and ortho?) footage was also collected and can be found [here](). 
+- 198217 - Tributary to Skeena River. Monitoring results can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/tributary-to-skeena-river---198216-198217---appendix.html#conclusion-and-recommendations)
+- 198215 - Dale Creek
+- 197360 - Riddeck Creek. replacement in process (but stalled) so just monitoring with fish sampling. 
+- Gramaphone ?? dip netting, found canyon.
