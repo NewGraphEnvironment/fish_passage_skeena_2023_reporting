@@ -354,7 +354,7 @@ lfpr_create_hydrograph <- function(
   tidyhat_info <- tidyhydat::search_stn_number(station)
 
 
-  ##### Hydrograph Pane #####
+  ## Hydrograph Pane
 
   ##build caption for the pane figure
   caption_info <- dplyr::mutate(tidyhat_info, title_stats = paste0(stringr::str_to_title(STATION_NAME),
@@ -392,7 +392,7 @@ lfpr_create_hydrograph <- function(
 
 
 
-  ##### Single Hydrograph  #####
+  ## Single Hydrograph
 
   ##build caption for the single figure
   caption_info2 <- dplyr::mutate(tidyhat_info, title_stats2 = paste0(stringr::str_to_title(STATION_NAME),
@@ -480,3 +480,23 @@ ldfo_sad_plot_line <- function(dat, region, col_y, col_facet, col_group, col_gro
     labs(x = "Year", y = col_y) +
     theme
 }
+
+
+
+# set up a table format
+mygt <- function(x, page_size = 5, font = "10px", ...) {
+  x |>
+    gt::sub_missing() |>
+    # unfortunately we cannot yet adjust the font size... https://github.com/rstudio/gt/issues/1307
+    gt::tab_options(table.font.size = font) |>
+    gt::opt_interactive(...,
+                        use_search = TRUE,
+                        use_filters = TRUE,
+                        use_compact_mode = TRUE,
+                        use_highlight = TRUE,
+                        use_page_size_select = TRUE,
+                        page_size_values = c(5, 10, 20, 50),
+                        use_resizers = TRUE,
+                        page_size_default = page_size)
+}
+

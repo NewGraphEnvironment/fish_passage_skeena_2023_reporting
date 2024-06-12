@@ -194,6 +194,7 @@ knitr::include_graphics("fig/hydrology_stats_08EG019.png")
 
 In 2004, @ibmbusinessconsultingservices2006ValuationWild estimated the value of Skeena Fisheries at an annual average of \$110 million dollars. The Bulkley-Morice watershed is an integral part of the salmon production in the Skeena drainage and supports an internationally renown steelhead, chinook and coho sport fishery [@tamblyn2005PlanConserve].
 
+
 ### Bulkley River
 
 Traditionally, the salmon stocks passing through and spawning in the greater Bulkley River were the principal food source for the Gitxsan and Wet’suwet’en people living there [@wilson_rabnett2007FishPassage].  Anadromous lamprey passing through and spawning in the upper Bulkley River were traditionally also an important food source for the Wet'suwet'en (@gottesfeld_rabnett2007SkeenaFish; pers comm. Mike Ridsdale, Environmental Assessment Coordinator, Office of the Wet'suwet'en).  @gottesfeld_rabnett2007SkeenaFish report sourceing information from @departmentoffisheriesandoceans1991Fishhabitat that principal spawning areas for chinook in the Neexdzii Kwah include the mainstem above and below Buck and McQuarrie Creeks, between Cesford and Watson Creeks, and the reaches upstream and downstream of Bulkley Falls.
@@ -217,13 +218,13 @@ A detailed field assessment and write up regarding the upper Bulkley falls was c
 @wilson_rabnett2007FishPassage reported that approximately 11.3 km downstream of the Bulkley Lake outlet and just upstream of Watson Creek, the upper Bulkley falls is an approximately 4m high narrow rock sill that crosses the Neexdzii Kwah, producing a steep cascade section. This obstacle to fish passage is recorded as an almost complete barrier to fish passage for salmon during low water flows. @wilson_rabnett2007FishPassage also reported that coho have not been observed beyond the falls since 1972. 
 
 
-#### Salmon Stock Assessment Data
+<!-- #### Salmon Stock Assessment Data -->
 
-Fisheries and Oceans Canada stock assessment data was accessed via the [NuSEDS-New Salmon Escapement Database System](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6)
-through the [Open Government Portal](https://open.canada.ca/en) with results presented in Table \@ref(tab:tab-dfo-sad-tr-bulk). A brief memo on the data extraction process is available in the [memos directory](https://github.com/NewGraphEnvironment/restoration_wedzin_kwa_2024/tree/main/memos).
+<!-- Fisheries and Oceans Canada stock assessment data was accessed via the [NuSEDS-New Salmon Escapement Database System](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6) -->
+<!-- through the [Open Government Portal](https://open.canada.ca/en) with results presented in Table \@ref(tab:tab-dfo-sad-tr-bulk). A brief memo on the data extraction process is available in the [memos directory](https://github.com/NewGraphEnvironment/restoration_wedzin_kwa_2024/tree/main/memos). -->
 
 
-```{r tab-dfo-sad-tr-bulk, eval=TRUE}
+```{r tab-dfo-sad-tr-bulk, eval=F}
 
 dfo_sad_raw <- readr::read_csv('data/inputs_raw/All Areas NuSEDS.csv')
 #names(dfo_sad_raw)
@@ -281,10 +282,10 @@ dfo_sad_raw %>%
 Detailed reviews of Morice River watershed fisheries can be found in @bustard_schell2002ConservingMorice, @gottesfeld_etal2002ConservingSkeena, @schell2003BriefOverview, @gottesfeld_rabnett2007SkeenaFish, and @ilmb2007MoriceLand with a comprehensive review of water quality by @oliver2018Analysiswater Overall, the Morice watershed contains high fisheries values as a major producer of chinook, pink, sockeye, coho and steelhead.
 
 
-#### Salmon Stock Assessment Data
-Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-morice). 
+<!-- #### Salmon Stock Assessment Data -->
+<!-- Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-morice).  -->
 
-```{r tab-dfo-sad-tr-morice, eval=TRUE}
+```{r tab-dfo-sad-tr-morice, eval=F}
 
 dfo_sad_tr %>%
   dplyr::filter(waterbody == "MORICE RIVER") |>
@@ -323,10 +324,10 @@ Traditional First Nations use of the upper Zymoetz River watershed by the Gitxsa
 
 <br>
 
-#### Salmon Stock Assessment Data
-Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-zymoetz).
+<!-- #### Salmon Stock Assessment Data -->
+<!-- Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-zymoetz). -->
 
-```{r tab-dfo-sad-tr-zymoetz, eval=TRUE}
+```{r tab-dfo-sad-tr-zymoetz, eval=F}
 
 dfo_sad_tr %>%
   dplyr::filter(stringr::str_detect(waterbody,"ZYMOETZ")) |>
@@ -342,10 +343,10 @@ dfo_sad_tr %>%
 Kispiox River salmon are a important food source and cultural symbol for the Gitxsan people with sockeye and coho historically the two most significant species. Gitangwalk and Lax Didax, two significant villages that were both abandoned in the early 1900s, were situated on the Kispiox in such a way as to block the sockeye and coho salmon's upstream migration to the Upper Kispiox River spawning grounds providing opportunities to gather and preserve a significant amount of high-quality food over relatively short time periods [@gottesfeld_etal2002ConservingSkeena]. The 100 km of mainstem and 300km of tributary streams in the Kispiox River Watershed are considering high value fish habitat supporting migration, spawning and rearing for many fish species. The Kispiox fisheries supports both recreational and commercial fishing while also enhancing the ecology, nutrient regime, and structural diversity of the drainage. Since 1992, sockeye and coho escapements from the Kispiox Watershed have been documented by the Gitxsan Watershed Authorities as they creates strong cultural, economic, and symbolic ties for the local communities [@gottesfeld_etal2002ConservingSkeena].
 
 
-#### Salmon Stock Assessment Data
-Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-kispiox).
+<!-- #### Salmon Stock Assessment Data -->
+<!-- Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-kispiox). -->
 
-```{r tab-dfo-sad-tr-kispiox, eval=TRUE}
+```{r tab-dfo-sad-tr-kispiox, eval=F}
 
 dfo_sad_tr %>%
   dplyr::filter(stringr::str_detect(waterbody,"KISPIOX")) |>
@@ -360,16 +361,50 @@ dfo_sad_tr %>%
 
 The Kitsumkalum River is an important waterway for all species of salmon. It is one of the three main chinook producing rivers in the Skeena watershed and supports all five species of pacific salmon, steelhead, and other resident trout and char species [@mcelhanney2022KitsumkalumRiver]. Most notably, the Kitsumkalum River has consistently produced the largest-bodied chinook in the Skeena Watershed, as well as on most of the Pacific coast [@gottesfeld_rabnett2007SkeenaFish]. The watershed supports strong recreational coho, steelhead, and chinook fishing. Kitsumkalum salmon also play an important role in the culture and economy of the Kitsumkalum Band [@gottesfeld_rabnett2007SkeenaFish].   
 
-#### Salmon Stock Assessment Data
-Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-kitsumkalum).
+<!-- #### Salmon Stock Assessment Data -->
+<!-- Fisheries and Oceans Canada stock assessment data is presented in Table \@ref(tab:tab-dfo-sad-tr-kitsumkalum). -->
 
-```{r tab-dfo-sad-tr-kitsumkalum, eval=TRUE}
+```{r tab-dfo-sad-tr-kitsumkalum, eval=F}
 
 dfo_sad_tr %>%
   dplyr::filter(stringr::str_detect(waterbody,"KITSUMKALUM")) |>
   # dplyr::select(-waterbody) |> 
   fpr::fpr_kable(caption_text = "Fisheries and Oceans Canada stock assessment data for the Kitsumkalum River.  Data is filtered to only include records with total return to river data.",
                  scroll = gitbook_on)
+
+```
+
+### Salmon Stock Assessment Data
+
+Fisheries and Oceans Canada stock assessment data was accessed via the [NuSEDS-New Salmon Escapement Database System](https://open.canada.ca/data/en/dataset/c48669a3-045b-400d-b730-48aafe8c5ee6)
+through the [Open Government Portal](https://open.canada.ca/en) with results presented `r if(gitbook_on){knitr::asis_output("in Table \\@ref(tab:stock-assess-dat-all)")}else(knitr::asis_output("[here](https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/background.html)"))`. A brief memo on the data extraction process is available in the [memos directory](https://github.com/NewGraphEnvironment/restoration_wedzin_kwa_2024/tree/main/memos).
+
+
+```{r stock-assess-dat-all, eval= gitbook_on}
+
+dfo_sad_tr <- readr::read_csv('data/inputs_raw/All Areas NuSEDS.csv') %>% 
+  dplyr::filter(!is.na(total_return_to_river)) %>% 
+  arrange(species, analysis_yr) %>% 
+  dplyr::select(waterbody,
+                species, analysis_yr, 
+                total_return_to_river, 
+                start_spawn_dt_from,
+                peak_spawn_dt_from,
+                end_spawn_dt_from, 
+                accuracy,	
+                precision,	
+                index_yn,	
+                reliability,	
+                estimate_stage,	
+                estimate_classification,	
+                no_inspections_used,	
+                estimate_method) |> 
+  janitor::clean_names(case = "title") 
+
+dfo_sad_tr |> 
+  gt::gt() |> # need to make tibble a gt table object
+  gt::tab_header(title = "Fisheries and Oceans Canada stock assessment data for the Skeena watershed.  Data can be filtered to specific waterbodies") |>
+  mygt()
 
 ```
 
