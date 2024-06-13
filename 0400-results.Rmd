@@ -374,14 +374,21 @@ Remediations have been completed for replacement of PSCIS crossing 58159 on McDo
 
 ## Monitoring
 
-During the 2023 survey, sites were that are being considered for replacement were revisited for baseline monitoring. Below is a list of the sites with links to the monitoring results. 
+Multiple sites where habitat confirmations were conducted in the past were revisited in 2023 to gather more information for the purpose of baseline monitoring. Below is a list of the sites with links to the monitoring results. 
 
-*** Skeena 2021 and BUlkley 2020 report PR's needs to be merged to see 2023 results/links***
+*** Skeena 2021 and BUlkley 2020 report PR's needs to be merged to see 2023 results/links ***
 
 
-- 123377 - Thompson Creek -  Electrofishing was conducted to assess potential impacts of the culvert on fisheries values in the stream with results found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/thompson-creek---198066-123377-123375---appendix.html). Drone (and ortho?) footage was also collected and can be found [here](). 
-- 124500 - Helps Creek. Electrofishing was conducted to assess potential impacts of the culvert on fisheries values in the stream with results found [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/appendix-124500-helps-creek.html). Drone (and ortho?) footage was also collected and can be found [here](). 
-- 198217 - Tributary to Skeena River. Monitoring results can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/tributary-to-skeena-river---198216-198217---appendix.html#conclusion-and-recommendations)
-- 198215 - Dale Creek
-- 197360 - Riddeck Creek. replacement in process (but stalled) so just monitoring with fish sampling. 
-- Gramaphone ?? dip netting, found canyon.
+- Thompson Creek - PSCIS 123377 -  Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked as part of effectiveness monitoring at the site. Aerial imagery was also collected with drones.  All results can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/thompson-creek---198066-123377-123375---appendix.html).
+
+- Helps Creek - 124500 - Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked as part of effectiveness monitoring at the site. Aerial imagery was also collected with drones.  All results can be found [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/appendix-124500-helps-creek.html).
+
+- Tributary to Skeena River - 198217 - Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked as part of effectiveness monitoring at the site. Aerial imagery and lidar data were collected with a drone. All results can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/tributary-to-skeena-river---198216-198217---appendix.html).
+
+- Dale Creek - 198215 - Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked as part of effectiveness monitoring at the site. All results can be found [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/dale-creek---198215---appendix.html).
+
+- Riddeck Creek - 197360 - This crossing is currently in the process of being replaced. Electrofishing was conducted for baseline monitoring purposes with results found [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/appendix-197360-riddeck-creek.html).
+
+- Tributary to Buck Creek - 197640 - The site was revisited for fish sampling but at the time of the survey the stream was dry. The culvert was reassessed with results found [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/appendix-197640-tributary-to-buck-creek.html).
+
+- Gramophone Creek - 58067 - The site was revisited to scope for downstream barriers and dip nettting was conducted with results found [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2022_reporting/gramophone-creek---58067---appendix.html).
