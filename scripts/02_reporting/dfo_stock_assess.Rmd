@@ -30,7 +30,9 @@ library("fpr")
 
 
 # set up the connection to the data portal
-ckanr_setup(url = "https://open.canada.ca/data/en")
+# ckanr_setup(url = "https://open.canada.ca/data/en")
+govcan_setup(url = "https://open.canada.ca/data/en")
+
 ```
 
 <br>
@@ -38,8 +40,8 @@ ckanr_setup(url = "https://open.canada.ca/data/en")
 Search for the data we want using key words like "Pacific Salmon Conservation Units" and "North and Central Coast NuSEDS".
 
 
-```{r ckan-search}
-nuseds_search <- govcan_search(keywords = c("North and Central Coast NuSEDS"), records = 150, format_results = TRUE) %>% 
+```{r ckan-search, eval=TRUE}
+nuseds_search <- govcan_search(keywords = c("North and Central Coast NuSEDS"), records = 150, format_results = TRUE) |> 
   pull(resources) %>% 
   bind_rows()
 
@@ -75,10 +77,10 @@ study_areas <-  c("BULKLEY", "MORICE", "KISPIOX", "ZYMOETZ", "KITSUMKALUM")
 nuseds_search %>% 
   dplyr::filter(name == name_csv) %>% 
   dplyr::pull('url') %>% 
-  ckan_fetch(store = "disk", path = paste0('data/inputs_raw/', name_csv)) 
+  ckan_fetch(store = "disk", path = paste0(here::here(), '/data/inputs_raw/', name_csv)) 
 
 #read it back in  
-csv <- read_csv(paste0('data/inputs_raw/', name_csv))
+csv <- read_csv(paste0(here::here(), '/data/inputs_raw/', name_csv))
 
 # filter for our study area
 nuseds <- csv %>%   
@@ -125,14 +127,17 @@ spawn <- nuseds %>%
   #                        ends_with("presence")), ~ !is.na(.)))
 
 
+# spawn %>% 
+#   fpr::fpr_kable(font = 12)
+
 spawn %>% 
-  fpr::fpr_kable(font = 12)
+  my_dt_table()
 
 ```
 
 <br>
 
-Note the results of the following columns since they may feed well into our production of xxxxxxxxxxx:
+Note the results of the following columns since they may feed well into our production of the gantt chart presented in the background section of the document which documents estimates of spawn migration timing and duration:
 
 `r names(spawn) %>% .[str_detect(., '_dt')]`
 
@@ -209,7 +214,7 @@ In order to render this document we need a work around from the standard bookdow
 by hand in the console to render the document.
 
 ```{r render-manual, eval = FALSE}
-rmarkdown::render("scripts/dfo_stock_assess.Rmd", output_file = "dfo_stock_assess.html", output_dir = "memos")
+rmarkdown::render("scripts/02_reporting/dfo_stock_assess.Rmd", output_file = "dfo_stock_assess.html", output_dir = "tutorials")
 
 ```
 
