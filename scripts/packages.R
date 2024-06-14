@@ -49,7 +49,8 @@ pkgs_gh <- c(
   "newgraphenvironment/rfp",
   'poissonconsulting/poisspatial',
   "poissonconsulting/fishbc",
-  "haozhu233/kableExtra",
+  # specific version we know gives white captions when rendered in dark mode....
+  "haozhu233/kableExtra@a9c509a",
   "gadenbuie/shrtcts"
 )
 
