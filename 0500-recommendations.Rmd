@@ -2,39 +2,61 @@
 
 Recommendations for potential incorporation into collaborative watershed connectivity planning include:
 
+- Continue to work with Gitskan Watershed Authorities (GWA) to prioritize and implement another fish passage restoration
+project in 2025. Learnings from the successful replacement of crossing 198217 on a tributary to the Skeena River on
+Sik-e-dakh Water Tower Road adjacent to the community of Glen Vowell can now be applied to the Zymoetz River watershed
+group leveraging further funding acquired by GWA for replacement of a crossing in 2025. At the time of reporting several
+crossings have been identified as potential candidates for replacement with funding for engineering design earmarked
+from this year's fiscal dollars. At the time of reporting several crossings have been identified as potential 
+candidates for replacement including [Sandstone Creek](https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/)
+as well as the tributaries to Coal Creek and McDonell Lake detailed in the results of this year's reporting.
+ 
+- Refine climate change risk collection metrics with GIS and remote sensing to provide more quantitative metrics of risk,
+leveraging advancements from other Ministry of Transportation and Infrastructure team efforts and incorporating outputs 
+(ex. discharge) from modelling using climate change scenarios such as those available through the Pacific Climate Impacts Consortium.
 
-- Continue to work with Gitskan Watershed Authorities (GWA) to prioritize and implement another fish passage restoration projects in 2025.
- Learnings from the successful replacement of crossing 198217 on a tributary to the Skeena River on Sik-e-dakh Water
- Tower Road can now be applied to the Zymoetz River watershed group leveraging further funding aquired by GWA for
- replacement of a crossing in 2025. At the time of reporting several crossings have been identified as potential
- candidates for replacement including Sandstone Creek
- ([here](https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/)) as well as the tributaries to Coal
- Creek and McDonell Lake detailed in the results of this year's reporting.
- 
-- Refine climate change risk collection metrics with GIS and remote sensing to more quantitative metrics incorperating outputs (ex. discharge)
-from climate change scenarios such as the Canadian Centre for Climate Services (CCCS) and the Pacific Climate Impacts Consortium.
+- Integrate fish passage restoration planning with other restoration and enhancement initiatives in the region to
+maximize benefits to fish populations as well as for communities within the Skeena River watershed.  This includes
+working with the Gitskan Watershed Authorities (GWA), Skeena Fisheries Commission, Skeena Wild, Office of Wet'suwet'en,
+Morice Watershed Monitoring Trust, Fisheries and Oceans Canada, Provincial Regulators, Bulkley Valley Research Centre,
+Gitxsan Environmental Services, the Environmental Stewardship Initiative (Skeena Sustainability Assessment Forum) and
+others to leverage funding, knowledge and resources for fish passage restoration towards other projects related to
+watershed health in the region. Examples of where this is already taking place is leveraging of Morice River watershed
+group fish passage sites into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en and
+incorporation of Upper Bulkley River sites into the [Neexdzii Kwah Restoration Planning](https://newgraphenvironment.github.io/restoration_wedzin_kwa_2024).
 
-- Integrate fish passage restoration planning with other restoration and enhancement initiatives in the region to maximize benefits to fish populations 
-as well as for communities within the Skeena River watershed.  This includes working with the Gitskan Watershed Authorities (GWA), 
-Skeena Fisheries Commission, Skeena Wild, Office of Wet'suwet'en, Morice Watershed Monitoring Trust, Fisheries and Oceans Canada,
-Provincial Regulators, Bulkley Valley Research Centre, 
-Gitxsan Environmental Services, the Environmental Stewardship Initiative (Skeena Sustainability Assessment Forum) and others to leverage 
-funding, knowledge and resources for fish passage restoration
-towards other projects related to watershed health in the region. Examples of where this is already taking place is leveraging of 
-Morice River watershed group fish passage sites into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en
-and incorporation of Upper Bulkley River sites into the Neexdzii Kwah Restoration Planning with the later viewable [here](https://newgraphenvironment.github.io/restoration_wedzin_kwa_2024).
+- Continue to acquire background information and leverage ongoing research initiatives in the region to collaboratively 
+clarify current conditions and identify limiting factors to inform prioritization and effectiveness monitoring programs.  
+ 
+- Develop strategies to explore cost and fisheries production benefits of stream crossing structure upgrades alongside
+alternative/additional restoration and enhancement investments such as land conservation/procurement/covenant, cattle
+exclusion, riparian restoration, habitat complexing, water conservation, commercial/recreational fishing management,
+water treatment and research. Ideentify and pursue opportunities to collaborate and leverage initiatives together in
+study area watersheds (ex. fish passage rehabilitation, riparian restoration and cattle exclusion) for maximum likely
+restoration benefits.
+ 
+- Refine barrier thresholds for road-stream crossing structures to explore metrics specific to life stage and life
+history types of species of interest. This will further focus efforts of potential remediation actions based on
+biological attributes (ex. timing of migration, size/direction of fish migrating, population dynamics, etc.) and could
+result in the consideration of interim "stop-gap" physical works to alter crossing characteristics that can address key
+connectivity issues yet be significantly less costly than structure replacements (ex. building up of downstream area
+with rock riffles to decrease the outlet drop size and/or increasing water depth within pipe with baffles and substrate
+additions).
+ 
+- Model fish densities (fish/m^2^) vs. habitat/water quality characteristics (i.e. gradient, discharge, alkalinity,
+elevation, riparian health, distance from high order streams, etc.) using historically gathered electrofishing and
+remotely sensed geodata to inform crossing prioritization, future data acquisition needs and the monitoring of
+restoration actions.
 
-- Continue to acquire background information and leverage ongoing research initiatives in the region to collaboratively clarify current conditions and identify limiting factors to inform prioritization and effectiveness monitoring programs.  
+- Continue to develop `bcfishpass`,`bcfishobs`, `fwapg`, `bcdata`, `fpr`, `dff-2022` and `rfp` as well as to share
+open source data analysis and presentation tools that are scaleable and facilitate continual improvement.  Tools should
+continue to be flexible and well documented to allow the future incorporation of alternative fragmentation indicators,
+habitat gain/value metrics and watershed sensitivity indicators.
  
-- Develop strategies to explore cost and fisheries production benefits of stream crossing structure upgrades alongside alternative/additional restoration and enhancement investments such as land conservation/procurement/covenant, cattle exclusion, riparian restoration, habitat complexing, water conservation, commercial/recreational fishing management, water treatment and research. Ideentify and pursue opportunities to collaborate and leverage initiatives together in study area watersheds (ex. fish passage rehabilitation, riparian restoration and cattle exclusion) for maximum likely restoration benefits.
- 
-- Refine barrier thresholds for road-stream crossing structures to explore metrics specific to life stage and life history types of species of interest. This will further focus efforts of potential remediation actions based on biological attributes (ex. timing of migration, size/direction of fish migrating, population dynamics, etc.) and could result in the consideration of interim "stop-gap" physical works to alter crossing characteristics that can address key connectivity issues yet be significantly less costly than structure replacements (ex. building up of downstream area with rock riffles to decrease the outlet drop size and/or increasing water depth within pipe with baffles and substrate additions).
- 
-- Model fish densities (fish/m^2^) vs. habitat/water quality characteristics (i.e. gradient, discharge, alkalinity, elevation, riparian health, distance from high order streams, etc.) using historically gathered electrofishing and remotely sensed geodata to inform crossing prioritization, future data acquisition needs and the monitoring of restoration actions.
-
-- Continue to develop `bcfishpass`,`bcfishobs`, `fwapg`, `bcdata`, `fpr`, `dff-2022` and `rfp` as well as to share open source data analysis and presentation tools that are scaleable and facilitate continual improvement.  Tools should continue to be flexible and well documented to allow the future incorporation of alternative fragmentation indicators, habitat gain/value metrics and watershed sensitivity indicators.
- 
-- Continue to collaborate with potential partners to build relationships, explore perspectives and develop “road maps” for aquatic restoration in different situations (MoT roads, rail lines, permit roads of different usages, FSRs, etc.) – documenting the people involved, discussions and processes that are undertaken, funding options, synergies, measures of success, etc. 
+- Continue to collaborate with potential partners to build relationships, explore perspectives and develop “road maps”
+for aquatic restoration in different situations (MoT roads, rail lines, permit roads of different usages, FSRs, etc.) –
+documenting the people involved, discussions and processes that are undertaken, funding options, synergies, measures of
+success, etc.
 
 - As fish density by area can fluctuate greatly with different flow levels we plan to shift towards linear accounting 
 in future years of the study (ie. fish/m vs fish/m2).
