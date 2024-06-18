@@ -1,0 +1,49 @@
+# Appendix - Climate Change Risk Assessment {-}
+
+Climate change risk assessment data is presented below. Work to date is considered a pilot project with data collected considered preliminary.  Data collected are presented in `r if(identical(gitbook_on, FALSE)){knitr::asis_output("online [here](https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/)")}else{knitr::asis_output("in Tables \\@ref(tab:tab-moti-climate-phase1) - \\@ref(tab:tab-moti-climate-phase2).")}`
+
+```{r tab-moti-climate-phase1, eval = gitbook_on}
+df_transpose <- function(df) {
+  
+  df %>% 
+    tidyr::pivot_longer(-1) %>%
+    tidyr::pivot_wider(names_from = 1, values_from = value)
+
+}
+
+tab_moti_phase1 %>% 
+  select(-contains('Describe'), -contains('Crew')) %>% 
+  rename(Site = pscis_crossing_id,
+         'External ID' = my_crossing_reference,
+         `MoTi ID` = moti_chris_culvert_id,
+         Stream = stream_name,
+         Road = road_name) %>% 
+  mutate(across(everything(), as.character)) %>% 
+  tibble::rownames_to_column() %>% 
+  df_transpose() %>% 
+  janitor::row_to_names(row_number = 1) %>% 
+  fpr::fpr_kable(scroll = gitbook_on,
+                 caption_text = 'Preliminary climate change risk assessment data for Ministry of Transportation and Infrastructure sites (Phase 1 PSCIS)')
+```
+
+<br>
+
+```{r tab-moti-climate-phase2, eval = gitbook_on}
+
+tab_moti_phase2 %>% 
+  purrr::set_names(nm = xref_moti_climate_names %>% pull(report)) %>%
+  select(-my_crossing_reference) %>% 
+  select(-contains('Describe'), -contains('Crew')) %>% 
+  rename(Site = pscis_crossing_id,
+         `MoTi ID` = moti_chris_culvert_id,
+         Stream = stream_name,
+         Road = road_name) %>% 
+  mutate(across(everything(), as.character)) %>% 
+  tibble::rownames_to_column() %>% 
+  df_transpose() %>% 
+  janitor::row_to_names(row_number = 1) %>% 
+  fpr::fpr_kable(scroll = gitbook_on,
+                 caption_text = 'Preliminary climate change risk assessment data for habitat confirmation sites.  Note that none of the Phase 2 sites were located on Ministry of Transportation and Infrastructure infrastructure however the data was collected so is presented below.')
+```
+
+

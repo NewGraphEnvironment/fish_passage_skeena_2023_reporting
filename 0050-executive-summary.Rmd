@@ -1,0 +1,95 @@
+# Executive Summary {-}
+
+`r if(identical(gitbook_on, FALSE))knitr::asis_output("This report is available as both a pdf and as an online interactive report at https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/. We recommend viewing online as the web-hosted version contains more features and is more easily navigable. Please reference the website for the latest version number and download the latest pdf from https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/raw/master/docs/fish_passage_skeena_2023.pdf")` 
+
+
+`r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br>")}`
+
+Since 2020, the Society for Ecosystem Restoration Northern British Columbia (SERNbc) has been actively involved in
+planning, coordinating, and conducting fish passage restoration efforts within the Bulkley River and Morice River
+watershed groups, which are sub-basins of the Skeena River watershed. In 2022, the study area was expanded to include
+the Zymoetz Watershed Group and the Kispiox River watershed groups, followed by an extension in 2023 to encompass
+sections of the Kitsumkalum River watershed group, particularly where Highway 16 intersects the watershed.
+
+<br>
+
+The primary objective of this project is to identify and prioritize fish passage barriers within these study areas,
+develop comprehensive restoration plans to address these barriers, and foster momentum for broader ecosystem restoration
+initiatives. While the primary focus is on fish passage, this work also serves as a lens through which to view the
+broader ecosystems, leveraging efforts to build capacity for ecosystem restoration and improving our understanding of
+watershed health. We recognize that the health of life - such as our own - and the health of our surroundings are
+interconnected, and that our well-being depends on the health of our environment.
+
+<br>
+
+Although the main purpose of this report is to document 2023 field work data and results, it also builds on reporting 
+from field activities conducted from 2020 to 2022. In addition to the numerous assessments at sites undocumented in past
+years of the project, field activities were also conducted at 10 sites where habitat confirmations
+were previously documented.  When this occured, past reports for these sites edited and updated with 2023 data.
+
+- [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning (2020)](https://newgraphenvironment.github.io/fish_passage_bulkley_2020_reporting/)
+- [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning 2021](https://newgraphenvironment.github.io/fish_passage_skeena_2021_reporting/)
+- [Bulkley River Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_bulkley_2022_reporting/)
+- [Skeena Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_skeena_2021_reporting/)
+
+
+<br>
+
+Please note that at the time of reporting, this report was a living document - changing over time.  Version numbers are
+logged for each release with modifications, enhancements and other changes tracked with the "Changelog" section.
+Additionally, issues and planned enhancements are tracked
+[here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues).
+
+<br>
+
+
+Fish Passage Assessments were completed at `r pscis_all %>% filter(source != 'pscis_phase2.xlsm') %>% nrow()` sites in
+2023. Although the focus of Fish Passage Assessment sites in 2023 was within areas adjacent to the Skeena River from
+Hazelton to Terrace (Kispiox River and Kitsumkalum River watershed groups), numerous sites were also assessed throughout
+other areas of the Kispiox, Zymoetz, Bulkley and Morice River watershed groups.
+
+<br>
+
+During 2023 field assessments, habitat confirmation assessments were conducted at seven sites in the Morice River and 
+Zymoetz River watershed groups.  A total of approximately `r habitat_confirmations_priorities %>% pull(length_surveyed) %>% sum(na.rm = T) %>% round(-3)/1000`km of stream was assessed, fish sampling utilizing electrofishing surveys were conducted at four of the subject habitat 
+confirmation streams. Fish sampling was conducted at `r tab_fish_sites_sum %>% n_distinct()` sites within `r streams_ef_n` 
+streams a total of `r hab_fish_indiv %>% filter(species_code != 'NFC') %>% nrow()` fish captured.  At all electrofishing 
+sites, salmonids with fork lengths >60mm were tagged with PIT tags to facitate the tracking of health and movement over time.  
+
+
+<br>
+
+Culverts previously located on a tributary to Skeena River - PSCIS 198217 - Sik-E-Dakh Water Tower Road were replaced 
+with the crossing with a clear-span bridge in 2024 with funding acquired by and remediation work led by the Gitskan Watershed Authorities
+in partnership with the Skeena Fisheries Commission.
+
+<br>
+
+Ten sites where habitat confirmations were conducted in the past were revisited in 2023 to gather data to further inform
+prioritization and or to provide data for effectiveness monitoring. Below are sites visited (listed by watershed group)
+with details of data collected and links to reporting provided above and within the Results and Discussion section of
+this report. Additional data collected primarily included fish sampling data and aerial imagery aquired by remotely piloted aircraft.
+
+<br>
+
+Recommendations for potential incorporation into collaborative watershed connectivity planning include:
+
+
+- Continue to work with Gitskan Watershed Authorities (GWA) to prioritize and implement another fish passage restoration
+projects in 2025. Learnings from the successful replacement of crossing 198217 on a tributary to the Skeena River on
+Sik-e-dakh Water Tower Road can now be applied to the Zymoetz River watershed group leveraging further funding acquired
+by GWA for replacement of a crossing in 2025. At the time of reporting several crossings have been identified as
+potential candidates for replacement with funding for one of the sites earmarked from this year's fiscal dollars.
+ 
+- Refine climate change risk collection metrics with GIS and remote sensing to more quantitative metrics incorperating outputs (ex. discharge)
+from climate change scenarios such as the Canadian Center for Climate Services (CCCS) and the Pacific Climate Impacts
+Consortium.
+
+- Integrate fish passage restoration planning with other restoration and enhancement initiatives in the region to maximize benefits to fish populations
+as well as for communities within the Skeena River watershed.  This includes working with the Gitskan Watershed
+Authorities (GWA), Skeena Fisheries Commission, Skeena Wild, Office of Wet'suwet'en, Morice Watershed Monitoring Trust,
+Fisheries and Oceans Canada, Provincial Regulators, Bulkley Valley Research Centre, Gitxsan Environmental Services, the
+Environmental Stewardship Initiative (Skeena Sustainability Assessment Forum) and others to leverage funding, knowledge
+and resources for fish passage restoration towards programs related to watershed health in the region.
+
+
