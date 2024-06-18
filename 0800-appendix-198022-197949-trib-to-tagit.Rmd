@@ -44,9 +44,9 @@ and prioritized for follow up with habitat confirmation assessments [@irvine2021
 
 <br>
 
-```{r tab-wshd-198022-197949, eval = T}
-dplyr::bind_rows(fpr::fpr_table_wshd_sum(site_id = my_site), fpr::fpr_table_wshd_sum(site_id = my_site2)) %>% 
-  fpr::fpr_kable(caption_text = paste0('Summary of derived upstream watershed statistics for PSCIS crossing ', my_site, ' and ', my_site2, '.'),
+```{r tab-wshd-198022, eval = T}
+fpr::fpr_table_wshd_sum(site_id = my_site) |> 
+  fpr::fpr_kable(caption_text = paste0('Summary of derived upstream watershed statistics for PSCIS crossing ', my_site, '.'),
                  footnote_text = 'Elev P60 = Elevation at which 60% of the watershed area is above',
                  scroll = F)
 
