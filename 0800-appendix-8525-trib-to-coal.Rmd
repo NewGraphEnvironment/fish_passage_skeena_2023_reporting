@@ -151,8 +151,9 @@ span). Although preliminary - a rough cost of the work is estimated at
 
 ## Conclusion {.unnumbered}
 
-Electrofishing surveys in 2023 captured dolly varden upstream of the FSR and rainbow trout and dolly varden downstream. 
-Although no coho were captured during assessments in 2022 or 2023, these species may have popualated
+There was `r fpr::fpr_my_priority_info(col_pull= upstream_habitat_length_km)`km of steelhead rearing habitat modelled upstream of crossing
+`r as.character(my_site)`. Electrofishing surveys in 2023 captured dolly varden upstream of the FSR and rainbow trout and dolly varden downstream. 
+Although no coho were captured during assessments in 2022 or 2023, these species may have populated
 the system in the past as it is connected to Coal Creek ~800m downstream, where historic presence of coho has been confirmed [@norris2024smnorrisbcfishobs; ; @moe2024KnownBC]. Electrofishing results from the site indicate the stream is a productive for dolly varden providing
 flows suitable for rearing and spawning.  The site was rated as a `r fpr::fpr_my_priority_info(col_pull = priority) %>% stringr::str_to_lower()` 
 priority for replacement containing `r fpr::fpr_my_priority_info() %>% stringr::str_to_lower()` value for salmonid rearing and spawning.
