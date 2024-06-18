@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Attachment 3 - Habitat Assessment Data | Skeena Watershed Fish Passage Restoration Planning 2023</title>
+  <meta name="description" content="Skeena Fish Passage Planning 2023" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Attachment 3 - Habitat Assessment Data | Skeena Watershed Fish Passage Restoration Planning 2023" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Skeena Fish Passage Planning 2023" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Attachment 3 - Habitat Assessment Data | Skeena Watershed Fish Passage Restoration Planning 2023" />
+  
+  <meta name="twitter:description" content="Skeena Fish Passage Planning 2023" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="attachment-1---maps.html"/>
+<link rel="next" href="attachment-4---bayesian-analysis-to-map-stream-discharge-and-temperature-causal-effects-pathways.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+<script type="text/javascript">
+
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R() {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    if (y.tagName.toLowerCase() === 'pre') toggle_vis(y);
+  }
+
+    var elem = document.getElementById("myButton1");
+    if (elem.value === "Show/Hide Code") elem.value = "Show/Hide Code";
+    else elem.value = "Show/Hide Code";
+}
+
+document.write('<input onclick="toggle_R();" type="button" value="Show/Hide Code" id="myButton1" style="position: absolute; top: 10%; right: 2%; z-index: 200"></input>')
+
+document.addEventListener('DOMContentLoaded', toggle_R);
+
+</script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Fish Passage Planning Skeena 2023</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Acknowledgement</a></li>
+<li class="chapter" data-level="" data-path="executive-summary.html"><a href="executive-summary.html"><i class="fa fa-check"></i>Executive Summary</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="background.html"><a href="background.html"><i class="fa fa-check"></i><b>2</b> Background</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="background.html"><a href="background.html#wetsuweten"><i class="fa fa-check"></i><b>2.1</b> Wet’suwet’en</a></li>
+<li class="chapter" data-level="2.2" data-path="background.html"><a href="background.html#gitxsan"><i class="fa fa-check"></i><b>2.2</b> Gitxsan</a></li>
+<li class="chapter" data-level="2.3" data-path="background.html"><a href="background.html#tsimshian"><i class="fa fa-check"></i><b>2.3</b> Tsimshian</a></li>
+<li class="chapter" data-level="2.4" data-path="background.html"><a href="background.html#bulkley-river"><i class="fa fa-check"></i><b>2.4</b> Bulkley River</a></li>
+<li class="chapter" data-level="2.5" data-path="background.html"><a href="background.html#morice-river"><i class="fa fa-check"></i><b>2.5</b> Morice River</a></li>
+<li class="chapter" data-level="2.6" data-path="background.html"><a href="background.html#zymoetz-river"><i class="fa fa-check"></i><b>2.6</b> Zymoetz River</a></li>
+<li class="chapter" data-level="2.7" data-path="background.html"><a href="background.html#kitsumkalum-river"><i class="fa fa-check"></i><b>2.7</b> Kitsumkalum River</a></li>
+<li class="chapter" data-level="2.8" data-path="background.html"><a href="background.html#fisheries"><i class="fa fa-check"></i><b>2.8</b> Fisheries</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="methods.html"><a href="methods.html#collaborative-gis-environment"><i class="fa fa-check"></i><b>3.1</b> Collaborative GIS Environment</a></li>
+<li class="chapter" data-level="3.2" data-path="methods.html"><a href="methods.html#fish-passage-assessments"><i class="fa fa-check"></i><b>3.2</b> Fish Passage Assessments</a></li>
+<li class="chapter" data-level="3.3" data-path="methods.html"><a href="methods.html#climate-change-risk-assessment"><i class="fa fa-check"></i><b>3.3</b> Climate Change Risk Assessment</a></li>
+<li class="chapter" data-level="3.4" data-path="methods.html"><a href="methods.html#habitat-confirmation-assessments"><i class="fa fa-check"></i><b>3.4</b> Habitat Confirmation Assessments</a></li>
+<li class="chapter" data-level="3.5" data-path="methods.html"><a href="methods.html#reporting"><i class="fa fa-check"></i><b>3.5</b> Reporting</a></li>
+<li class="chapter" data-level="3.6" data-path="methods.html"><a href="methods.html#mapping"><i class="fa fa-check"></i><b>3.6</b> Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="results-and-discussion.html"><a href="results-and-discussion.html"><i class="fa fa-check"></i><b>4</b> Results and Discussion</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="results-and-discussion.html"><a href="results-and-discussion.html#collaborative-gis-environment-1"><i class="fa fa-check"></i><b>4.1</b> Collaborative GIS Environment</a></li>
+<li class="chapter" data-level="4.2" data-path="results-and-discussion.html"><a href="results-and-discussion.html#phase-1---fish-passage-assessemnts"><i class="fa fa-check"></i><b>4.2</b> Phase 1 - Fish Passage Assessemnts</a></li>
+<li class="chapter" data-level="4.3" data-path="results-and-discussion.html"><a href="results-and-discussion.html#phase-2---habitat-confirmation-assessments"><i class="fa fa-check"></i><b>4.3</b> Phase 2 - Habitat Confirmation Assessments</a></li>
+<li class="chapter" data-level="4.4" data-path="results-and-discussion.html"><a href="results-and-discussion.html#phase-3---design"><i class="fa fa-check"></i><b>4.4</b> Phase 3 - Design</a></li>
+<li class="chapter" data-level="4.5" data-path="results-and-discussion.html"><a href="results-and-discussion.html#phase-4---remediations"><i class="fa fa-check"></i><b>4.5</b> Phase 4 - Remediations</a></li>
+<li class="chapter" data-level="4.6" data-path="results-and-discussion.html"><a href="results-and-discussion.html#monitoring"><i class="fa fa-check"></i><b>4.6</b> Monitoring</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="recommendations.html"><a href="recommendations.html"><i class="fa fa-check"></i><b>5</b> Recommendations</a></li>
+<li class="chapter" data-level="" data-path="appendix---phase-1-fish-passage-assessment-data-and-photos.html"><a href="appendix---phase-1-fish-passage-assessment-data-and-photos.html"><i class="fa fa-check"></i>Appendix - Phase 1 Fish Passage Assessment Data and Photos</a></li>
+<li class="chapter" data-level="" data-path="appendix---climate-change-risk-assessment.html"><a href="appendix---climate-change-risk-assessment.html"><i class="fa fa-check"></i>Appendix - Climate Change Risk Assessment</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html"><i class="fa fa-check"></i>Tributary to Tagit Creek - 198022 - Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#site-location"><i class="fa fa-check"></i>Site Location</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#background-1"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#stream-characteristics-at-crossing-198022-and-197949"><i class="fa fa-check"></i>Stream Characteristics at Crossing 198022 and 197949</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#stream-characteristics-downstream-of-crossing-198022"><i class="fa fa-check"></i>Stream Characteristics Downstream of Crossing 198022</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#stream-characteristics-upstream-of-crossing-198022-and-downstream-of-crossing-197949"><i class="fa fa-check"></i>Stream Characteristics Upstream of Crossing 198022 and Downstream of Crossing 197949</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#stream-characteristics-upstream-of-crossing-197949"><i class="fa fa-check"></i>Stream Characteristics Upstream of Crossing 197949</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#fish-sampling-1"><i class="fa fa-check"></i>Fish Sampling</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#structure-remediation-and-cost-estimate"><i class="fa fa-check"></i>Structure Remediation and Cost Estimate</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-tagit-creek---198022---appendix.html"><a href="tributary-to-tagit-creek---198022---appendix.html#conclusion"><i class="fa fa-check"></i>Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><i class="fa fa-check"></i>Tributary to Houston Tommy Creek - 198934 &amp; 198942 - Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#site-location-1"><i class="fa fa-check"></i>Site Location</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#background-2"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#stream-characteristics-at-crossings-198934-and-198942"><i class="fa fa-check"></i>Stream Characteristics at Crossings 198934 and 198942</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#stream-characteristics-downstream-of-198934"><i class="fa fa-check"></i>Stream Characteristics Downstream of 198934</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#stream-characteristics-upstream-of-198934-and-downstream-of-198942"><i class="fa fa-check"></i>Stream Characteristics Upstream of 198934 and Downstream of 198942</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#stream-characteristics-upstream-of-198942"><i class="fa fa-check"></i>Stream Characteristics Upstream of 198942</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#structure-remediation-and-cost-estimate-1"><i class="fa fa-check"></i>Structure Remediation and Cost Estimate</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-houston-tommy-creek---198934-198942---appendix.html"><a href="tributary-to-houston-tommy-creek---198934-198942---appendix.html#conclusion-1"><i class="fa fa-check"></i>Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html"><i class="fa fa-check"></i>Tributary to McDonell Lake - 8478 - Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#site-location-2"><i class="fa fa-check"></i>Site Location</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#background-3"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#stream-characteristics-at-crossing-8478"><i class="fa fa-check"></i>Stream Characteristics at Crossing 8478</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#stream-characteristics-downstream"><i class="fa fa-check"></i>Stream Characteristics Downstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#stream-characteristics-upstream"><i class="fa fa-check"></i>Stream Characteristics Upstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#fish-sampling-2"><i class="fa fa-check"></i>Fish Sampling</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#structure-remediation-and-cost-estimate-2"><i class="fa fa-check"></i>Structure Remediation and Cost Estimate</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8478---appendix.html"><a href="tributary-to-mcdonell-lake---8478---appendix.html#conclusion-2"><i class="fa fa-check"></i>Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html"><i class="fa fa-check"></i>Tributary to Coal Creek - 8525 - Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#site-location-3"><i class="fa fa-check"></i>Site Location</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#background-4"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#stream-characteristics-at-crossing-8525"><i class="fa fa-check"></i>Stream Characteristics at Crossing 8525</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#stream-characteristics-downstream-1"><i class="fa fa-check"></i>Stream Characteristics Downstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#stream-characteristics-upstream-1"><i class="fa fa-check"></i>Stream Characteristics Upstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#fish-sampling-3"><i class="fa fa-check"></i>Fish Sampling</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#structure-remediation-and-cost-estimate-3"><i class="fa fa-check"></i>Structure Remediation and Cost Estimate</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-coal-creek---8525---appendix.html"><a href="tributary-to-coal-creek---8525---appendix.html#conclusion-3"><i class="fa fa-check"></i>Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html"><i class="fa fa-check"></i>Tributary to McDonell Lake - 8543 - Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#site-location-4"><i class="fa fa-check"></i>Site Location</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#background-5"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#stream-characteristics-at-crossing"><i class="fa fa-check"></i>Stream Characteristics at Crossing</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#stream-characteristics-downstream-2"><i class="fa fa-check"></i>Stream Characteristics Downstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#stream-characteristics-upstream-2"><i class="fa fa-check"></i>Stream Characteristics Upstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#structure-remediation-and-cost-estimate-4"><i class="fa fa-check"></i>Structure Remediation and Cost Estimate</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8543---appendix.html"><a href="tributary-to-mcdonell-lake---8543---appendix.html#conclusion-4"><i class="fa fa-check"></i>Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html"><i class="fa fa-check"></i>Tributary to McDonell Lake - 8547 - Appendix</a>
+<ul>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#site-location-5"><i class="fa fa-check"></i>Site Location</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#background-6"><i class="fa fa-check"></i>Background</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#stream-characteristics-at-crossing-1"><i class="fa fa-check"></i>Stream Characteristics at Crossing</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#stream-characteristics-downstream-3"><i class="fa fa-check"></i>Stream Characteristics Downstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#stream-characteristics-upstream-3"><i class="fa fa-check"></i>Stream Characteristics Upstream</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#fish-sampling-4"><i class="fa fa-check"></i>Fish Sampling</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#structure-remediation-and-cost-estimate-5"><i class="fa fa-check"></i>Structure Remediation and Cost Estimate</a></li>
+<li class="chapter" data-level="" data-path="tributary-to-mcdonell-lake---8547---appendix.html"><a href="tributary-to-mcdonell-lake---8547---appendix.html#conclusion-5"><i class="fa fa-check"></i>Conclusion</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="" data-path="changelog.html"><a href="changelog.html"><i class="fa fa-check"></i>Changelog</a></li>
+<li class="chapter" data-level="" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i>Session Info</a></li>
+<li class="chapter" data-level="" data-path="attachment-1---maps.html"><a href="attachment-1---maps.html"><i class="fa fa-check"></i><strong>Attachment 1 - Maps</strong></a></li>
+<li class="chapter" data-level="" data-path="attachment-3---habitat-assessment-data.html"><a href="attachment-3---habitat-assessment-data.html"><i class="fa fa-check"></i><strong>Attachment 3 - Habitat Assessment Data</strong></a></li>
+<li class="chapter" data-level="" data-path="attachment-4---bayesian-analysis-to-map-stream-discharge-and-temperature-causal-effects-pathways.html"><a href="attachment-4---bayesian-analysis-to-map-stream-discharge-and-temperature-causal-effects-pathways.html"><i class="fa fa-check"></i><strong>Attachment 4 - Bayesian analysis to map stream discharge and temperature causal effects pathways</strong></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting" target="blank">Scripts and Data</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Skeena Watershed Fish Passage Restoration Planning 2023</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="attachment-3---habitat-assessment-data" class="section level1 unnumbered hasAnchor">
+<h1><strong>Attachment 3 - Habitat Assessment Data</strong><a href="attachment-3---habitat-assessment-data.html#attachment-3---habitat-assessment-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Raw habitat assessment data is included in digital format at <a href="https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting//blob/main/data/habitat_confirmations.xls" class="uri">https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting//blob/main/data/habitat_confirmations.xls</a>. The file can be downloaded with the download button top right of the page at the URL above or by clicking <a href="https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting//raw/main/data/habitat_confirmations.xls" class="uri">https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting//raw/main/data/habitat_confirmations.xls</a></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="attachment-1---maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="attachment-4---bayesian-analysis-to-map-stream-discharge-and-temperature-causal-effects-pathways.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "night",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/raw/main/docs/fish_passage_skeena_2023.pdf", "fish_passage_skeena_2023.html"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
