@@ -1,6 +1,6 @@
 # Appendix - Climate Change Risk Assessment {-}
 
-Climate change risk assessment data is presented below. Work to date is considered a pilot project with data collected considered preliminary.  Data collected are presented in `r if(identical(gitbook_on, FALSE)){knitr::asis_output("online [here](https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/)")}else{knitr::asis_output("in Tables \\@ref(tab:tab-moti-climate-phase1) - \\@ref(tab:tab-moti-climate-phase2).")}`
+Climate change risk assessment data is presented below. Work to date is considered a pilot project with data collected considered preliminary.  Data collected are presented `r if(identical(gitbook_on, FALSE)){knitr::asis_output("online [here](https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/)")}else{knitr::asis_output("in Tables \\@ref(tab:tab-moti-climate-phase1) - \\@ref(tab:tab-moti-climate-phase2).")}`
 
 ```{r tab-moti-climate-phase1, eval = gitbook_on}
 df_transpose <- function(df) {
