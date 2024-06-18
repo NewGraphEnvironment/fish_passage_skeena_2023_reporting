@@ -196,7 +196,7 @@ in 2023 was within areas adjacent to the Skeena River from Hazelton to Terrace (
 
 <br>
 
-Of the `pscis_all %>% filter(source != 'pscis_phase2.xlsm') %>% nrow()` sites where fish passage assessments were completed, `r `pscis_phase1 |> nrow()` were not yet inventoried in the PSCIS system.  This included `r pscis_phase1 %>% filter(barrier_result == 'Passable') %>% nrow()` crossings considered "passable", `r pscis_phase1 %>% filter(barrier_result == 'Potential') %>% nrow() %>% english::as.english()` crossings considered "potential" barriers and `r pscis_phase1 %>% filter(barrier_result == 'Barrier') %>% nrow()` crossings considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments]. Additionally, although all were considered fully passable, `r pscis_phase1 %>% filter(barrier_result == 'Unknown') %>% nrow() %>% english::as.english()` crossings assessed were fords and ranked as "unknown" according to the provincial protocol. 
+Of the `r pscis_all %>% filter(source != 'pscis_phase2.xlsm') %>% nrow()` sites where fish passage assessments were completed, `r `r pscis_phase1 |> nrow()` were not yet inventoried in the PSCIS system.  This included `r pscis_phase1 %>% filter(barrier_result == 'Passable') %>% nrow()` crossings considered "passable", `r pscis_phase1 %>% filter(barrier_result == 'Potential') %>% nrow() %>% english::as.english()` crossings considered "potential" barriers and `r pscis_phase1 %>% filter(barrier_result == 'Barrier') %>% nrow()` crossings considered "barriers" according to threshold values based on culvert embedment, outlet drop, slope, diameter (relative to channel size) and length [@fish_passage_assessments]. Additionally, although all were considered fully passable, `r pscis_phase1 %>% filter(barrier_result == 'Unknown') %>% nrow() %>% english::as.english()` crossings assessed were fords and ranked as "unknown" according to the provincial protocol. 
 
 <br>
 
@@ -241,7 +241,7 @@ Results are summarized in `r if(gitbook_on){knitr::asis_output("Figure \\@ref(fi
 <br>
 
 
-```{r tab-overview, eval = T}
+```{r tab-overview, eval = TRUE}
 table_phase2_overview <- function(dat, caption_text = '', font = font_set, scroll = TRUE){
   dat2 <- dat %>%
     kable(caption = caption_text, booktabs = T, label = NA) %>%
@@ -399,6 +399,8 @@ At the time of reporting, designs for remediation of fish passage had been compl
 
 ### Bulkley River
 
+- McDowell Creek - PSCIS 58159 - Private Road.  Design for clear-span bridge completed in 2021 Onsite Engineering with
+funding provided through this program. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
 - Tyhee Creek - PSCIS 123445 - Highway 16. Preliminary design commissioned from Pacific North Coast Consulting by Canadian Wildlife Federation.  Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
 - Helps Creek - PSCIS 124500 - Lawson Road. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
 - Thompson Creek - 123377 - Walcott Road.  At the time of reporting, geotechnical assessments were underway from consultants
@@ -406,6 +408,8 @@ under contract to the Ministry of Transportation and Infrastructure
 to inform the design of the replacement structure. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/). 
 - Tributary to Buck Creek - PSCIS 197640 - Buck Flats Road. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
 - Station  Creek (also know as Mission Creek) - PSCIS 124420. Preliminary design commisioned from Pacific North Coast Consulting by Canadian Wildlife Federation. Background presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
+- Tributary to Skeena River - PSCIS 198217 - Sik-E-Dakh Water Tower Road. Design for clear-span bridge completed in 2023
+by Onsite Engineering with funding provided through this program. Background information [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/)
 
 ### Morice River
 
@@ -427,13 +431,13 @@ into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet�
 Remediation of fish passage has been completed at the following sites (listed by watershed group):
 
 ### Bulkley River 
-- McDowell Creek - 58159 - Private Road.  Replaced with a clear-span bridge in 2022 with remediation work led by the Canadian Wildlife Federation.
-- Robert Hatch Creek - 197912 - Unnamed Road. Removal of the collapsed bridge in 2022 with remediation work led by the Canadian Wildlife Federation.
+- McDowell Creek - 58159 - Private Road.  Replaced with a clear-span bridge in 2022 with remediation work led by the Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/).
+- Robert Hatch Creek - 197912 - Unnamed Road. Removal of the collapsed bridge in 2022 with remediation work led by the Canadian Wildlife Federation. Background presented  [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/).
 
 
 ### Kispiox River
 - Tributary to Skeena River - 198217 - Sik-E-Dakh Water Tower Road.  Replacement of the crossing with a clear-span bridge in 2024
-with remediation work led by the Gitskan Watershed Authorities.
+with remediation work led by the Gitskan Watershed Authorities. Background information - updated in 2024 - [here](https://www.newgraphenvironment.com/fish_passage_skeena_2022_reporting/)
 
 
 ## Monitoring
@@ -456,12 +460,12 @@ Ten sites where habitat confirmations were conducted in the past were revisited 
 All sites below have been incorporated
 into the Bii Wenii Kwa Restoration/Recovery Plan lead by the Office of the Wet’suwet’en.
 
-- Riddeck Creek - PSCIS 197360 - Morice-Owen FSR. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time.  Results are presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/. 
+- Riddeck Creek - PSCIS 197360 - Morice-Owen FSR. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time.  Results are presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). 
 
 - Alvin Creek - PSCIS 197379 - Morice-Owen FSR (km 29.8). Revisited with the intention to conduct fish sampling however the stream was primarily dry with water present only within a small culvert outlet pool. Areas electrofished in 2022 were surveyed with PIT tag reader to scope for tags from potential mortalities related 
 to the dewatering.  Results are presented [here](https://www.newgraphenvironment.com/fish_passage_bulkley_2020_reporting/). 
 
-- Tributary to Owen Creek - PSCIS 197378 - Klate lake Road. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time. Aerial imagery was also collected utilizing an unmanned aerial vehicle. 
+- Tributary to Owen Creek - PSCIS 197378 - Klate lake Road. Electrofishing was conducted above and below the crossing and fish over 60mm were tagged with PIT tags so that their movement and health can be tracked over time. Aerial imagery was also collected utilizing an unmanned aerial vehicle. Results are presented [here](https://www.newgraphenvironment.com/fish_passage_skeena_2021_reporting/)
 
 
 ### Kispiox River
