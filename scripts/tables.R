@@ -728,6 +728,13 @@ hab_fish_dens <- hab_fish_indiv |>
          life_stage = factor(life_stage, levels = c('fry', 'parr', 'juvenile', 'adult')))
 
 # priorities phase 2--------------------------------------------------------------
+
+# get the number of streams where fish sampling was conducted
+streams_ef_n <- readr::read_csv(file = "data/habitat_confirmations_priorities.csv", show_col_types = FALSE) |>
+  dplyr::filter(!is.na(ef)) |>
+  dplyr::distinct(site) |>
+  nrow()
+
 #load priorities
 habitat_confirmations_priorities <- readr::read_csv(
   file = "data/habitat_confirmations_priorities.csv",
