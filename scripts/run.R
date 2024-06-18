@@ -1,4 +1,5 @@
-preview_chapter('0100-intro.Rmd')
+preview_chapter('0800-appendix-198022-197949-trib-to-tagit.Rmd')
+preview_chapter('0400-results.Rmd')
 
 
 #################################################################################################
@@ -86,8 +87,6 @@ mapply(file.rename, from = files_to_move, to = files_destination)
 ##   then make our printable pdf
 rmarkdown::render_site(output_format = 'pagedown::html_paged', encoding = 'UTF-8')
 
-##  move it to the docs folder so that it can be in the same place as the report
-# file.rename('Elk2021.html', 'docs/Attachment_3_Phase_1_Data_and_Photos.html')
 
 ##move the files from the hold file back to the main file
 mapply(file.rename, from = files_destination, to = files_to_move)
@@ -106,7 +105,7 @@ pagedown::chrome_print(
 length <- pdftools::pdf_length(paste0(getwd(), "/docs/Attachment_2_prep.pdf"))
 
 # this changes so let's define
-crop_this_many_pages <- 6
+crop_this_many_pages <- 8
 
 # trim up the file.  We ditch the last page only when there are references.  In the case of the bulkley there are due to the yaml file
 pdftools::pdf_subset(paste0(getwd(), "/docs/Attachment_2_prep.pdf"),
