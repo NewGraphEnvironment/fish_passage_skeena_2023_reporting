@@ -1,6 +1,6 @@
 # Background
 
-The study area includes the Bulkley River, Zymoetz River, Kispiox River and Morice River watershed groups (Figure \@ref(fig:overview-map)) and is within the traditional territories of the Wet'suwet'en, Gitxsan and Tsimshian.
+The study area includes the Bulkley River, Zymoetz River, Kispiox River, Morice River and Kitsumkalum River watershed groups (Figure \@ref(fig:overview-map)) and is within the traditional territories of the Wet'suwet'en, Gitxsan and Tsimshian.
 
 <br>
 
@@ -27,7 +27,16 @@ Gitxsan means "People of the River Mist". The Gitxsan Laxyip (traditional territ
 ```
 
 ## Tsimshian
-The Kitsumkalum River lies within the traditional territory of the Kitsumkalum Band (part of the Tsimshian Nation), and the word Kitsumkalum translates to "riffles in the water as it runs over the rocks" or "to people of the plateau" [@kitsumkalumbandOurCulture]. The Kitsumkalum people originally settled in Dalk Gyilakyaw (commonly known as Robin Town), Gitxondakl, and Kitsumkalum village located at the mouth of the river. The Kitsumkalum River salmon populations have been an important part of of their culture and economy [@gottesfeld_rabnett2007SkeenaFish]. 
+The Kitsumkalum community, part of the Tsimshian Nation, maintains a rich cultural heritage rooted in ancient traditions and values. Their society, governed by Tsimshian Law (ayaawx), emphasizes strong connections through marriages, adoptions, and resource sharing with other Tsimshian tribes. The community upholds its cultural and spiritual practices, including fishing, harvesting, and land stewardship, despite the impacts of colonization [@kitsumkalumbandOurCulture].
+
+<br>
+
+
+Kitsumkalum's social structure is based on matrilineal kinship, with significant emphasis on family ties through the mother’s lineage. Their cultural identity is expressed through crest groups (pteex), lineage houses (waap), and the importance of landed property (laxyuup), which ties them to their ancestral territories. The community combines traditional governance with modern administrative functions, reflecting their resilience and commitment to preserving their heritage [@kitsumkalumbandOurCulture].
+
+<br>
+
+The Kitsumkalum River salmon populations have been an important part of their culture and economy [@gottesfeld_rabnett2007SkeenaFish]. 
 
 
 ## Bulkley River
@@ -270,7 +279,8 @@ dfo_sad_tr <- readr::read_csv('data/inputs_raw/All Areas NuSEDS.csv') %>%
   dplyr::filter(!is.na(total_return_to_river)) %>% 
   arrange(species, analysis_yr) %>% 
   dplyr::select(waterbody,
-                species, analysis_yr, 
+                species, 
+                analysis_yr, 
                 total_return_to_river, 
                 start_spawn_dt_from,
                 peak_spawn_dt_from,
