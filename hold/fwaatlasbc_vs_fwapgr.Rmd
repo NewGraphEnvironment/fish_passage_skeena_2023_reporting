@@ -1,0 +1,128 @@
+Want to see if we can get a better waershed using possons `fwaatlasbc` vs`fwapgr` on its own.  Makes sense since
+Big Joe Thorley has been working on this for a while.  Lets see if we can get a better watershed for a site of interest.
+
+```{r}
+# pak::pkg_install("poissonconsulting/fwatlasbc")
+
+library(fwatlasbc) 
+```
+
+
+
+```{r}
+
+# grab our site of interest, and add lat lon
+
+site_prep <- fpr::fpr_db_query("SELECT * FROM bcfishpass.crossings_vw WHERE stream_crossing_id = 198934") |> 
+  sf::st_transform(4326) |> 
+  # fpr::fpr_sp_assign_sf_from_utm(col_easting = "utm_easting", col_northing = "utm_northing", crs_return = 4326) |> 
+  fpr::fpr_sp_assign_latlong() |> 
+  # we need to drop zM for plotting
+  sf::st_zm()
+
+# site_prep2 <- bcfishpass |>
+#   dplyr::filter(stream_crossing_id == 198934) |>
+#   fpr::fpr_sp_assign_sf_from_utm(col_easting = "utm_easting", col_northing = "utm_northing", crs_return = 4326) |>
+#   fpr::fpr_sp_assign_latlong()
+
+
+
+t <- site_prep |> 
+  sf::st_drop_geometry() |> 
+  fwatlasbc::fwa_add_blk_to_lon_lat() |> 
+  sf::st_drop_geometry() |>
+  dplyr::select(stream_crossing_id, blk, rm, lon, lat)
+  
+
+wshed <- t |> 
+  dplyr::mutate() |> 
+  fwatlasbc::fwa_add_watershed_to_blk()
+
+network <- fwa_add_collection_to_polygon(wshed, "stream_network")
+
+
+p1 <- ggplot2::ggplot() +
+  ggplot2::geom_sf(data = wshed) +
+  ggplot2::geom_sf(data = network, color = "blue") +
+  ggplot2::geom_sf(data = site_prep, color = "red") +
+#  ggplot2::geom_sf(data = rms) +
+  NULL
+```
+lets compare this to the watershed we get with `fwapgr`
+
+```{r}
+
+site_wshd_fwapgr <- site_prep |> 
+  fpr::fpr_sp_assign_sf_from_utm(col_easting = "utm_easting", col_northing = "utm_northing", crs_return = 3005) |>
+  fpr::fpr_sp_watershed()
+  # to map we need to drop Z
+  # sf::st_zm()
+
+
+
+# network2 <- wshds |> 
+#   dplyr::filter(stream_crossing_id == 198934) |> 
+#   fwa_add_collection_to_polygon("stream_network")
+
+
+network2 <- site_wshd_fwapgr |> 
+  fwa_add_collection_to_polygon("stream_network")
+
+
+# p2 <- wshds |> 
+#   dplyr::filter(stream_crossing_id == 198934) |> 
+#   ggplot2::ggplot() +
+#   ggplot2::geom_sf() +
+#   ggplot2::geom_sf(data = network2, color = "blue") +
+#   ggplot2::geom_sf(data = site_prep, color = "red") 
+
+p2 <- site_wshd_fwapgr |> 
+  ggplot2::ggplot() +
+  ggplot2::geom_sf() +
+  ggplot2::geom_sf(data = network2, color = "blue") +
+  ggplot2::geom_sf(data = site_prep, color = "red") 
+
+
+```
+Let's put these two plots side by side to compare
+
+```{r}
+cowplot::plot_grid(
+  p1, p2
+)
+```
+
+Now lets "exclude the fundamental watershed in which the start falls" as per the `exclude` param in `fwa_add_watershed_to_blk`
+
+
+```{r}
+wshed3 <- t |> 
+  fwatlasbc::fwa_add_watershed_to_blk(exclude = TRUE)
+
+network3 <- fwa_add_collection_to_polygon(wshed, "stream_network")
+
+
+p3 <- ggplot2::ggplot() +
+  ggplot2::geom_sf(data = wshed3) +
+  ggplot2::geom_sf(data = network3, color = "blue") +
+  ggplot2::geom_sf(data = site_prep, color = "red") +
+#  ggplot2::geom_sf(data = rms) +
+  NULL
+
+cowplot::plot_grid(
+  p3, p2
+)
+```
+<br>
+
+Visualize difference betwwen exclude true and exclude false
+
+
+```{r}
+sf::st_difference(wshed, wshed3) |> 
+  ggplot2::ggplot() +
+  ggplot2::geom_sf()+
+  ggplot2::geom_sf(data = network, color = "blue") +
+  ggplot2::geom_sf(data = site_prep, color = "red")
+```
+
