@@ -37,7 +37,7 @@ tab:tab-fish-site-summary
 fig:plot-fish-all
 tab:tab-moti-climate-phase1
 tab:tab-moti-climate-phase2
-tab:tab-wshd-198022-197949
+tab:tab-wshd-198022
 tab:tab-culvert-bcfp-198022
 tab:tab-culvert-198022
 tab:tab-culvert-197949
@@ -148,4 +148,5 @@ kispiox-river-3
 monitoring
 bulkley-river-4
 morice-river-3
+kispiox-river-4
 recommendations
