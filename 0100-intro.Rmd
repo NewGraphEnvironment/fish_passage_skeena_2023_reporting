@@ -1,6 +1,6 @@
 # Introduction {#intro}
 
-`r if(identical(gitbook_on, FALSE))knitr::asis_output("This report is available as both a pdf and as an online interactive report at https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/. We recommend viewing online as the web-hosted version contains more features and is more easily navigable. Please reference the website for the latest version number and download the latest pdf from https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/raw/master/docs/fish_passage_skeena_2023.pdf")` 
+`r if(identical(gitbook_on, FALSE))knitr::asis_output("This report is available as both a pdf and as an online interactive report at https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting/. We recommend viewing online as the web-hosted version contains more features and is more easily navigable. Please reference the website for the latest version number and download the latest pdf from https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/raw/main/docs/fish_passage_skeena_2023.pdf")` 
 
 
 `r if(identical(gitbook_on, FALSE)){knitr::asis_output("<br>")}`
@@ -14,7 +14,7 @@ develop comprehensive restoration plans to address these barriers, and foster mo
 initiatives. While the primary focus is on fish passage, this work also serves as a lens through which to view the
 broader ecosystems, leveraging efforts to build capacity for ecosystem restoration and improving our understanding of
 watershed health. We recognize that the health of life - such as our own - and the health of our surroundings are
-interconnected, and that our well-being depends on the health of our environment.
+interconnected, with our overall well-being dependent on the health of our environment.
 
 <br>
 
