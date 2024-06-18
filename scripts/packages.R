@@ -51,6 +51,7 @@ pkgs_gh <- c(
   "poissonconsulting/fishbc",
   # specific version we know gives white captions when rendered in dark mode....
   "haozhu233/kableExtra@a9c509a",
+  # "haozhu233/kableExtra",
   "gadenbuie/shrtcts"
 )
 
@@ -61,7 +62,7 @@ pkgs_all <- c(pkgs_cran,
 if(params$update_packages){
   for (pkg in pkgs_gh) {
     if (!requireNamespace(pkg, quietly = TRUE)) {
-      pak::pkg_install(pkg)
+      pak::pkg_install(pkg, ask = FALSE)
     }
   }
 }
