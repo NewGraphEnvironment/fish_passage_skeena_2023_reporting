@@ -10,15 +10,45 @@ source('scripts/tables.R')
 # devtools::install_github("rstudio/bookdown")
 ```
 
-## Planning
+## Collaborative GIS Environment 
+Geographical Information Systems are essential for developing and communicating restoration plans as well as the reasons
+they are required and how they are developed. Without the ability to visualize the landscape and the data that is used
+to make decisions it is difficult to conduct and communicate the need for restoration, the details of past and future
+plans as well as and the potential results of physical works.
 
- 
-To identify priorities for crossing structure rehabilitation, background literature, fisheries information, PSCIS, and `bcfishpass` [@norris2021smnorrisbcfishpass] outputs were reviewed.  `bcfishpass` is an updated open-source code repository comprised of tools ported over from the `Fish Habitat Model` [@fish_habitat_model] developed by the BC Ministry of Environment along with a number of significant upgrades and new features. Scripts within `bcfishpass` also pull and analyze data using other open-source tools such as `bcdata` [@norris2024smnorrisbcdata], `bcfishobs` [@norris2024smnorrisbcfishobs], and `fwapg` [@norris2024smnorrisfwapg] which serve numerous functions related to open-data access as well as the analysis of the BC Freshwater Atlas, roads, fish and fish habitat in British Columbia.
-
-
- 
 <br>
 
+To facilitate the planning and implementation of restoration activities a collaborative GIS environment has been
+established using [QGIS](https://qgis.org/en/site/) served on the cloud using source code kept stored
+[here](https://github.com/MerginMaps). This environment is intended to be a space where project team members can access
+and view and contribute to the amalgamation of background spatial data and the development of restoration as well as
+monitoring for the project. The collaborative GIS environment allows users to view, edit, and analyze shared up to date
+spatial data on personal computers in an office setting as well as phones and tablets in the field. At the time of
+reporting, the environment was being used to develop and share maps, conduct spatial analyses, communicate restoration
+plans to stakeholders as well as to provide a central place to store methodologies and tools for conducting field
+assessments on standardized pre-developed digital forms. The platform can also be used to track the progress of
+restoration activities and monitor changes in the landscape over time helping encourage the record keeping of past and
+future restoration activities in a coordinated manner.
+
+<br>
+
+The shared QGIS project was created using scripts currently kept in
+[`dff-2022`](https://github.com/NewGraphEnvironment/dff-2022) with the precise calls to project creation scripts tracked
+in the `project_creation_and_permissions.txt` document kept in the main QGIS project directory. Information about how
+GIS project creation and update scripts function can be viewed
+[here](https://github.com/NewGraphEnvironment/dff-2022/tree/master/scripts/qgis) with outcomes of their use summarized
+below:
+  - download and clip user specified layers from the [BC Data Catalougue](https://catalogue.data.gov.bc.ca/) as well as data layers stored in custom Amazon Web Services buckets for an area of interest defined by a list of watershed groups and load to a geopackage called `background_layers.gpkg` stored in the main directory of the project.  
+  - A project directory is created to hold the spatial data and `QGIS` project information (ie. layer symbology and naming conventions, metadata, etc.).
+  - Metadata for individual project spatial layers is kept in the `rfp_tracking` table within the `background_layers.gpkg` along with tables related to user supplied stream width/gradient inputs to `bcfishpass` to model potentially high value habitat that is accessible to fish species of interest. 
+  
+### Issue Tracking
+"Issues" logged on the online github platform are effective ways to track tasks, enhancements, and bugs related to project components. 
+They can be referenced with the scripts, text and actions used to address them by linking documentation to the issues with text comments
+or programatically through `git` commit messages.  Issues for this project are kept [here](https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/issues) as well as past years repositories
+which can be found by searches including the keywords "Skeena" and "Bulkley" [here](https://github.com/NewGraphEnvironment?tab=repositories).
+
+ 
 ### Habitat Modelling
 
 `bcfishpass` calculates the average gradient of BC Freshwater Atlas stream network lines at minimum 100m long intervals starting from the downstream end of the streamline segment and working upstream.  The network lines are broken into max gradient categories with new segments created if and when the average slope of the stream line segment exceeds user provided thresholds. For this project, the user provided gradient thresholds used to delineate "potentially accessible habitat" were based on estimated max gradients that salmon (15% - coho and chinook) and steelhead (20%) are likely to be capable of ascending.  

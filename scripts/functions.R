@@ -354,7 +354,7 @@ lfpr_create_hydrograph <- function(
   tidyhat_info <- tidyhydat::search_stn_number(station)
 
 
-  ##### Hydrograph Pane #####
+  ## Hydrograph Pane
 
   ##build caption for the pane figure
   caption_info <- dplyr::mutate(tidyhat_info, title_stats = paste0(stringr::str_to_title(STATION_NAME),
@@ -392,7 +392,7 @@ lfpr_create_hydrograph <- function(
 
 
 
-  ##### Single Hydrograph  #####
+  ## Single Hydrograph
 
   ##build caption for the single figure
   caption_info2 <- dplyr::mutate(tidyhat_info, title_stats2 = paste0(stringr::str_to_title(STATION_NAME),
@@ -438,7 +438,7 @@ lfpr_create_hydrograph <- function(
 news_to_appendix <- function(
     md_name = "NEWS.md",
     rmd_name = "2090-report-change-log.Rmd",
-    appendix_title = "# Change Log") {
+    appendix_title = "# Changelog") {
 
   # Read and modify the contents of the markdown file
   news_md <- readLines(md_name)
@@ -479,4 +479,70 @@ ldfo_sad_plot_line <- function(dat, region, col_y, col_facet, col_group, col_gro
     facet_wrap(as.formula(paste0("~", col_facet)), scales = "free") +
     labs(x = "Year", y = col_y) +
     theme
+}
+
+
+
+# set up a table format
+mygt <- function(x, page_size = 5, font = "10px", ...) {
+  x |>
+    gt::sub_missing() |>
+    # unfortunately we cannot yet adjust the font size... https://github.com/rstudio/gt/issues/1307
+    gt::tab_options(table.font.size = font) |>
+    gt::opt_interactive(...,
+                        use_search = TRUE,
+                        use_filters = TRUE,
+                        use_compact_mode = TRUE,
+                        use_highlight = TRUE,
+                        use_page_size_select = TRUE,
+                        page_size_values = c(5, 10, 20, 50),
+                        use_resizers = TRUE,
+                        page_size_default = page_size)
+}
+
+
+my_dt_table <-   function(dat,
+                          cols_freeze_left = 2,
+                          page_length = 10,
+                          col_align = 'dt-right',
+                          font_size = '10px'){
+
+  dat %>%
+    DT::datatable(
+      class = 'cell-border stripe',
+      #https://stackoverflow.com/questions/36062493/r-and-dt-show-filter-option-on-specific-columns
+      filter = 'top',
+      extensions = c("Buttons","FixedColumns", "ColReorder"),
+      rownames= FALSE,
+      options=list(
+        scrollX = TRUE,
+        columnDefs = list(list(className = col_align, targets = "_all")), ##just added this
+        pageLength = page_length,
+        dom = 'lrtipB',
+        buttons = c('excel','csv'),
+        fixedColumns = list(leftColumns = cols_freeze_left),
+        lengthMenu = list(c(5,10,25,50,-1),
+                          c(5,10,25,50,"All")),
+        colReorder = TRUE,
+        #https://stackoverflow.com/questions/44101055/changing-font-size-in-r-datatables-dt
+        initComplete = htmlwidgets::JS(glue::glue(
+          "function(settings, json) {{ $(this.api().table().container()).css({{'font-size': '{font_size}'}}); }}"
+        ))))
+}
+
+ltab_caption <- function(caption_text = my_caption) {
+  cat(
+    "<table>",
+    paste0(
+      "<caption>",
+      "(#tab:",
+      # this is the chunk name!!
+      knitr::opts_current$get()$label,
+      ")",
+      caption_text,
+      "</caption>"
+    ),
+    "</table>",
+    sep = "\n"
+  )
 }

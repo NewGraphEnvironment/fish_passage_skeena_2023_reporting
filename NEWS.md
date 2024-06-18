@@ -1,3 +1,12 @@
-# fish_passage_skeena_2023_reporting 0.0.1 ( 20240415)
+# fish_passage_skeena_2023_reporting 0.0.2 (20240617)
+
+  - add executive summary
+  - include section for GIS project
+  - provide links to reports where 2023 data has been added
+  - Numerous memo updates
+  - Include filterable DT table for DFO stock assessment data
+
+
+# fish_passage_skeena_2023_reporting 0.0.1 (20240415)
 
   - Initial draft 

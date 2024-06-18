@@ -2,6 +2,7 @@ my_road_class,my_road_surface,road_class_mult,road_surface_mult,cost_m_1000s_bri
 fsr,rough,1,1,30,100
 fsr,loose,1,1,30,100
 resource,loose,1,1,30,100
+permit,unknown,1,1,30,100
 permit,loose,1,1,30,100
 unclassified,loose,1,1,30,100
 unclassified,rough,1,1,30,100

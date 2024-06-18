@@ -16,7 +16,7 @@ author: |
 
 date: |
  |
- | Version 0.1.0 `r format(Sys.Date(), "%Y-%m-%d")`
+ | Version 0.0.2 `r format(Sys.Date(), "%Y-%m-%d")`
 toc-title: Table of Contents
 site: bookdown::bookdown_site
 output: 
@@ -29,6 +29,8 @@ params:
   report_url: 'https://newgraphenvironment.github.io/fish_passage_skeena_2023_reporting'
   update_packages: FALSE
   update_form_pscis: TRUE
+  update_gis: FALSE
+  gis_project_name: "sern_skeena_2023"
 nocite: |
   @busch_etal2011LandscapeLevelModel 
   @woll_etal2017SalmonEcological,
@@ -46,7 +48,7 @@ biblio-style: apalike
 link-citations: no
 github-repo: rstudio/bookdown-demo
 description: "Skeena Fish Passage Planning 2023"
-lof: TRUE
+lof: FALSE
 
 
 ---
@@ -86,7 +88,6 @@ font_set <- 9
 ```{r source}
 source('scripts/packages.R')
 source('scripts/tables.R')
-# source('scripts/moti_climate.R')
 source('scripts/functions.R')
 
 
