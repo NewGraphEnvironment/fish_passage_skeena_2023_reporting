@@ -1,8 +1,0 @@
-This is a place to hold some detail about the use of intermittent streams by coho
-
-
-
-Although intermittent streams experience periods without streamflow, residual pools within these systems can provide valuable habitat for juvenile salmon with [@wigington_etal2006CohoSalmon] measuring overwinter survival rates noted as higher than those in mainstem habitats and equivalent to survival of those in perennial streams.  They noted that fish tagged in mainstems moved into intermittent tributaries when streamflow resumed in the fall illustrating the importance of maintaining connectivity in these systems.  They hypothesized that use of residual pools during dry periods and migration into these systems during times of increased flow resulted in positive outcomes for these fish due to lower competitive fish densities and higher food resources when compared to coho in perennial tributary habitat.  They noted that following a particularly dry summer in 2003-2004 coho smolts from intermittent streams were considerably larger than those that used perennial habitats indicating greater survival and growth.
-
-
-
