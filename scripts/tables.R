@@ -1077,18 +1077,9 @@ tab_hab_map <- left_join(
   sf::st_as_sf(coords = c("utm_easting", "utm_northing"),
                crs = 26909, remove = F) |>
   sf::st_transform(crs = 4326) |>
-  ##changed this to docs .html from fig .png
-  # mutate(data_link = paste0('<a href =',
-  #                           'https://github.com/NewGraphEnvironment/fish_passage_bulkley_2020_reporting/tree/master/docs/sum/', pscis_crossing_id,
-  #                           '.html', '>', 'data link', '</a>')) |>
   mutate(data_link = paste0('<a href =', 'sum/cv/', pscis_crossing_id, '.html ', 'target="_blank">Culvert Data</a>')) |>
-  # mutate(photo_link = paste0('<a href =', 'data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
-  #                            'target="_blank">Culvert Photos</a>')) |>
   mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) |>
-  # mutate(photo_link = paste0('<a href =',
-  #                            'https://github.com/NewGraphEnvironment/fish_passage_skeena_2021_reporting/tree/master/data/photos/', pscis_crossing_id,
-  #                            '/crossing_all.JPG', '>', 'photo link', '</a>')) |>
-  mutate(photo_link = paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/fish_passage_skeena_2022_reporting/master/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
+  mutate(photo_link = paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting/main/data/photos/', pscis_crossing_id, '/crossing_all.JPG ',
                              'target="_blank">Culvert Photos</a>'))
 
 
@@ -1108,7 +1099,7 @@ tab_map <- tab_map_prep |>
   mutate(priority_phase1 = case_when(priority_phase1 == 'mod' ~ 'moderate',
                                      T ~ priority_phase1)) |>
   mutate(data_link = paste0('<a href =', 'sum/cv/', pscis_crossing_id, '.html ', 'target="_blank">Culvert Data</a>')) |>
-  mutate(photo_link = paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/master/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
+  mutate(photo_link = paste0('<a href =', 'https://raw.githubusercontent.com/NewGraphEnvironment/', repo_name, '/main/data/photos/', my_crossing_reference, '/crossing_all.JPG ',
                              'target="_blank">Culvert Photos</a>')) |>
   mutate(model_link = paste0('<a href =', 'sum/bcfp/', pscis_crossing_id, '.html ', 'target="_blank">Model Data</a>')) |>
   dplyr::distinct(site_id, .keep_all = T) #just for now
