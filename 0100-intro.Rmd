@@ -26,7 +26,7 @@ were previously documented as per the report links below. The reports for these 
 - [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning (2020)](https://newgraphenvironment.github.io/fish_passage_bulkley_2020_reporting/)
 - [Bulkley River and Morice River Watershed Groups Fish Passage Restoration Planning 2021](https://newgraphenvironment.github.io/fish_passage_skeena_2021_reporting/)
 - [Bulkley River Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_bulkley_2022_reporting/)
-- [Skeena Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_skeena_2021_reporting/)
+- [Skeena Watershed Fish Passage Restoration Planning 2022](https://newgraphenvironment.github.io/fish_passage_skeena_2022_reporting/)
 
 
 <br>
