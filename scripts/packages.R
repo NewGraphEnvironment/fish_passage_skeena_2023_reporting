@@ -39,20 +39,17 @@ pkgs_cran <- c(
   'pagedown',
   'devtools',
   "geojsonio",
-  "fs"
+  "fs",
+  "fishbc"
 )
 
 pkgs_gh <- c(
-  "poissonconsulting/fwapgr",
-  "poissonconsulting/poisutils",
-  "newgraphenvironment/fpr",
-  "newgraphenvironment/rfp",
-  'poissonconsulting/poisspatial',
-  "poissonconsulting/fishbc",
   # specific version we know gives white captions when rendered in dark mode....
   "haozhu233/kableExtra@a9c509a",
-  # "haozhu233/kableExtra",
-  "gadenbuie/shrtcts"
+  "poissonconsulting/fwapgr",
+  "newgraphenvironment/fpr",
+  "newgraphenvironment/rfp",
+  'poissonconsulting/poisspatial'
 )
 
 pkgs_all <- c(pkgs_cran,
