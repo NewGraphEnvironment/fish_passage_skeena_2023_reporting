@@ -502,14 +502,15 @@ mygt <- function(x, page_size = 5, font = "10px", ...) {
 
 
 my_dt_table <-   function(dat,
-                          cols_freeze_left = 2,
+                          cols_freeze_left = 3,
                           page_length = 10,
                           col_align = 'dt-right',
                           font_size = '10px'){
 
   dat %>%
     DT::datatable(
-      class = 'cell-border stripe',
+      style = 'bootstrap',
+      class = 'cell-border stripe', #'dark' '.table-dark',
       #https://stackoverflow.com/questions/36062493/r-and-dt-show-filter-option-on-specific-columns
       filter = 'top',
       extensions = c("Buttons","FixedColumns", "ColReorder"),
@@ -527,7 +528,12 @@ my_dt_table <-   function(dat,
         #https://stackoverflow.com/questions/44101055/changing-font-size-in-r-datatables-dt
         initComplete = htmlwidgets::JS(glue::glue(
           "function(settings, json) {{ $(this.api().table().container()).css({{'font-size': '{font_size}'}}); }}"
-        ))))
+        ))
+        #https://github.com/rstudio/DT/issues/1085 - this is not working yet
+      #   initComplete = JS(
+      #     'function() {$("html").attr("data-bs-theme", "dark");}')
+      )
+    )
 }
 
 ltab_caption <- function(caption_text = my_caption) {

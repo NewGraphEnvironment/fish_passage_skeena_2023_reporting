@@ -268,15 +268,15 @@ Fisheries and Oceans Canada stock assessment data was accessed via the [NuSEDS-N
 through the [Open Government Portal](https://open.canada.ca/en) with results presented `r if(gitbook_on){knitr::asis_output("in Table \\@ref(tab:stock-assess-dat-all)")}else(knitr::asis_output("[here](https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/background.html)"))`. A brief memo on the data extraction process is available [here](http://htmlpreview.github.io/?https://github.com/NewGraphEnvironment/restoration_wedzin_kwa_2024/blob/main/memos/dfo_stock_assess.html).
 
 
-```{r stock-assess-dat-all, results="asis", echo=FALSE, eval= gitbook_on, }
+```{r stock-assess-dat-all, results="asis", echo=FALSE, eval= gitbook_on}
 
-my_caption <- "Fisheries and Oceans Canada stock assessment data for select watershed groups in the Skeena watershed.  Data can be filtered to specific waterbodies and exported to csv/excel."
+my_caption <- "Fisheries and Oceans Canada stock assessment data for select watershed groups in the Skeena watershed.  Data can be filtered to specific waterbodies, columns can be dragged to reorder and filtered/reordered table can be exported to csv/excel."
 
 # not the results="asis", echo=FALSE in the chunk header
 ltab_caption()
 
 dfo_sad_tr <- readr::read_csv('data/inputs_raw/All Areas NuSEDS.csv') %>% 
-  dplyr::filter(!is.na(total_return_to_river)) %>% 
+  # dplyr::filter(!is.na(total_return_to_river)) %>% 
   arrange(species, analysis_yr) %>% 
   dplyr::select(waterbody,
                 species, 
@@ -288,7 +288,8 @@ dfo_sad_tr <- readr::read_csv('data/inputs_raw/All Areas NuSEDS.csv') %>%
                 accuracy,	
                 precision,	
                 index_yn,	
-                reliability,	
+                # no data here
+                # reliability,	
                 estimate_stage,	
                 estimate_classification,	
                 no_inspections_used,	
