@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: If you cite this report, please cite it as below.
+title: Skeena Watershed Fish Passage Restoration Planning 2023
+authors:
+- family-names: Irvine
+  given-names: Allan
+  orcid: https://orcid.org/0000-0002-3495-2128
+- family-names: Schick
+  given-names: Lucy
+date-released: '2024-06-27'
+url: https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/
+repository-code: https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting
+preferred-citation:
+  type: report
+  title: Skeena Watershed Fish Passage Restoration Planning 2023
+  authors:
+  - family-names: Irvine
+    given-names: Allan
+    orcid: https://orcid.org/0000-0002-3495-2128
+  - family-names: Schick
+    given-names: Lucy
+  institution:
+    name: New Graph Environment Ltd.
+  year: 2024
+  date-published: '2024-06-27'
+  url: https://www.newgraphenvironment.com/fish_passage_skeena_2023_reporting/
+  repository-code: https://github.com/NewGraphEnvironment/fish_passage_skeena_2023_reporting
+
